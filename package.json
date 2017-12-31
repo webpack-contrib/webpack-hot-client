@@ -1,0 +1,59 @@
+{
+  "name": "webpack-hmr-client",
+  "version": "1.0.0",
+  "description": "Webpack hot reloading you can attach to your own server",
+  "license": "MIT",
+  "repository": "webpack/webpack-dev-server",
+  "author": "Andrew Powell <andrew@shellscape.org>",
+  "homepage": "http://github.com/webpack-contrib/hot-middleware",
+  "main": "index.js",
+  "engines": {
+    "node": ">=6"
+  },
+  "scripts": {
+    "beautify": "npm run lint -- --fix",
+    "build:index": "webpack client/client.js --config client/webpack.config.js",
+    "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha",
+    "lint": "eslint index.js client lib test",
+    "mocha": "mocha --full-trace --check-leaks",
+    "prepublishOnly": "npm run build:index",
+    "test": "npm run mocha"
+  },
+  "files": [
+    "client.js",
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "webpack": "^2.2.0 || ^3.0.0 || ^4.0.0-alpha"
+  },
+  "dependencies": {
+    "ansi-html": "0.0.7",
+    "browserslist": "^2.10.0",
+    "caniuse-api": "^2.0.0",
+    "html-entities": "^1.2.0",
+    "querystring": "^0.2.0",
+    "strip-ansi": "^3.0.0",
+    "webpack": "^4.0.0-alpha.2",
+    "webpack-log": "^1.1.0",
+    "ws": "^3.3.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "coveralls": "^2.11.2",
+    "eslint": "^4.6.1",
+    "eslint-config-webpack": "^1.2.5",
+    "eslint-plugin-import": "^2.8.0",
+    "express": "^4.13.3",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.3.2",
+    "sinon": "^1.12.2",
+    "supertest": "^1.1.0",
+    "webpack-cli": "^2.0.1"
+  }
+}
