@@ -12,12 +12,12 @@
   },
   "scripts": {
     "beautify": "npm run lint -- --fix",
-    "build:index": "webpack client/client.js --config client/webpack.config.js",
+    "build:client": "webpack client/entry.js --config client/webpack.config.js",
     "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js client.js client lib",
     "mocha": "mocha --full-trace --check-leaks",
-    "prepublishOnly": "npm run build:index",
+    "prepublishOnly": "npm run build:client",
     "test": "npm run mocha"
   },
   "files": [

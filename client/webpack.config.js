@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   output: {
-    filename: 'client-dist.js',
+    filename: 'client.js',
     path: path.resolve(__dirname, '../')
   },
   module: {
