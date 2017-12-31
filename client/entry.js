@@ -10,6 +10,11 @@ const socket = require('./socket');
 // eslint-disable-next-line no-unused-vars, no-undef
 const options = __hmrClientOptions__;
 
+if (!options) {
+  log.error('Something went awry and __hmrClientOptions__ is undefined. Possible bad build. HMR cannot be enabled.');
+  return;
+}
+
 let currentHash;
 let initial;
 let isUnloading;

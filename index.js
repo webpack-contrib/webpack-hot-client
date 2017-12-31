@@ -10,6 +10,7 @@ const defaults = {
   logTime: false,
   port: 8080,
   reload: true,
+  server: null,
   stats: {
     context: process.cwd()
   }
@@ -51,7 +52,8 @@ function sendStats(socket, stats) {
 
 module.exports = (compiler, opts) => {
   const options = Object.assign({}, defaults, opts);
-  const wss = new WebSocket.Server({ port: options.port });
+  const { port, server } = options;
+  const wss = new WebSocket.Server(options.server ? { server } : { port });
 
   let socket;
   let stats;
@@ -112,7 +114,7 @@ module.exports = (compiler, opts) => {
 
     compiler.plugin('done', (result) => {
       stats = result;
-      sendStats(socket, stats.toJson(options.clientStats));
+      sendStats(socket, stats.toJson(options.stats));
     });
 
     if (stats) {
