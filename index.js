@@ -28,7 +28,7 @@ function sendStats(socket, stats) {
   };
 
   if (!stats) {
-    log.error('sendStats: options.stats is undefined');
+    log.error('sendStats: stats is undefined');
   }
 
   if (stats.errors && stats.errors.length > 0) {
@@ -58,6 +58,7 @@ module.exports = (compiler, opts) => {
 
   log.level = options.logLevel;
 
+  // this is how we pass the options at runtime to the client script
   const definePlugin = new webpack.DefinePlugin({
     __hmrClientOptions__: JSON.stringify(options)
   });
@@ -89,7 +90,7 @@ module.exports = (compiler, opts) => {
         if (error) {
           // wait a half second and try again
           setTimeout(() => {
-            log.debug('ws.send: retrying:', args);
+            log.debug('socket.send: retrying:', args);
             og.apply(socket, args);
           }, 500);
         }
@@ -97,7 +98,7 @@ module.exports = (compiler, opts) => {
 
       args.push(cb);
       og.apply(socket, args);
-      log.debug('ws.send:', args);
+      log.debug('socket.send:', args);
     };
 
     compiler.plugin('compile', () => {
