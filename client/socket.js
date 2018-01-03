@@ -11,8 +11,8 @@ let retry = maxRetries;
 module.exports = function connect(options, handler) {
   const socketUrl = url.format({
     protocol: options.https ? 'wss' : 'ws',
-    hostname: options.host,
-    port: options.port
+    hostname: options.webSocket.host,
+    port: options.webSocket.port
   });
 
   let open = false;

@@ -3,60 +3,48 @@
 const weblog = require('webpack-log');
 const webpack = require('webpack');
 const WebSocket = require('ws');
+const { payload, sendStats } = require('./util');
 
 const defaults = {
+  host: 'localhost',
+  hot: true,
   https: false,
   logLevel: 'info',
   logTime: false,
-  port: 8080,
+  port: 8081,
   reload: true,
   server: null,
   stats: {
     context: process.cwd()
-  }
+  },
+  test: false
 };
 const log = weblog({ name: 'hmr', id: 'webpack-hmr-client' });
 
-function payload(type, data) {
-  return JSON.stringify({ type, data });
-}
-
-function sendStats(socket, stats) {
-  const send = (type, data) => {
-    if (socket) {
-      socket.send(payload(type, data));
-    }
-  };
-
-  if (!stats) {
-    log.error('sendStats: stats is undefined');
-  }
-
-  if (stats.errors && stats.errors.length > 0) {
-    send('errors', stats.errors);
-    return;
-  }
-
-  if (stats.assets && stats.assets.every(asset => !asset.emitted)) {
-    return;
-  }
-
-  send('hash', stats.hash);
-
-  if (stats.warnings.length > 0) {
-    send('warnings', stats.warnings);
-  } else {
-    send('ok');
-  }
-}
-
 module.exports = (compiler, opts) => {
   const options = Object.assign({}, defaults, opts);
-  const { port, server } = options;
-  const wss = new WebSocket.Server(options.server ? { server } : { port });
-
-  let socket;
+  const { host, port, server } = options;
+  const wss = new WebSocket.Server(options.server ? { server } : { host, port });
   let stats;
+
+  function broadcast(data) {
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(data);
+      }
+    });
+  }
+
+  wss.broadcast = broadcast;
+
+  if (options.server) {
+    options.webSocket = {
+      host: wss._server.address().address, // eslint-disable-line no-underscore-dangle
+      port: wss._server.address().port // eslint-disable-line no-underscore-dangle
+    };
+  } else {
+    options.webSocket = { host, port };
+  }
 
   log.level = options.logLevel;
 
@@ -67,8 +55,25 @@ module.exports = (compiler, opts) => {
 
   for (const comp of [].concat(compiler.compilers || compiler)) {
     log.debug('Applying DefinePlugin:__hmrClientOptions__');
-    comp.apply(definePlugin);
+    definePlugin.apply(comp);
   }
+
+  compiler.plugin('compile', () => {
+    stats = null;
+    log.info('webpack: Compiling...');
+    broadcast(payload('compile'));
+  });
+
+  compiler.plugin('invalid', () => {
+    log.info('webpack: Bundle Invalidated');
+    broadcast(payload('invalid'));
+  });
+
+  compiler.plugin('done', (result) => {
+    log.info('webpack: Compiling Done');
+    stats = result;
+    sendStats(broadcast, stats.toJson(options.stats));
+  });
 
   wss.on('error', (err) => {
     log.error('WebSocket Server Error', err);
@@ -78,47 +83,21 @@ module.exports = (compiler, opts) => {
     log.info('WebSocket Server Attached and Listening');
   });
 
-  wss.on('connection', (ws) => {
-    socket = ws;
-    const og = socket.send;
+  wss.on('connection', (socket) => {
+    log.info('WebSocket Client Connected');
 
-    socket.send = function send(...args) {
-      if (socket.readyState !== WebSocket.OPEN) {
-        return;
+    socket.on('error', (err) => {
+      if (err.errno !== 'ECONNRESET') {
+        log.warn('client socket error', JSON.stringify(err));
       }
-
-      const cb = function cb(error) {
-        // we'll occasionally get an Error('not open'); here
-        if (error) {
-          // wait a half second and try again
-          setTimeout(() => {
-            log.debug('socket.send: retrying:', args);
-            og.apply(socket, args);
-          }, 500);
-        }
-      };
-
-      args.push(cb);
-      og.apply(socket, args);
-      log.debug('socket.send:', args);
-    };
-
-    compiler.plugin('compile', () => {
-      stats = null;
-      log.info('webpack: Compiling...');
-    });
-
-    compiler.plugin('invalid', () => {
-      socket.send(payload('invalid'));
-    });
-
-    compiler.plugin('done', (result) => {
-      stats = result;
-      sendStats(socket, stats.toJson(options.stats));
     });
 
     if (stats) {
-      sendStats(socket, stats.toJson(options.stats));
+      sendStats(broadcast, stats.toJson(options.stats));
     }
   });
+
+  return {
+    wss
+  };
 };

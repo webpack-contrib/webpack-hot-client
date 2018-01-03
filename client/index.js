@@ -2,6 +2,7 @@
 
 /* global window, __hmrClientOptions__ */
 
+// const qs = require('querystring');
 const update = require('./hmr');
 const log = require('./log');
 const socket = require('./socket');
@@ -11,12 +12,11 @@ const socket = require('./socket');
 const options = __hmrClientOptions__;
 
 if (!options) {
-  log.error('Something went awry and __hmrClientOptions__ is undefined. Possible bad build. HMR cannot be enabled.');
-  return;
+  throw new Error('Something went awry and __hmrClientOptions__ is undefined. Possible bad build. HMR cannot be enabled.');
 }
 
 let currentHash;
-let initial;
+let initial = true;
 let isUnloading;
 
 log.level = options.logLevel;

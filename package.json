@@ -15,14 +15,13 @@
     "build:client": "webpack client/entry.js --config client/webpack.config.js",
     "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
-    "lint": "eslint index.js client.js client lib",
-    "mocha": "mocha --full-trace --check-leaks",
+    "lint": "eslint index.js client.js client lib test",
+    "mocha": "mocha test/test.js --full-trace --check-leaks --exit",
     "prepublishOnly": "npm run build:client",
     "test": "npm run mocha"
   },
   "files": [
     "client/",
-    "client.js",
     "index.js",
     "LICENSE",
     "README.md"
@@ -32,32 +31,36 @@
   },
   "dependencies": {
     "ansi-html": "0.0.7",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
     "browserslist": "^2.10.0",
     "caniuse-api": "^2.0.0",
     "html-entities": "^1.2.0",
     "querystring": "^0.2.0",
     "strip-ansi": "^3.0.0",
-    "webpack": "^4.0.0-alpha.2",
     "webpack-log": "^1.1.0",
     "ws": "^3.3.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.1",
+    "assert": "^1.4.1",
     "coveralls": "^2.11.2",
     "eslint": "^4.6.1",
     "eslint-config-webpack": "^1.2.5",
     "eslint-plugin-import": "^2.8.0",
     "express": "^4.13.3",
     "istanbul": "^0.4.2",
+    "killable": "^1.0.0",
+    "koa": "^2.4.1",
+    "koa-static": "^4.0.2",
     "mocha": "^2.3.2",
     "sinon": "^1.12.2",
-    "supertest": "^1.1.0",
-    "webpack-cli": "^2.0.1"
-  },
-  "peerDependencies": {
-    "webpack": "^2.2.0 || ^3.0.0 || ^4.0.0-alpha"
+    "supertest": "^1.2.0",
+    "touch": "^3.1.0",
+    "webpack": "^4.0.0-alpha.2",
+    "webpack-cli": "^2.0.1",
+    "webpack-dev-middleware": "^2.0.3",
+    "wtfnode": "^0.5.6"
   }
 }

@@ -10,10 +10,17 @@ const hotOptions = {
   ignoreDeclined: true,
   ignoreErrored: true,
   onUnaccepted(data) {
-    log.warn(`Ignored an update to unaccepted module ${data.chain.join(' > ')}`);
+    const chain = [].concat(data.chain);
+    const last = chain[chain.length - 1];
+
+    if (last === 0) {
+      chain.pop();
+    }
+
+    log.warn(`Ignored an update to unaccepted module ${chain.join(' ➭ ')}`);
   },
   onDeclined(data) {
-    log.warn(`Ignored an update to declined module ${data.chain.join(' > ')}`);
+    log.warn(`Ignored an update to declined module ${data.chain.join(' ➭ ')}`);
   },
   onErrored(data) {
     log.warn(`Ignored an error while updating module ${data.moduleId} <${data.type}>`);
@@ -34,7 +41,7 @@ function result(modules, appliedModules) {
     let message = 'The following modules could not be updated:';
 
     for (const moduleId of unaccepted) {
-      message += `\n▫ ${moduleId}`;
+      message += `\n          ⦻ ${moduleId}`;
     }
     log.warn(message);
   }
@@ -45,10 +52,7 @@ function result(modules, appliedModules) {
     const message = ['The following modules were updated:'];
 
     for (const moduleId of appliedModules) {
-      // if (typeof moduleId === 'string' && moduleId.indexOf('!') !== -1) {
-      // const parts = moduleId.split('!');
-      // log.groupCollapsed('info', `[HMR]  - ${parts.pop()}`);
-      message.push(`▫ ${moduleId}`);
+      message.push(`         ↻ ${moduleId}`);
     }
 
     log.info(message.join('\n'));
