@@ -16,7 +16,7 @@
     "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js client.js client lib test",
-    "mocha": "mocha test/test.js --full-trace --check-leaks --exit",
+    "mocha": "mocha test/test.js --full-trace --exit",
     "prepublishOnly": "npm run build:client",
     "test": "npm run mocha"
   },
