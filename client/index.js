@@ -2,14 +2,16 @@
 
 /* global window, __hotClientOptions__ */
 
-// const qs = require('querystring');
-const update = require('./hot');
-const log = require('./log');
-const socket = require('./socket');
-
 // this is piped in at runtime build via DefinePlugin in /lib/plugins.js
 // eslint-disable-next-line no-unused-vars, no-undef
 const options = __hotClientOptions__;
+
+const log = require('./log'); // eslint-disable-line import/order
+
+log.level = options.logLevel;
+
+const update = require('./hot');
+const socket = require('./socket');
 
 if (!options) {
   throw new Error('Something went awry and __hotClientOptions__ is undefined. Possible bad build. HMR cannot be enabled.');
@@ -18,8 +20,6 @@ if (!options) {
 let currentHash;
 let initial = true;
 let isUnloading;
-
-log.level = options.logLevel;
 
 window.addEventListener('beforeunload', () => {
   isUnloading = true;

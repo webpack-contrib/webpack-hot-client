@@ -93,7 +93,7 @@ function check() {
   });
 }
 
-if (module.hot) {
+if (typeof module.hot === 'object') {
   log.info('Hot Module Replacement Enabled. Waiting for signal.');
 } else {
   log.error('Hot Module Replacement is disabled.');
