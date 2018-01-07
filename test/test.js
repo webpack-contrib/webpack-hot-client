@@ -78,29 +78,27 @@ describe('Webpack HMR Client', () => {
   }).timeout(10000);
 
   // TODO: need some code here that'll actually generate an error
-  // it('sockets should receive warnings', (done) => {
-  //   // eslint-disable-next-line
-  //   const warningCode = '\nif (!window) {require(`./${window}parseable.js`);}';
-  //
-  //   socket = new WebSocket('ws://localhost:8081');
-  //
-  //   socket.on('message', (data) => {
-  //     const message = JSON.parse(data);
-  //
-  //     console.log(message.type);
-  //
-  //     if (message.type === 'warnings') {
-  //       assert(message.data);
-  //       assert(message.data.length);
-  //
-  //       fs.writeFileSync(entryPath, og, 'utf-8');
-  //       socket.close();
-  //       done();
-  //     }
-  //   });
-  //
-  //   fs.writeFileSync(entryPath, og + warningCode, 'utf-8');
-  // }).timeout(10000);
+  it('sockets should receive warnings', (done) => {
+    // eslint-disable-next-line
+    const warningCode = '\nconsole.log(require)';
+
+    socket = new WebSocket('ws://localhost:8081');
+
+    socket.on('message', (data) => {
+      const message = JSON.parse(data);
+
+      if (message.type === 'warnings') {
+        assert(message.data);
+        assert(message.data.length);
+
+        fs.writeFileSync(entryPath, og, 'utf-8');
+        socket.close();
+        done();
+      }
+    });
+
+    fs.writeFileSync(entryPath, og + warningCode, 'utf-8');
+  }).timeout(10000);
 
   it('sockets should receive errors', (done) => {
     const errorCode = '\nif(!window) { require("test"); }';
