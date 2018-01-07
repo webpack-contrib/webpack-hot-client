@@ -1,18 +1,18 @@
 'use strict';
 
-/* global window, __hmrClientOptions__ */
+/* global window, __hotClientOptions__ */
 
 // const qs = require('querystring');
-const update = require('./hmr');
+const update = require('./hot');
 const log = require('./log');
 const socket = require('./socket');
 
 // this is piped in at runtime build via DefinePlugin in /lib/plugins.js
 // eslint-disable-next-line no-unused-vars, no-undef
-const options = __hmrClientOptions__;
+const options = __hotClientOptions__;
 
 if (!options) {
-  throw new Error('Something went awry and __hmrClientOptions__ is undefined. Possible bad build. HMR cannot be enabled.');
+  throw new Error('Something went awry and __hotClientOptions__ is undefined. Possible bad build. HMR cannot be enabled.');
 }
 
 let currentHash;

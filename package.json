@@ -1,5 +1,5 @@
 {
-  "name": "webpack-hmr-client",
+  "name": "webpack-hot-client",
   "version": "1.0.0",
   "description": "Webpack hot reloading you can attach to your own server",
   "license": "MIT",
@@ -40,6 +40,7 @@
     "html-entities": "^1.2.0",
     "querystring": "^0.2.0",
     "strip-ansi": "^3.0.0",
+    "uuid": "^3.1.0",
     "webpack-log": "^1.1.0",
     "ws": "^3.3.3"
   },
@@ -60,7 +61,7 @@
     "touch": "^3.1.0",
     "webpack": "^4.0.0-alpha.2",
     "webpack-cli": "^2.0.1",
-    "webpack-dev-middleware": "^2.0.3",
+    "webpack-dev-middleware": "^2.0.4",
     "wtfnode": "^0.5.6"
   }
 }

@@ -4,7 +4,7 @@
 /* global document */
 
 const target = document.querySelector('#target');
-target.innerHTML = 'entry!';
+target.innerHTML = 'entry!!';
 
 if (module.hot) {
   module.hot.accept((err) => {

@@ -5,7 +5,7 @@ const webpack = require('webpack');
 
 module.exports = {
   context: __dirname,
-  entry: ['./entry.js', `../../client/?${+new Date()}`],
+  entry: ['./entry.js'],
   mode: 'development',
   output: {
     filename: './output.js',
@@ -13,27 +13,6 @@ module.exports = {
   },
   watch: true,
   plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
-  ],
-  module: {
-    rules: [
-      {
-        test: /\/client\/.*\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['env', {
-                targets: {
-                  browsers: ['last 2 versions']
-                }
-              }]
-            ]
-          }
-        }
-      }
-    ]
-  }
+    new webpack.NamedModulesPlugin()
+  ]
 };

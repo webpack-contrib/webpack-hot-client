@@ -8,7 +8,7 @@ const css = {
   prefix: 'color: #999; padding: 0 0 0 20px; line-height: 16px; background: url(https://webpack.js.org/6bc5d8cf78d442a984e70195db059b69.svg) no-repeat; background-size: 16px 16px; background-position: 0 -2px;',
   reset: 'color: #444'
 };
-const log = loglevel.getLogger({ name: 'hmr', id: 'hot-middleware/client' });
+const log = loglevel.getLogger({ name: 'hot', id: 'hot-middleware/client' });
 
 function IconFactory(logger) {
   MethodFactory.call(this, logger);
@@ -22,7 +22,7 @@ IconFactory.prototype.make = function make(methodName) {
 
   return function _(...params) {
     const args = [].concat(params);
-    const prefix = '%c｢hmr｣ %c';
+    const prefix = '%c｢hot｣ %c';
     const [first] = args;
 
     if (typeof first === 'string') {

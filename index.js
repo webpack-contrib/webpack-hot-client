@@ -3,7 +3,7 @@
 const weblog = require('webpack-log');
 const webpack = require('webpack');
 const WebSocket = require('ws');
-const { payload, sendStats } = require('./util');
+const { addEntry, addRule, payload, sendStats } = require('./util');
 
 const defaults = {
   host: 'localhost',
@@ -19,7 +19,7 @@ const defaults = {
   },
   test: false
 };
-const log = weblog({ name: 'hmr', id: 'webpack-hmr-client' });
+const log = weblog({ name: 'hot', id: 'webpack-hot-client' });
 
 module.exports = (compiler, opts) => {
   const options = Object.assign({}, defaults, opts);
@@ -50,12 +50,25 @@ module.exports = (compiler, opts) => {
 
   // this is how we pass the options at runtime to the client script
   const definePlugin = new webpack.DefinePlugin({
-    __hmrClientOptions__: JSON.stringify(options)
+    __hotClientOptions__: JSON.stringify(options)
   });
+  const hmrPlugin = new webpack.HotModuleReplacementPlugin();
 
   for (const comp of [].concat(compiler.compilers || compiler)) {
-    log.debug('Applying DefinePlugin:__hmrClientOptions__');
+    log.debug('Applying DefinePlugin:__hotClientOptions__');
     definePlugin.apply(comp);
+    hmrPlugin.apply(comp);
+
+    addEntry(comp, options);
+    addRule(comp);
+
+    const { context, entry } = comp.options;
+
+    if (comp.hooks) {
+      comp.hooks.entryOption.call(context, entry);
+    } else {
+      comp.applyPluginsBailResult('entry-option', context, entry);
+    }
   }
 
   compiler.plugin('compile', () => {

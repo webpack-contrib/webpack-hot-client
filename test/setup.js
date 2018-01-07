@@ -5,7 +5,7 @@ const Koa = require('koa');
 const serveStatic = require('koa-static');
 const webpack = require('webpack');
 const devMiddleware = require('webpack-dev-middleware');
-const hmrClient = require('../');
+const hotClient = require('../');
 const config = require('./fixtures/webpack.config.js');
 
 const app = new Koa();
@@ -43,7 +43,7 @@ function koaDevware() {
 }
 
 module.exports = () => {
-  const result = hmrClient(compiler, { hot: false, test: true });
+  const result = hotClient(compiler, { hot: false, test: true });
 
   app.use(serveStatic(config.context));
   app.use(koaDevware());
