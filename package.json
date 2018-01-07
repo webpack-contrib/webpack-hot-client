@@ -15,7 +15,7 @@
     "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js client.js client lib test",
-    "mocha": "mocha test/test.js --full-trace --exit",
+    "mocha": "mocha test/test.js --exit",
     "test": "npm run mocha"
   },
   "files": [
@@ -45,6 +45,10 @@
   },
   "devDependencies": {
     "assert": "^1.4.1",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
     "coveralls": "^2.11.2",
     "eslint": "^4.6.1",
     "eslint-config-webpack": "^1.2.5",

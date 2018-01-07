@@ -27,9 +27,9 @@ function koaDevware() {
     });
   }
 
-  return async (context, next) => {
-    await waitMiddleware();
-    await new Promise((resolve) => {
+  return (context, next) => Promise.all([
+    waitMiddleware(),
+    new Promise((resolve) => {
       dev(context.req, {
         end: (content) => {
           context.body = content; // eslint-disable-line no-param-reassign
@@ -38,8 +38,8 @@ function koaDevware() {
         setHeader: context.set.bind(context),
         locals: context.state
       }, () => resolve(next()));
-    });
-  };
+    })
+  ]);
 }
 
 module.exports = () => {
