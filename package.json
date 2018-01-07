@@ -1,6 +1,6 @@
 {
   "name": "webpack-hot-client",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Webpack hot reloading you can attach to your own server",
   "license": "MIT",
   "repository": "webpack/webpack-dev-server",
@@ -12,12 +12,10 @@
   },
   "scripts": {
     "beautify": "npm run lint -- --fix",
-    "build:client": "webpack client/entry.js --config client/webpack.config.js",
     "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js client.js client lib test",
     "mocha": "mocha test/test.js --full-trace --exit",
-    "prepublishOnly": "npm run build:client",
     "test": "npm run mocha"
   },
   "files": [
