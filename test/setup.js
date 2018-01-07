@@ -13,7 +13,7 @@ const server = app.listen(8080, 'localhost');
 const compiler = webpack(config);
 
 function koaDevware() {
-  const dev = devMiddleware(compiler, { publicPath: '/' });
+  const dev = devMiddleware(compiler, { publicPath: '/', logLevel: 'silent' });
 
   function waitMiddleware() {
     return new Promise((resolve, reject) => {
@@ -43,7 +43,7 @@ function koaDevware() {
 }
 
 module.exports = () => {
-  const result = hotClient(compiler, { hot: false, test: true });
+  const client = hotClient(compiler, { hot: false, logLevel: 'silent', test: true });
 
   app.use(serveStatic(config.context));
   app.use(koaDevware());
@@ -58,5 +58,5 @@ module.exports = () => {
     server.kill();
   });
 
-  return result;
+  return { client, server };
 };

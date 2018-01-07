@@ -111,6 +111,10 @@ module.exports = (compiler, opts) => {
   });
 
   return {
+    close(callback) {
+      wss.close(callback);
+    },
+
     wss
   };
 };

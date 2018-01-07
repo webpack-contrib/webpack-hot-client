@@ -24,7 +24,8 @@ describe('Webpack Hot Client', () => {
   });
 
   it('should setup and return wss', () => {
-    const { wss } = setup();
+    const result = setup();
+    const { wss } = result.client;
 
     assert(wss);
     assert(wss.broadcast);
