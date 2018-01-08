@@ -21,6 +21,7 @@
   "files": [
     "client/",
     "index.js",
+    "HotClientEntryPlugin.js",
     "LICENSE",
     "README.md",
     "util.js"
