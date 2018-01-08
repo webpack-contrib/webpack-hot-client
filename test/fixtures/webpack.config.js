@@ -4,15 +4,19 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  resolve: {
+    alias: {
+      'webpack-hot-client/client': path.resolve(__dirname, '../../client')
+    }
+  },
   context: __dirname,
   devtool: 'source-map',
-  entry: ['./entry.js'],
+  entry: ['./app.js'],
   mode: 'development',
   output: {
     filename: './output.js',
     path: path.resolve(__dirname)
   },
-  watch: true,
   plugins: [
     new webpack.NamedModulesPlugin()
   ]

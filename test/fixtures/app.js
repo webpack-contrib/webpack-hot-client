@@ -1,10 +1,8 @@
 'use strict';
 
 /* eslint no-console: off */
-/* global document */
 
-const target = document.querySelector('#target');
-target.innerHTML = 'entry!';
+require('./component');
 
 if (typeof module.hot === 'object') {
   module.hot.accept((err) => {

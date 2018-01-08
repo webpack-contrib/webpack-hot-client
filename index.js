@@ -2,8 +2,16 @@
 
 const weblog = require('webpack-log');
 const webpack = require('webpack');
+const EntryOptionPlugin = require('webpack/lib/EntryOptionPlugin');
 const WebSocket = require('ws');
-const { addEntry, addRule, payload, sendStats } = require('./util');
+const HotEntryPlugin = require('./HotClientEntryPlugin');
+const { addRule, payload, sendStats } = require('./util');
+
+// this is super hacky, but it's all we've got for now.
+// there just isn't any other way to automagically add entries to the config
+// before Webpack's constructor has it's way with them.
+EntryOptionPlugin.prototype.apply = HotEntryPlugin.prototype.apply;
+EntryOptionPlugin.prototype.toPlugin = HotEntryPlugin.prototype.toPlugin;
 
 const defaults = {
   host: 'localhost',
@@ -52,23 +60,14 @@ module.exports = (compiler, opts) => {
   const definePlugin = new webpack.DefinePlugin({
     __hotClientOptions__: JSON.stringify(options)
   });
-  const hmrPlugin = new webpack.HotModuleReplacementPlugin();
 
   for (const comp of [].concat(compiler.compilers || compiler)) {
     log.debug('Applying DefinePlugin:__hotClientOptions__');
     definePlugin.apply(comp);
-    hmrPlugin.apply(comp);
+    (new webpack.HotModuleReplacementPlugin()).apply(comp);
 
-    addEntry(comp, options);
+    // add babel rules to each compiler for the client script
     addRule(comp);
-
-    const { context, entry } = comp.options;
-
-    if (comp.hooks) {
-      comp.hooks.entryOption.call(context, entry);
-    } else {
-      comp.applyPluginsBailResult('entry-option', context, entry);
-    }
   }
 
   compiler.plugin('compile', () => {

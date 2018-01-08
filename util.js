@@ -1,40 +1,10 @@
 'use strict';
 
-const uuid = require('uuid/v4');
 const weblog = require('webpack-log');
 
 const log = weblog({ name: 'hot', id: 'webpack-hot-client' });
 
 module.exports = {
-
-  addEntry(comp, options) {
-    const configs = [].concat(comp.options);
-    const script = options.test ? '../../client' : 'webpack-hot-client/client';
-
-    log.info('Adding \'webpack-hot-client/client\' to compiler entries');
-
-    for (const conf of configs) {
-      // when defining multiple compilers, each compiler config needs to define
-      // a `name`. otherwise the hot-middleware can get confused.
-      // https://github.com/glenjamin/webpack-hot-middleware#multi-compiler-mode
-      if (!conf.name) {
-        conf.name = uuid();
-      }
-
-      const { name } = conf;
-      const hotEntry = [`${script}?${name}`];
-
-      if (typeof conf.entry === 'object' && !Array.isArray(conf.entry)) {
-        for (const key of Object.keys(conf.entry)) {
-          conf.entry[key] = hotEntry.concat(conf.entry[key]);
-        }
-      } else if (typeof conf.entry === 'function') {
-        conf.entry = conf.entry(hotEntry);
-      } else {
-        conf.entry = hotEntry.concat(conf.entry);
-      }
-    }
-  },
 
   addRule(comp) {
     const configs = [].concat(comp.options);

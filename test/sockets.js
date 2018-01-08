@@ -11,7 +11,7 @@ const client = require('../index');
 const setup = require('./setup.js');
 
 describe('Webpack Hot Client', () => {
-  const entryPath = path.join(__dirname, 'fixtures/entry.js');
+  const entryPath = path.join(__dirname, 'fixtures/app.js');
   const og = fs.readFileSync(entryPath, 'utf-8');
   let socket;
 
