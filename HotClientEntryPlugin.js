@@ -18,7 +18,7 @@ module.exports = class HotClientEntryPlugin {
       if (typeof entry === 'string' || Array.isArray(entry)) {
         compiler.apply(this.toPlugin(context, entry, 'main'));
       } else if (typeof entry === 'object') {
-        Object.keys(entry).forEach(name => compiler.apply(this.ToPlugin(context, entry[name], name)));
+        Object.keys(entry).forEach(name => compiler.apply(this.toPlugin(context, entry[name], name)));
       } else if (typeof entry === 'function') {
         // TODO support functions
         compiler.apply(new DynamicEntryPlugin(context, entry));
