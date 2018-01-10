@@ -165,20 +165,20 @@ We welcome your contributions! Please have a read of [CONTRIBUTING.md](CONTRIBUT
 
 #### [MIT](./LICENSE)
 
-[npm]: https://img.shields.io/npm/v/webpack-log.svg
-[npm-url]: https://npmjs.com/package/webpack-log
+[npm]: https://img.shields.io/npm/v/webpack-hot-client.svg
+[npm-url]: https://npmjs.com/package/webpack-hot-client
 
-[node]: https://img.shields.io/node/v/webpack-log.svg
+[node]: https://img.shields.io/node/v/webpack-hot-client.svg
 [node-url]: https://nodejs.org
 
-[deps]: https://david-dm.org/webpack-contrib/webpack-log.svg
-[deps-url]: https://david-dm.org/webpack-contrib/webpack-log
+[deps]: https://david-dm.org/webpack-contrib/webpack-hot-client.svg
+[deps-url]: https://david-dm.org/webpack-contrib/webpack-hot-client
 
-[tests]: http://img.shields.io/travis/webpack-contrib/webpack-log.svg
-[tests-url]: https://travis-ci.org/webpack-contrib/webpack-log
+[tests]: http://img.shields.io/travis/webpack-contrib/webpack-hot-client.svg
+[tests-url]: https://travis-ci.org/webpack-contrib/webpack-hot-client
 
-[cover]: https://codecov.io/gh/webpack-contrib/webpack-log/branch/master/graph/badge.svg
-[cover-url]: https://codecov.io/gh/webpack-contrib/webpack-log
+[cover]: https://codecov.io/gh/webpack-contrib/webpack-hot-client/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/webpack-hot-client
 
 [chat]: https://badges.gitter.im/webpack/webpack.svg
 [chat-url]: https://gitter.im/webpack/webpack
