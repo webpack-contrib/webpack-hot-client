@@ -3,6 +3,7 @@
 const weblog = require('webpack-log');
 const webpack = require('webpack');
 const EntryOptionPlugin = require('webpack/lib/EntryOptionPlugin');
+const ParserHelpers = require('webpack/lib/ParserHelpers');
 const WebSocket = require('ws');
 const HotEntryPlugin = require('./HotClientEntryPlugin');
 const { addRule, payload, sendStats } = require('./util');
@@ -64,6 +65,21 @@ module.exports = (compiler, opts) => {
   for (const comp of [].concat(compiler.compilers || compiler)) {
     log.debug('Applying DefinePlugin:__hotClientOptions__');
     definePlugin.apply(comp);
+
+    comp.hooks.compilation.tap('HotModuleReplacementPlugin', (compilation, {
+      normalModuleFactory
+    }) => {
+      const handler = (parser) => {
+        parser.hooks.evaluateIdentifier.for('module.hot').tap({
+          name: 'HotModuleReplacementPlugin',
+          before: 'NodeStuffPlugin'
+        }, expr => ParserHelpers.evaluateToIdentifier('module.hot', !!parser.state.compilation.hotUpdateChunkTemplate)(expr));
+      };
+
+      normalModuleFactory.hooks.parser.for('javascript/auto').tap('HotModuleReplacementPlugin', handler);
+      normalModuleFactory.hooks.parser.for('javascript/dynamic').tap('HotModuleReplacementPlugin', handler);
+    });
+
     (new webpack.HotModuleReplacementPlugin()).apply(comp);
 
     // add babel rules to each compiler for the client script
