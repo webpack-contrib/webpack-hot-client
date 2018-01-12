@@ -4,6 +4,7 @@ const weblog = require('webpack-log');
 const webpack = require('webpack');
 const EntryOptionPlugin = require('webpack/lib/EntryOptionPlugin');
 const ParserHelpers = require('webpack/lib/ParserHelpers');
+const { version } = require('webpack/package.json');
 const WebSocket = require('ws');
 const HotEntryPlugin = require('./HotClientEntryPlugin');
 const { addRule, payload, sendStats } = require('./util');
@@ -66,19 +67,22 @@ module.exports = (compiler, opts) => {
     log.debug('Applying DefinePlugin:__hotClientOptions__');
     definePlugin.apply(comp);
 
-    comp.hooks.compilation.tap('HotModuleReplacementPlugin', (compilation, {
-      normalModuleFactory
-    }) => {
-      const handler = (parser) => {
-        parser.hooks.evaluateIdentifier.for('module.hot').tap({
-          name: 'HotModuleReplacementPlugin',
-          before: 'NodeStuffPlugin'
-        }, expr => ParserHelpers.evaluateToIdentifier('module.hot', !!parser.state.compilation.hotUpdateChunkTemplate)(expr));
-      };
+    // fix is only available for webpack@4
+    if (parseInt(version.substring(0, 1), 10) > 3) {
+      comp.hooks.compilation.tap('HotModuleReplacementPlugin', (compilation, {
+        normalModuleFactory
+      }) => {
+        const handler = (parser) => {
+          parser.hooks.evaluateIdentifier.for('module.hot').tap({
+            name: 'HotModuleReplacementPlugin',
+            before: 'NodeStuffPlugin'
+          }, expr => ParserHelpers.evaluateToIdentifier('module.hot', !!parser.state.compilation.hotUpdateChunkTemplate)(expr));
+        };
 
-      normalModuleFactory.hooks.parser.for('javascript/auto').tap('HotModuleReplacementPlugin', handler);
-      normalModuleFactory.hooks.parser.for('javascript/dynamic').tap('HotModuleReplacementPlugin', handler);
-    });
+        normalModuleFactory.hooks.parser.for('javascript/auto').tap('HotModuleReplacementPlugin', handler);
+        normalModuleFactory.hooks.parser.for('javascript/dynamic').tap('HotModuleReplacementPlugin', handler);
+      });
+    }
 
     (new webpack.HotModuleReplacementPlugin()).apply(comp);
 
