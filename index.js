@@ -64,6 +64,8 @@ module.exports = (compiler, opts) => {
   });
 
   for (const comp of [].concat(compiler.compilers || compiler)) {
+    const hmrPlugin = new webpack.HotModuleReplacementPlugin();
+
     log.debug('Applying DefinePlugin:__hotClientOptions__');
     definePlugin.apply(comp);
 
@@ -82,9 +84,19 @@ module.exports = (compiler, opts) => {
         normalModuleFactory.hooks.parser.for('javascript/auto').tap('HotModuleReplacementPlugin', handler);
         normalModuleFactory.hooks.parser.for('javascript/dynamic').tap('HotModuleReplacementPlugin', handler);
       });
-    }
 
-    (new webpack.HotModuleReplacementPlugin()).apply(comp);
+      hmrPlugin.apply(comp);
+    } else {
+      // must come first
+      hmrPlugin.apply(comp);
+
+      compiler.plugin('compilation', (compilation, data) => {
+        data.normalModuleFactory.plugin('parser', (parser) => {
+          // eslint-disable-next-line no-underscore-dangle
+          parser._plugins['evaluate Identifier module.hot'].reverse();
+        });
+      });
+    }
 
     // add babel rules to each compiler for the client script
     addRule(comp);
