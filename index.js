@@ -7,7 +7,7 @@ const ParserHelpers = require('webpack/lib/ParserHelpers');
 const { version } = require('webpack/package.json');
 const WebSocket = require('ws');
 const HotEntryPlugin = require('./HotClientEntryPlugin');
-const { addRule, payload, sendStats } = require('./util');
+const { addRule, payload, sendStats } = require('./lib/util');
 
 // this is super hacky, but it's all we've got for now.
 // there just isn't any other way to automagically add entries to the config
