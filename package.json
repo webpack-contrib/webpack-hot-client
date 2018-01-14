@@ -17,16 +17,16 @@
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js client.js client lib test",
     "mocha": "mocha test/test.js --exit",
-    "prepublishOnly": "npm run compile:client",
+    "prepublish": "npm run compile:client",
     "test": "npm run compile:client && npm run mocha"
   },
   "files": [
     "client/",
     "index.js",
     "HotClientEntryPlugin.js",
+    "lib/util.js",
     "LICENSE",
-    "README.md",
-    "util.js"
+    "README.md"
   ],
   "peerDependencies": {
     "webpack": "^2.2.0 || ^3.0.0 || ^4.0.0-alpha"
