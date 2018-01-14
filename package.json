@@ -12,13 +12,13 @@
   },
   "scripts": {
     "beautify": "npm run lint -- --fix",
-    "build:client": "webpack --config lib/client/webpack.config.js",
     "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
+    "compile:client": "babel lib/client --out-dir client",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js client.js client lib test",
     "mocha": "mocha test/test.js --exit",
-    "prepublishOnly": "npm run build:client",
-    "test": "npm run build:client && npm run mocha"
+    "prepublishOnly": "npm run compile:client",
+    "test": "npm run compile:client && npm run mocha"
   },
   "files": [
     "client/",
@@ -38,6 +38,7 @@
     "ws": "^3.3.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.37",
     "@babel/core": "^7.0.0-beta.37",
     "@babel/plugin-syntax-async-generators": "^7.0.0-beta.37",
     "@babel/polyfill": "^7.0.0-beta.37",
