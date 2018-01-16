@@ -17,7 +17,7 @@
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js client.js client lib test",
     "mocha": "mocha test/test.js --exit",
-    "prepare": "npm run compile:client",
+    "prepublishOnly": "npm run compile:client",
     "test": "npm run compile:client && npm run mocha"
   },
   "files": [
