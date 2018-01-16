@@ -1,63 +1,104 @@
 'use strict';
 
-/* globals __webpack_hash__ */
+var log = require('./log');
 
-const log = require('./log');
-
-const refresh = 'Please refresh the page.';
-const hotOptions = {
+var refresh = 'Please refresh the page.';
+var hotOptions = {
   ignoreUnaccepted: true,
   ignoreDeclined: true,
   ignoreErrored: true,
-  onUnaccepted(data) {
-    const chain = [].concat(data.chain);
-    const last = chain[chain.length - 1];
+  onUnaccepted: function onUnaccepted(data) {
+    var chain = [].concat(data.chain);
+    var last = chain[chain.length - 1];
 
     if (last === 0) {
       chain.pop();
     }
 
-    log.warn(`Ignored an update to unaccepted module ${chain.join(' ➭ ')}`);
+    log.warn("Ignored an update to unaccepted module ".concat(chain.join(' ➭ ')));
   },
-  onDeclined(data) {
-    log.warn(`Ignored an update to declined module ${data.chain.join(' ➭ ')}`);
+  onDeclined: function onDeclined(data) {
+    log.warn("Ignored an update to declined module ".concat(data.chain.join(' ➭ ')));
   },
-  onErrored(data) {
-    log.warn(`Ignored an error while updating module ${data.moduleId} <${data.type}>`);
+  onErrored: function onErrored(data) {
+    log.warn("Ignored an error while updating module ".concat(data.moduleId, " <").concat(data.type, ">"));
     log.warn(data.error);
   }
 };
-
-let lastHash;
+var lastHash;
 
 function upToDate() {
   return lastHash.indexOf(__webpack_hash__) >= 0;
 }
 
 function result(modules, appliedModules) {
-  const unaccepted = modules.filter(moduleId => appliedModules && appliedModules.indexOf(moduleId) < 0);
+  var unaccepted = modules.filter(function (moduleId) {
+    return appliedModules && appliedModules.indexOf(moduleId) < 0;
+  });
 
   if (unaccepted.length > 0) {
-    let message = 'The following modules could not be updated:';
+    var message = 'The following modules could not be updated:';
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-    for (const moduleId of unaccepted) {
-      message += `\n          ⦻ ${moduleId}`;
+    try {
+      for (var _iterator = unaccepted[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var _moduleId = _step.value;
+        message += "\n          \u29BB ".concat(_moduleId);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
     }
+
     log.warn(message);
   }
 
   if (!(appliedModules || []).length) {
     log.info('No Modules Updated.');
   } else {
-    const message = ['The following modules were updated:'];
+    var _message = ['The following modules were updated:'];
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
 
-    for (const moduleId of appliedModules) {
-      message.push(`         ↻ ${moduleId}`);
+    try {
+      for (var _iterator2 = appliedModules[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var _moduleId3 = _step2.value;
+
+        _message.push("         \u21BB ".concat(_moduleId3));
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
     }
 
-    log.info(message.join('\n'));
+    log.info(_message.join('\n'));
+    var numberIds = appliedModules.every(function (moduleId) {
+      return typeof moduleId === 'number';
+    });
 
-    const numberIds = appliedModules.every(moduleId => typeof moduleId === 'number');
     if (numberIds) {
       log.info('Please consider using the NamedModulesPlugin for module names.');
     }
@@ -65,13 +106,13 @@ function result(modules, appliedModules) {
 }
 
 function check() {
-  module.hot.check().then((modules) => {
+  module.hot.check().then(function (modules) {
     if (!modules) {
-      log.warn(`Cannot find update. The server may have been restarted. ${refresh}`);
+      log.warn("Cannot find update. The server may have been restarted. ".concat(refresh));
       return;
     }
 
-    return module.hot.apply(hotOptions).then((appliedModules) => {
+    return module.hot.apply(hotOptions).then(function (appliedModules) {
       if (!upToDate()) {
         check();
       }
@@ -82,13 +123,14 @@ function check() {
         log.info('App is up to date.');
       }
     });
-  }).catch((err) => {
-    const status = module.hot.status();
+  }).catch(function (err) {
+    var status = module.hot.status();
+
     if (['abort', 'fail'].indexOf(status) >= 0) {
-      log.warn(`Cannot check for update. ${refresh}`);
+      log.warn("Cannot check for update. ".concat(refresh));
       log.warn(err.stack || err.message);
     } else {
-      log.warn(`Update check failed: ${err.stack}` || err.message);
+      log.warn("Update check failed: ".concat(err.stack) || err.message);
     }
   });
 }
@@ -101,14 +143,15 @@ if (module.hot) {
 
 module.exports = function update(currentHash) {
   lastHash = currentHash;
+
   if (!upToDate()) {
-    const status = module.hot.status();
+    var status = module.hot.status();
 
     if (status === 'idle') {
       log.info('Checking for updates to the bundle.');
       check();
     } else if (['abort', 'fail'].indexOf(status) >= 0) {
-      log.warn(`Cannot apply update. A previous update ${status}ed. ${refresh}`);
+      log.warn("Cannot apply update. A previous update ".concat(status, "ed. ").concat(refresh));
     }
   }
 };

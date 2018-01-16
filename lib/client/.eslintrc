@@ -1,0 +1,8 @@
+{
+  "globals": {
+    "WebSocket": true,
+    "window": true,
+    "__hotClientOptions__": true,
+    "__webpack_hash__": true
+  }
+}

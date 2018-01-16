@@ -1,57 +1,47 @@
 'use strict';
 
-/* global WebSocket */
+var url = require('url');
 
-const url = require('url');
-const log = require('./log');
+var log = require('./log');
 
-const maxRetries = 10;
-let retry = maxRetries;
+var maxRetries = 10;
+var retry = maxRetries;
 
 module.exports = function connect(options, handler) {
-  const socketUrl = url.format({
+  var socketUrl = url.format({
     protocol: options.https ? 'wss' : 'ws',
     hostname: options.webSocket.host,
     port: options.webSocket.port
   });
-
-  let open = false;
-  let socket = new WebSocket(socketUrl);
-
-  socket.addEventListener('open', () => {
+  var open = false;
+  var socket = new WebSocket(socketUrl);
+  socket.addEventListener('open', function () {
     open = true;
     retry = maxRetries;
     log.info('WebSocket connected');
   });
-
-  socket.addEventListener('close', () => {
+  socket.addEventListener('close', function () {
     log.warn('WebSocket closed');
-
     open = false;
-    socket = null;
-
-    // exponentation operator ** isn't supported by IE at all
+    socket = null; // exponentation operator ** isn't supported by IE at all
     // eslint-disable-next-line no-restricted-properties
-    const timeout = (1000 * Math.pow((maxRetries - retry), 2)) + (Math.random() * 100);
+
+    var timeout = 1000 * Math.pow(maxRetries - retry, 2) + Math.random() * 100;
 
     if (open || retry <= 0) {
-      log.warn(`WebSocket: ending reconnect after ${maxRetries} attempts`);
+      log.warn("WebSocket: ending reconnect after ".concat(maxRetries, " attempts"));
       return;
     }
 
-    log.info(`WebSocket: attempting reconnect in ${parseInt(timeout / 1000, 10)}s`);
-
-    setTimeout(() => {
+    log.info("WebSocket: attempting reconnect in ".concat(parseInt(timeout / 1000, 10), "s"));
+    setTimeout(function () {
       retry -= 1;
-
       connect(options, handler);
     }, timeout);
   });
-
-  socket.addEventListener('message', (event) => {
+  socket.addEventListener('message', function (event) {
     log.debug('WebSocket: message:', event.data);
-
-    const message = JSON.parse(event.data);
+    var message = JSON.parse(event.data);
 
     if (handler[message.type]) {
       handler[message.type](message.data);
