@@ -2,18 +2,10 @@
 
 const weblog = require('webpack-log');
 const webpack = require('webpack');
-const EntryOptionPlugin = require('webpack/lib/EntryOptionPlugin');
 const ParserHelpers = require('webpack/lib/ParserHelpers');
-const { version } = require('webpack/package.json');
 const WebSocket = require('ws');
-const HotEntryPlugin = require('./HotClientEntryPlugin');
+const uuid = require('uuid/v4');
 const { payload, sendStats } = require('./lib/util');
-
-// this is super hacky, but it's all we've got for now.
-// there just isn't any other way to automagically add entries to the config
-// before Webpack's constructor has it's way with them.
-EntryOptionPlugin.prototype.apply = HotEntryPlugin.prototype.apply;
-EntryOptionPlugin.prototype.toPlugin = HotEntryPlugin.prototype.toPlugin;
 
 const defaults = {
   host: 'localhost',
@@ -66,11 +58,27 @@ module.exports = (compiler, opts) => {
   for (const comp of [].concat(compiler.compilers || compiler)) {
     const hmrPlugin = new webpack.HotModuleReplacementPlugin();
 
+    if (comp.options.target === 'web') {
+      const { entry } = comp.options;
+      const { name } = comp;
+      let hotEntry = [`webpack-hot-client/client?${name || uuid()}`];
+
+      if (typeof entry === 'string' || Array.isArray(entry)) {
+        hotEntry = hotEntry.concat(entry);
+      }
+
+      if (comp.hooks) {
+        compiler.hooks.entryOption.call(comp.options.context, hotEntry);
+      } else {
+        comp.applyPluginsBailResult('entry-option', comp.options.context, hotEntry);
+      }
+    }
+
     log.debug('Applying DefinePlugin:__hotClientOptions__');
     definePlugin.apply(comp);
 
     // fix is only available for webpack@4
-    if (parseInt(version.substring(0, 1), 10) > 3) {
+    if (comp.hooks) {
       comp.hooks.compilation.tap('HotModuleReplacementPlugin', (compilation, {
         normalModuleFactory
       }) => {
