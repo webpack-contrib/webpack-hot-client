@@ -11,7 +11,7 @@ module.exports = {
   },
   context: __dirname,
   devtool: 'source-map',
-  entry: { foo: ['./app.js'] },
+  entry: { index: './app.js' },
   mode: 'development',
   output: {
     filename: './output.js',

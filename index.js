@@ -1,11 +1,8 @@
 'use strict';
 
 const weblog = require('webpack-log');
-const webpack = require('webpack');
-const ParserHelpers = require('webpack/lib/ParserHelpers');
 const WebSocket = require('ws');
-const uuid = require('uuid/v4');
-const { payload, sendStats } = require('./lib/util');
+const { modifyCompiler, payload, sendStats, validateEntry } = require('./lib/util');
 
 const defaults = {
   host: 'localhost',
@@ -25,6 +22,9 @@ const log = weblog({ name: 'hot', id: 'webpack-hot-client' });
 
 module.exports = (compiler, opts) => {
   const options = Object.assign({}, defaults, opts);
+
+  validateEntry(compiler);
+
   const { host, port, server } = options;
   const wss = new WebSocket.Server(options.server ? { server } : { host, port });
   let stats;
@@ -50,62 +50,7 @@ module.exports = (compiler, opts) => {
 
   log.level = options.logLevel;
 
-  // this is how we pass the options at runtime to the client script
-  const definePlugin = new webpack.DefinePlugin({
-    __hotClientOptions__: JSON.stringify(options)
-  });
-
-  for (const comp of [].concat(compiler.compilers || compiler)) {
-    const hmrPlugin = new webpack.HotModuleReplacementPlugin();
-
-    if (comp.options.target === 'web') {
-      const { entry } = comp.options;
-      const { name } = comp;
-      let hotEntry = [`webpack-hot-client/client?${name || uuid()}`];
-
-      if (typeof entry === 'string' || Array.isArray(entry)) {
-        hotEntry = hotEntry.concat(entry);
-      }
-
-      if (comp.hooks) {
-        compiler.hooks.entryOption.call(comp.options.context, hotEntry);
-      } else {
-        comp.applyPluginsBailResult('entry-option', comp.options.context, hotEntry);
-      }
-    }
-
-    log.debug('Applying DefinePlugin:__hotClientOptions__');
-    definePlugin.apply(comp);
-
-    // fix is only available for webpack@4
-    if (comp.hooks) {
-      comp.hooks.compilation.tap('HotModuleReplacementPlugin', (compilation, {
-        normalModuleFactory
-      }) => {
-        const handler = (parser) => {
-          parser.hooks.evaluateIdentifier.for('module.hot').tap({
-            name: 'HotModuleReplacementPlugin',
-            before: 'NodeStuffPlugin'
-          }, expr => ParserHelpers.evaluateToIdentifier('module.hot', !!parser.state.compilation.hotUpdateChunkTemplate)(expr));
-        };
-
-        normalModuleFactory.hooks.parser.for('javascript/auto').tap('HotModuleReplacementPlugin', handler);
-        normalModuleFactory.hooks.parser.for('javascript/dynamic').tap('HotModuleReplacementPlugin', handler);
-      });
-
-      hmrPlugin.apply(comp);
-    } else {
-      // must come first
-      hmrPlugin.apply(comp);
-
-      compiler.plugin('compilation', (compilation, data) => {
-        data.normalModuleFactory.plugin('parser', (parser) => {
-          // eslint-disable-next-line no-underscore-dangle
-          parser._plugins['evaluate Identifier module.hot'].reverse();
-        });
-      });
-    }
-  }
+  modifyCompiler(compiler, options);
 
   compiler.plugin('compile', () => {
     stats = null;

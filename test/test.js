@@ -10,4 +10,5 @@ if (parseInt(process.version.substring(1), 10) < 8) {
   });
 }
 
+require('./init');
 require('./sockets');

@@ -7,7 +7,6 @@ const path = require('path');
 const assert = require('assert');
 const touch = require('touch');
 const WebSocket = require('ws');
-const client = require('../index');
 const setup = require('./setup.js');
 
 describe('Webpack Hot Client', () => {
@@ -17,10 +16,6 @@ describe('Webpack Hot Client', () => {
 
   after(() => {
     fs.writeFileSync(entryPath, og, 'utf-8');
-  });
-
-  it('should exist', () => {
-    assert(client);
   });
 
   it('should setup and return wss', () => {
