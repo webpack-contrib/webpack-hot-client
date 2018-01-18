@@ -27,4 +27,13 @@ describe('Webpack Hot Client', () => {
 
     assert.throws(() => { client(compiler, options); });
   });
+
+  xit('should accept an array of string entry', (done) => {
+    const config = require('./fixtures/webpack.config-valid-array-of-string.js');
+    const compiler = webpack(config);
+    const options = { hot: true, logLevel: 'info', test: true };
+
+    var hotClient = client(compiler, options);
+    hotClient.close(() => done());
+  });
 });
