@@ -16,7 +16,7 @@
     "compile:client": "babel lib/client --out-dir client",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js lib test",
-    "mocha": "mocha test/test.js --exit",
+    "mocha": "mocha test/test.js --full-trace --exit",
     "prepublishOnly": "npm run compile:client",
     "test": "npm run compile:client && npm run mocha"
   },
@@ -34,7 +34,7 @@
     "loglevelnext": "^1.0.2",
     "uuid": "^3.1.0",
     "webpack-log": "^1.1.1",
-    "ws": "^3.3.3"
+    "ws": "^4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.37",

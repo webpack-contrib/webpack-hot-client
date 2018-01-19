@@ -93,7 +93,11 @@ module.exports = (compiler, opts) => {
 
   return {
     close(callback) {
-      wss.close(callback);
+      try {
+        wss.close(callback);
+      } catch (err) {
+        log.error(err);
+      }
     },
 
     wss
