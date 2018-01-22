@@ -11,10 +11,10 @@ module.exports = {
   },
   context: __dirname,
   devtool: 'source-map',
-  entry: { foo: ['./app.js'] },
-  mode: 'development',
+  entry: [path.resolve(__dirname, './app.js')],
+  // mode: 'development',
   output: {
-    filename: './output.js',
+    filename: 'output.js',
     path: path.resolve(__dirname)
   },
   plugins: [

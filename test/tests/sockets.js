@@ -1,33 +1,64 @@
 'use strict';
 
-/* global window */
-
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const MemoryFileSystem = require('memory-fs');
 const touch = require('touch');
+const webpack = require('webpack');
 const WebSocket = require('ws');
-const setup = require('./setup.js');
+const hotClient = require('../../index');
+const config = require('../fixtures/webpack.config.js');
 
-describe('Webpack Hot Client', () => {
-  const entryPath = path.join(__dirname, 'fixtures/app.js');
+describe('Sockets', function d() {
+  const entryPath = path.join(__dirname, '../fixtures/app.js');
   const og = fs.readFileSync(entryPath, 'utf-8');
-  let socket;
 
-  after(() => {
-    fs.writeFileSync(entryPath, og, 'utf-8');
+  this.timeout(30000);
+
+  let compiler;
+  let client;
+  let watchers;
+
+  before((done) => {
+    compiler = webpack(config);
+    client = hotClient(compiler, { hot: true, logLevel: 'silent' });
+
+    const isMemoryFs = !compiler.compilers && compiler.outputFileSystem instanceof MemoryFileSystem;
+
+    if (!isMemoryFs) {
+      compiler.outputFileSystem = new MemoryFileSystem();
+    }
+
+    watchers = compiler.watch({}, (err) => {
+      if (err) {
+        context.log.error(err.stack || err);
+        if (err.details) {
+          context.log.error(err.details);
+        }
+      }
+    });
+
+    setTimeout(done, 1000);
+  });
+
+  after((done) => {
+    setTimeout(() => {
+      watchers.close(() => {
+        client.close(done);
+      });
+    }, 1000);
   });
 
   it('should setup and return wss', () => {
-    const result = setup();
-    const { wss } = result.client;
+    const { wss } = client;
 
     assert(wss);
     assert(wss.broadcast);
   });
 
   it('should allow a child socket', (done) => {
-    socket = new WebSocket('ws://localhost:8081');
+    const socket = new WebSocket('ws://localhost:8081');
 
     assert(socket);
 
@@ -46,7 +77,7 @@ describe('Webpack Hot Client', () => {
       'ok'
     ];
 
-    socket = new WebSocket('ws://localhost:8081');
+    const socket = new WebSocket('ws://localhost:8081');
 
     socket.on('message', (data) => {
       const message = JSON.parse(data);
@@ -77,8 +108,7 @@ describe('Webpack Hot Client', () => {
   it('sockets should receive warnings', (done) => {
     // eslint-disable-next-line
     const warningCode = '\nconsole.log(require)';
-
-    socket = new WebSocket('ws://localhost:8081');
+    const socket = new WebSocket('ws://localhost:8081');
 
     socket.on('message', (data) => {
       const message = JSON.parse(data);
@@ -98,8 +128,7 @@ describe('Webpack Hot Client', () => {
 
   it('sockets should receive errors', (done) => {
     const errorCode = '\nif(!window) { require("test"); }';
-
-    socket = new WebSocket('ws://localhost:8081');
+    const socket = new WebSocket('ws://localhost:8081');
 
     socket.on('message', (data) => {
       const message = JSON.parse(data);

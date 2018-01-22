@@ -14,7 +14,7 @@
     "beautify": "npm run lint -- --fix",
     "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
     "compile:client": "babel lib/client --out-dir client",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha",
+    "cover": "npm run compile:client && istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js lib test",
     "mocha": "mocha test/test.js --full-trace --exit",
     "prepublishOnly": "npm run compile:client",
@@ -52,9 +52,10 @@
     "killable": "^1.0.0",
     "koa": "^2.4.1",
     "koa-static": "^4.0.2",
+    "memory-fs": "^0.4.1",
     "mocha": "^5.0.0",
+    "nyc": "^11.4.1",
     "touch": "^3.1.0",
-    "webpack": "^4.0.0-alpha.4",
-    "webpack-dev-middleware": "^2.0.4"
+    "webpack": "^3.10.0"
   }
 }
