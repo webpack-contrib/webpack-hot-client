@@ -3,7 +3,7 @@
   "version": "1.2.1",
   "description": "A client for enabling, and interacting with, webpack Hot Module Replacement",
   "license": "MIT",
-  "repository": "webpack/webpack-dev-server",
+  "repository": "webpack-contrib/webpack-hot-client",
   "author": "Andrew Powell <andrew@shellscape.org>",
   "homepage": "http://github.com/webpack-contrib/webpack-hot-client",
   "main": "index.js",
