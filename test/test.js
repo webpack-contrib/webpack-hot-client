@@ -6,7 +6,13 @@ if (parseInt(process.version.substring(1), 10) < 8) {
   require('@babel/polyfill');
   require('@babel/register')({
     ignore: [/node_modules\/(?!koa)/],
-    plugins: ['@babel/plugin-syntax-async-generators']
+    presets: [
+      ['@babel/preset-env', {
+        targets: {
+          node: '6.11'
+        }
+      }]
+    ]
   });
 }
 
