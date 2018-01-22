@@ -12,11 +12,11 @@
   },
   "scripts": {
     "beautify": "npm run lint -- --fix",
-    "ci": "npm run cover -- --report lcovonly && npm run lint && npm run test",
+    "ci": "npm run lint && npm run test && npm run cover",
+    "cover": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "compile:client": "babel lib/client --out-dir client",
-    "cover": "npm run compile:client && istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js lib test",
-    "mocha": "mocha test/test.js --full-trace --exit",
+    "mocha": "nyc mocha test/test.js --full-trace --exit",
     "prepublishOnly": "npm run compile:client",
     "test": "npm run compile:client && npm run mocha"
   },
@@ -44,7 +44,7 @@
     "@babel/register": "^7.0.0-beta.37",
     "assert": "^1.4.1",
     "babel-loader": "^8.0.0-beta.0",
-    "codecov.io": "^0.1.6",
+    "codecov": "^3.0.0",
     "eslint": "^4.6.1",
     "eslint-config-webpack": "^1.2.5",
     "eslint-plugin-import": "^2.8.0",

@@ -3,3 +3,4 @@ example/*
 example/node_modules/*
 coverage/*
 /client
+output.js
