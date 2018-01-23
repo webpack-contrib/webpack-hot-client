@@ -10,7 +10,7 @@
 * Node Version:
 * NPM Version:
 * webpack Version:
-* webpack-dev-server Version:
+* webpack-hot-client Version:
 
 <!-- Please place an x, no spaces, in all [ ] that apply -->
 

@@ -6,7 +6,6 @@
 const assert = require('assert');
 const Koa = require('koa');
 const webpack = require('webpack');
-const WebSocket = require('ws');
 const client = require('../../index');
 
 describe('Webpack Hot Client', () => {
@@ -45,16 +44,10 @@ describe('Webpack Hot Client', () => {
     const config = require('../fixtures/webpack.config.js');
     const compiler = webpack(config);
     const options = { hot: true, logLevel: 'info', server };
-    const { close, wss } = client(compiler, options);
+    const { close } = client(compiler, options);
 
     setTimeout(() => {
-      // eslint-disable-next-line no-underscore-dangle
-      const { address, port } = wss._server.address();
-      const socket = new WebSocket(`ws://${address}:${port}`);
-
-      socket.on('open', () => {
-        close(done);
-      });
+      close(done);
     }, 1000);
   });
 });
