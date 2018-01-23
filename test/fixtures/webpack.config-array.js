@@ -12,7 +12,7 @@ module.exports = {
   context: __dirname,
   devtool: 'source-map',
   entry: ['./app.js'],
-  mode: 'development',
+  // mode: 'development',
   output: {
     filename: './output.js',
     path: path.resolve(__dirname)

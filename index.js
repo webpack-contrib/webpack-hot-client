@@ -19,6 +19,7 @@ const defaults = {
   test: false
 };
 const log = weblog({ name: 'hot', id: 'webpack-hot-client' });
+const timefix = 11000;
 
 module.exports = (compiler, opts) => {
   const options = Object.assign({}, defaults, opts);
@@ -65,8 +66,15 @@ module.exports = (compiler, opts) => {
 
   compiler.plugin('done', (result) => {
     log.info('webpack: Compiling Done');
+    // apply a fix for compiler.watch as outline here: ff0000-ad-tech/wp-plugin-watch-offset
+    result.startTime -= timefix; // eslint-disable-line no-param-reassign
     stats = result;
     sendStats(broadcast, stats.toJson(options.stats));
+  });
+
+  compiler.plugin('watch-run', (watching, callback) => {
+    watching.startTime += timefix; // eslint-disable-line no-param-reassign
+    callback();
   });
 
   wss.on('error', (err) => {

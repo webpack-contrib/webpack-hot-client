@@ -5,7 +5,7 @@
 
 const assert = require('assert');
 const webpack = require('webpack');
-const client = require('../index');
+const client = require('../../index');
 
 describe('Webpack Hot Client', () => {
   it('should exist', () => {
@@ -13,7 +13,7 @@ describe('Webpack Hot Client', () => {
   });
 
   it('should reject string entry', () => {
-    const config = require('./fixtures/webpack.config-invalid.js');
+    const config = require('../fixtures/webpack.config-invalid.js');
     const compiler = webpack(config);
     const options = { hot: true, logLevel: 'info', test: true };
 
@@ -21,7 +21,7 @@ describe('Webpack Hot Client', () => {
   });
 
   it('should reject object with string entry', () => {
-    const config = require('./fixtures/webpack.config-invalid-object.js');
+    const config = require('../fixtures/webpack.config-invalid-object.js');
     const compiler = webpack(config);
     const options = { hot: true, logLevel: 'info', test: true };
 
@@ -29,7 +29,7 @@ describe('Webpack Hot Client', () => {
   });
 
   it('should allow object with string array entry', (done) => {
-    const config = require('./fixtures/webpack.config-array.js');
+    const config = require('../fixtures/webpack.config-array.js');
     const compiler = webpack(config);
     const options = { hot: true, logLevel: 'info', test: true };
     const { close } = client(compiler, options);
