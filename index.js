@@ -82,7 +82,9 @@ module.exports = (compiler, opts) => {
   });
 
   wss.on('listening', () => {
-    log.info('WebSocket Server Attached and Listening');
+    // eslint-disable-next-line no-shadow
+    const { host, port } = options.webSocket;
+    log.info(`WebSocket Server Listening: ${host}:${port}`);
   });
 
   wss.on('connection', (socket) => {
