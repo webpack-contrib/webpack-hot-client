@@ -30,6 +30,11 @@ module.exports = (compiler, opts) => {
   const wss = new WebSocket.Server(options.server ? { server } : { host, port });
   let stats;
 
+  if (options.server) {
+    const addr = options.server.address();
+    log.info(`WebSocket Server Attached to ${addr.address}:${addr.port}`);
+  }
+
   function broadcast(data) {
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
@@ -84,7 +89,7 @@ module.exports = (compiler, opts) => {
   wss.on('listening', () => {
     // eslint-disable-next-line no-shadow
     const { host, port } = options.webSocket;
-    log.info(`WebSocket Server Listening: ${host}:${port}`);
+    log.info(`WebSocket Server Listening at ${host}:${port}`);
   });
 
   wss.on('connection', (socket) => {

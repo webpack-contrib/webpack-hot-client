@@ -3,8 +3,8 @@
 /* eslint global-require: off */
 /* global window */
 
+const http = require('http');
 const assert = require('assert');
-const Koa = require('koa');
 const webpack = require('webpack');
 const client = require('../../index');
 
@@ -35,19 +35,21 @@ describe('Webpack Hot Client', () => {
     const options = { hot: true, logLevel: 'info' };
     const { close } = client(compiler, options);
 
-    setTimeout(() => { close(done); }, 1000);
-  });
+    setTimeout(() => { close(done); }, 2000);
+  }).timeout(4000);
 
   it('should allow passing koa server instance', (done) => {
-    const app = new Koa();
-    const server = app.listen(8081);
-    const config = require('../fixtures/webpack.config.js');
-    const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info', server };
-    const { close } = client(compiler, options);
+    const server = http.createServer();
 
-    setTimeout(() => {
-      close(done);
-    }, 1000);
+    server.listen(1337, '127.0.0.1', () => {
+      const config = require('../fixtures/webpack.config.js');
+      const compiler = webpack(config);
+      const options = { hot: true, logLevel: 'info', server };
+      const { close } = client(compiler, options);
+
+      setTimeout(() => {
+        server.close(() => close(done));
+      }, 1000);
+    });
   });
 });

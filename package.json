@@ -16,7 +16,7 @@
     "cover": "nyc report --reporter=text-lcov > coverage.lcov && codecov --token=$WHC_CODECOV_TOKEN",
     "compile:client": "babel lib/client --out-dir client",
     "lint": "eslint index.js lib test",
-    "mocha": "nyc mocha test/test.js --full-trace --exit",
+    "mocha": "mocha test/test.js --full-trace --exit",
     "prepublishOnly": "npm run compile:client",
     "test": "npm run compile:client && npm run mocha"
   },
@@ -49,7 +49,6 @@
     "eslint": "^4.6.1",
     "eslint-config-webpack": "^1.2.5",
     "eslint-plugin-import": "^2.8.0",
-    "koa": "^2.4.1",
     "memory-fs": "^0.4.1",
     "mocha": "^5.0.0",
     "nyc": "^11.4.1",
