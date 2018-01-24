@@ -16,7 +16,7 @@
     "cover": "nyc report --reporter=text-lcov > coverage.lcov && codecov --token=$WHC_CODECOV_TOKEN",
     "compile:client": "babel lib/client --out-dir client",
     "lint": "eslint index.js lib test",
-    "mocha": "mocha test/test.js --full-trace --exit",
+    "mocha": "nyc mocha test/test.js --full-trace --exit",
     "prepublishOnly": "npm run compile:client",
     "test": "npm run compile:client && npm run mocha"
   },
