@@ -97,7 +97,7 @@ properly.
 ##### hot
 
 Type: `Boolean`  
-Default: `True`
+Default: `true`
 
 If true, instructs the client script to attempt hot patching of modules.
 
@@ -139,7 +139,13 @@ Type: `Boolean`
 Default: `true`
 
 If true, instructs the browser to physically refresh the entire page if / when
-webpack indicates that a hot patch cannot be applied and a full refresh is needed.
+webpack indicates that a hot patch cannot be applied and a full refresh is needed.  
+
+This option also instructs the browser wether or not to refresh the entire page
+when `hot: false` is used.
+
+_Note: If both `hot` and `reload` are false, and these are permanent settings,
+it makes this module fairly useless._
 
 ##### server
 
