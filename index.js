@@ -18,17 +18,24 @@ const defaults = {
   },
   test: false
 };
-const log = weblog({ name: 'hot', id: 'webpack-hot-client' });
 const timefix = 11000;
 
 module.exports = (compiler, opts) => {
   const options = Object.assign({}, defaults, opts);
+  const log = weblog({
+    name: 'hot',
+    id: 'webpack-hot-client',
+    level: options.logLevel,
+    timestamp: options.logTime
+  });
 
   validateEntry(compiler);
 
   const { host, port, server } = options;
   const wss = new WebSocket.Server(options.server ? { server } : { host, port });
   let stats;
+
+  options.log = log;
 
   if (options.server) {
     const addr = options.server.address();
@@ -54,8 +61,6 @@ module.exports = (compiler, opts) => {
     options.webSocket = { host, port };
   }
 
-  log.level = options.logLevel;
-
   modifyCompiler(compiler, options);
 
   compiler.plugin('compile', () => {
@@ -74,7 +79,14 @@ module.exports = (compiler, opts) => {
     // apply a fix for compiler.watch as outline here: ff0000-ad-tech/wp-plugin-watch-offset
     result.startTime -= timefix; // eslint-disable-line no-param-reassign
     stats = result;
-    sendStats(broadcast, stats.toJson(options.stats));
+
+    const jsonStats = stats.toJson(options.stats);
+
+    if (!jsonStats) {
+      options.log.error('compiler done: `stats` is undefined');
+    }
+
+    sendStats(broadcast, jsonStats);
   });
 
   compiler.plugin('watch-run', (watching, callback) => {
@@ -102,7 +114,13 @@ module.exports = (compiler, opts) => {
     });
 
     if (stats) {
-      sendStats(broadcast, stats.toJson(options.stats));
+      const jsonStats = stats.toJson(options.stats);
+
+      if (!jsonStats) {
+        options.log.error('Client Connection: `stats` is undefined');
+      }
+
+      sendStats(broadcast, jsonStats);
     }
   });
 
