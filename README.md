@@ -25,6 +25,9 @@ the necessary client (browser) scripts that communicate via `WebSocket`s, and
 automagically adding the necessary webpack plugins and config entries. All of
 that allows for a seamless integration of Hot Module Support.
 
+Curious about the differences between this module and `webpack-hot-middleware`?
+[Read more here](https://github.com/webpack-contrib/webpack-hot-client/issues/18).
+
 ## Getting Started
 
 To begin, you'll need to install `webpack-hot-client`:
