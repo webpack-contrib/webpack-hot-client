@@ -59,7 +59,7 @@ describe('Sockets', function d() {
     setTimeout(done, 1000);
   });
 
-  beforeEach(() => {
+  afterEach(() => {
     fs.writeFileSync(entryPath, clean, 'utf-8');
   });
 
