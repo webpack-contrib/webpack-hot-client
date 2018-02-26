@@ -16,9 +16,9 @@
     "cover": "nyc report --reporter=text-lcov > coverage.lcov && codecov --token=$WHC_CODECOV_TOKEN",
     "compile:client": "babel lib/client --out-dir client",
     "lint": "eslint index.js lib test",
-    "mocha": "nyc mocha test/test.js --full-trace --exit",
+    "mocha": "mocha test/test.js --full-trace --exit",
     "prepublishOnly": "npm run compile:client",
-    "test": "npm run compile:client && npm run mocha"
+    "test": "npm run compile:client && nyc npm run mocha"
   },
   "files": [
     "client/",
@@ -28,7 +28,7 @@
     "README.md"
   ],
   "peerDependencies": {
-    "webpack": "^2.2.0 || ^3.0.0 || ^4.0.0-alpha"
+    "webpack": "^2.2.0 || ^3.0.0 || ^4.0.0"
   },
   "dependencies": {
     "json-stringify-safe": "^5.0.1",
@@ -53,6 +53,6 @@
     "mocha": "^5.0.0",
     "nyc": "^11.4.1",
     "touch": "^3.1.0",
-    "webpack": "^3.10.0"
+    "webpack": "^3.11.0"
   }
 }
