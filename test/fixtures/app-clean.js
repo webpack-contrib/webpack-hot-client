@@ -11,5 +11,3 @@ if (module.hot) {
     }
   });
 }
-
-if(!window) { require("test"); }

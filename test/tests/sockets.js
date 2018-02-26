@@ -15,7 +15,8 @@ const config = require('../fixtures/webpack.config.js');
 
 describe('Sockets', function d() {
   const entryPath = path.join(__dirname, '../fixtures/app.js');
-  const og = fs.readFileSync(entryPath, 'utf-8');
+  const cleanPath = path.join(__dirname, '../fixtures/app-clean.js');
+  const clean = fs.readFileSync(cleanPath, 'utf-8');
   const webpackVersion = parseInt(webpackPackage.version, 10);
 
   if (webpackVersion > 3) {
@@ -59,7 +60,7 @@ describe('Sockets', function d() {
   });
 
   beforeEach(() => {
-    fs.writeFileSync(entryPath, og, 'utf-8');
+    fs.writeFileSync(entryPath, clean, 'utf-8');
   });
 
   after(function after(done) {
@@ -90,48 +91,52 @@ describe('Sockets', function d() {
     });
   });
 
-  it('sockets should receive messages', (done) => {
-    const valid = [
-      'compile',
-      'hash',
-      'invalid',
-      'ok'
-    ];
-    const received = [].concat(valid);
-    const socket = new WebSocket('ws://localhost:8081');
+  // webpack@3 was very predictable here. webpack@4 is now very unpredictable,
+  // so these aren't good tests for that version. keeping in place for v3.
+  if (webpackVersion < 4) {
+    it('sockets should receive messages', (done) => {
+      const valid = [
+        'compile',
+        'hash',
+        'invalid',
+        'ok'
+      ];
+      const received = [].concat(valid);
+      const socket = new WebSocket('ws://localhost:8081');
 
-    valid.push('warnings');
+      valid.push('warnings');
 
-    socket.on('message', (data) => {
-      const message = parse(data);
+      socket.on('message', (data) => {
+        const message = parse(data);
 
-      // travis running on trusty doesn't recognize touching a file as
-      // invalidating it, so it means the same thing here.
-      if (message.type === 'no-change') {
-        message.type = 'invalid';
-      }
-
-      if (valid.includes(message.type)) {
-        if (message.type === 'hash') {
-          assert(message.data);
+        // travis running on trusty doesn't recognize touching a file as
+        // invalidating it, so it means the same thing here.
+        if (message.type === 'no-change') {
+          message.type = 'invalid';
         }
 
-        const index = received.indexOf(message.type);
-        if (index >= 0) {
-          received.splice(index, 1);
+        if (valid.includes(message.type)) {
+          if (message.type === 'hash') {
+            assert(message.data);
+          }
+
+          const index = received.indexOf(message.type);
+          if (index >= 0) {
+            received.splice(index, 1);
+          }
+        } else {
+          throw new Error(`Unknown Message Type: ${message.type}`);
         }
-      } else {
-        throw new Error(`Unknown Message Type: ${message.type}`);
-      }
 
-      if (!received.length) {
-        socket.close();
-        done();
-      }
-    });
+        if (!received.length) {
+          socket.close();
+          done();
+        }
+      });
 
-    touch(entryPath);
-  }).timeout(10000);
+      touch(entryPath);
+    }).timeout(10000);
+  }
 
   it('sockets should receive warnings on change', (done) => {
     // eslint-disable-next-line
@@ -145,13 +150,12 @@ describe('Sockets', function d() {
         assert(message.data);
         assert(message.data.length);
 
-        fs.writeFileSync(entryPath, og, 'utf-8');
         socket.close();
         done();
       }
     });
 
-    fs.writeFileSync(entryPath, og + warningCode, 'utf-8');
+    fs.writeFileSync(entryPath, clean + warningCode, 'utf-8');
   }).timeout(10000);
 
   it('sockets should receive errors on change', (done) => {
@@ -165,12 +169,11 @@ describe('Sockets', function d() {
         assert(message.data);
         assert(message.data.length);
 
-        fs.writeFileSync(entryPath, og, 'utf-8');
         socket.close();
         done();
       }
     });
 
-    fs.writeFileSync(entryPath, og + errorCode, 'utf-8');
+    fs.writeFileSync(entryPath, clean + errorCode, 'utf-8');
   }).timeout(10000);
 });
