@@ -100,6 +100,8 @@ describe('Sockets', function d() {
     const received = [].concat(valid);
     const socket = new WebSocket('ws://localhost:8081');
 
+    valid.push('warnings');
+
     socket.on('message', (data) => {
       const message = parse(data);
 
