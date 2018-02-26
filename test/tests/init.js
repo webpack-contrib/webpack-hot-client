@@ -52,4 +52,13 @@ describe('Webpack Hot Client', () => {
       }, 1000);
     });
   });
+
+  it('should function with MultiCompiler config', (done) => {
+    const config = require('../fixtures/multi/webpack.config.js');
+    const compiler = webpack(config);
+    const options = { hot: true, logLevel: 'info' };
+    const { close } = client(compiler, options);
+
+    setTimeout(() => { close(done); }, 2000);
+  }).timeout(4000);
 });

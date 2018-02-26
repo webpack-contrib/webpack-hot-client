@@ -63,18 +63,13 @@ module.exports = (compiler, opts) => {
 
   modifyCompiler(compiler, options);
 
-  compiler.plugin('compile', () => {
+  const compile = () => {
     stats = null;
     log.info('webpack: Compiling...');
     broadcast(payload('compile'));
-  });
+  };
 
-  compiler.plugin('invalid', () => {
-    log.info('webpack: Bundle Invalidated');
-    broadcast(payload('invalid'));
-  });
-
-  compiler.plugin('done', (result) => {
+  const done = (result) => {
     log.info('webpack: Compiling Done');
     // apply a fix for compiler.watch as outline here: ff0000-ad-tech/wp-plugin-watch-offset
     result.startTime -= timefix; // eslint-disable-line no-param-reassign
@@ -87,12 +82,39 @@ module.exports = (compiler, opts) => {
     }
 
     sendStats(broadcast, jsonStats);
-  });
+  };
 
-  compiler.plugin('watch-run', (watching, callback) => {
+  const invalid = () => {
+    log.info('webpack: Bundle Invalidated');
+    broadcast(payload('invalid'));
+  };
+
+  const watchRun = (watching, callback) => {
     watching.startTime += timefix; // eslint-disable-line no-param-reassign
-    callback();
-  });
+    // webpack@4 doesn't send a callback function as an argument
+    if (callback) {
+      callback();
+    }
+  };
+
+  if (compiler.hooks) {
+    // as of webpack@4 MultiCompiler no longer exports the compile hook
+    const compilers = compiler.compilers || [compiler];
+    for (const comp of compilers) {
+      comp.hooks.compile.tap('WebpackHotClient', compile);
+      // when using a MultieCompiler, this can be a MultiHook, which behaves
+      // very strangely.
+      compiler.hooks.watchRun.tap('WebpackHotClient', watchRun);
+    }
+    compiler.hooks.invalid.tap('WebpackHotClient', invalid);
+    compiler.hooks.done.tap('WebpackHotClient', done);
+  } else {
+    compiler.plugin('compile', compile);
+    compiler.plugin('invalid', invalid);
+    compiler.plugin('done', done);
+    compiler.plugin('watch-run', watchRun);
+  }
+
 
   wss.on('error', (err) => {
     log.error('WebSocket Server Error', err);
