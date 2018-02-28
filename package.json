@@ -28,7 +28,7 @@
     "README.md"
   ],
   "peerDependencies": {
-    "webpack": "^2.2.0 || ^3.0.0 || ^4.0.0"
+    "webpack": "^4.0.0"
   },
   "dependencies": {
     "json-stringify-safe": "^5.0.1",
