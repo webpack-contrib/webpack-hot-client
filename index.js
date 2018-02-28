@@ -89,30 +89,20 @@ module.exports = (compiler, opts) => {
     broadcast(payload('invalid'));
   };
 
-  const watchRun = (watching, callback) => {
-    watching.startTime += timefix; // eslint-disable-line no-param-reassign
-    // webpack@4 doesn't send a callback function as an argument
-    if (callback) {
-      callback();
-    }
-  };
 
   if (compiler.hooks) {
     // as of webpack@4 MultiCompiler no longer exports the compile hook
     const compilers = compiler.compilers || [compiler];
     for (const comp of compilers) {
       comp.hooks.compile.tap('WebpackHotClient', compile);
-      // when using a MultieCompiler, this can be a MultiHook, which behaves
-      // very strangely.
-      compiler.hooks.watchRun.tap('WebpackHotClient', watchRun);
     }
     compiler.hooks.invalid.tap('WebpackHotClient', invalid);
     compiler.hooks.done.tap('WebpackHotClient', done);
   } else {
+    log.warn('Deprecation Warning: Webpack v3 is now unsupported. Compatible code for webpack@3 will be removed in the next major version.');
     compiler.plugin('compile', compile);
     compiler.plugin('invalid', invalid);
     compiler.plugin('done', done);
-    compiler.plugin('watch-run', watchRun);
   }
 
 
