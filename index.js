@@ -99,6 +99,7 @@ module.exports = (compiler, opts) => {
     compiler.hooks.invalid.tap('WebpackHotClient', invalid);
     compiler.hooks.done.tap('WebpackHotClient', done);
   } else {
+    log.warn('Deprecation Warning: Webpack v3 is now unsupported. Compatible code for webpack@3 will be removed in the next major version.');
     compiler.plugin('compile', compile);
     compiler.plugin('invalid', invalid);
     compiler.plugin('done', done);
