@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const TimeFixPlugin = require('time-fix-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -18,6 +19,7 @@ module.exports = {
     path: path.resolve(__dirname)
   },
   plugins: [
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new TimeFixPlugin()
   ]
 };
