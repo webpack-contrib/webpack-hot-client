@@ -36,7 +36,31 @@ To begin, you'll need to install `webpack-hot-client`:
 $ npm install webpack-hot-client --save-dev
 ```
 
-_Reminder: You don't have to modify your config at all!_
+And then you'll need to ensure that the `entry` property in your configuration
+is either an array of strings or an object containing only arrays of strings.
+So, you might need to do something like this:
+
+```diff
+module.exports = {
+- entry: './app.js'
++ entry: ['./app.js']
+};
+```
+
+Or this: 
+
+```diff
+module.exports = {
+  entry: {
+-   home: './home.js',
+-   about: './about.js'
++   home: ['./home.js'],
++   about: ['./about.js']
+  }
+};
+```
+
+Why? See [here](https://github.com/webpack-contrib/webpack-hot-client/commit/4d7d4046b901647320c78b43fee42c563f249777#r26931764).
 
 ### Express
 
