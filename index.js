@@ -13,6 +13,7 @@ const defaults = {
   port: 8081,
   reload: true,
   server: null,
+  socket: null,
   stats: {
     context: process.cwd()
   },
@@ -52,7 +53,13 @@ module.exports = (compiler, opts) => {
 
   wss.broadcast = broadcast;
 
-  if (options.server) {
+  if (options.socket) {
+    // allow web socket connection specification with default fallback
+    options.webSocket = {
+      host: options.socket.host || host,
+      port: options.socket.port || port
+    };
+  } else if (options.server) {
     options.webSocket = {
       host: wss._server.address().address, // eslint-disable-line no-underscore-dangle
       port: wss._server.address().port // eslint-disable-line no-underscore-dangle

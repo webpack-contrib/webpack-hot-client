@@ -158,6 +158,14 @@ Default: `null`
 If a server instance (eg. Express or Koa) is provided, the `WebSocket` server
 will attempt to attach to the server instance instead of using a separate port.
 
+##### socket
+
+Type: `Object`
+Default: `null`
+
+If provided, allows to override the hostname and port the client connects to. Must
+have only `host` and `port` properties, defaulting to `localhost` and `8081` respectively.
+
 ##### stats
 
 Type: `Object`  
