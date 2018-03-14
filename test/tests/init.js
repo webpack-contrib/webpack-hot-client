@@ -38,6 +38,15 @@ describe('Webpack Hot Client', () => {
     setTimeout(() => { close(done); }, 2000);
   }).timeout(4000);
 
+  it('should allow function entry', (done) => {
+    const config = require('../fixtures/webpack.config-function.js');
+    const compiler = webpack(config);
+    const options = { hot: true, logLevel: 'info' };
+    const { close } = client(compiler, options);
+
+    setTimeout(() => { close(done); }, 2000);
+  }).timeout(4000);
+
   it('should allow passing koa server instance', (done) => {
     const server = http.createServer();
 
