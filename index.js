@@ -2,7 +2,7 @@
 
 const weblog = require('webpack-log');
 const WebSocket = require('ws');
-const { modifyCompiler, payload, sendStats, validateEntry } = require('./lib/util');
+const { modifyCompiler, payload, sendStats, validateCompiler } = require('./lib/util');
 
 const defaults = {
   host: 'localhost',
@@ -29,7 +29,7 @@ module.exports = (compiler, opts) => {
     timestamp: options.logTime
   });
 
-  validateEntry(compiler);
+  validateCompiler(compiler);
 
   const { host, port, server } = options;
   const wss = new WebSocket.Server(options.server ? { server } : { host, port });
