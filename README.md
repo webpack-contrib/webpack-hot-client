@@ -90,12 +90,20 @@ Type: `Object`
 
 ##### host
 
-Type: `Object`  
+Type: `String|Object`  
 Default: `'localhost'`
 
 Sets the host that the `WebSocket` server will listen on. If this doesn't match
-the host of the server the module is used with, the module will not function
-properly.
+the host of the server the module is used with, the module may not function
+properly. If the `server` option is defined, this option is ignored.
+
+If using the module in a specialized environment, you may choose to specify an
+`object` to define `client` and `server` host separately. The `object` value
+should match `{ client: <String>, server: <String> }`. Be aware that the `client`
+host will be used _in the browser_ by `WebSockets`. You should not use this
+option in this way unless _you know what you're doing._ Using a mismatched
+`client` and `server` host will be **unsupported by the project** as the behavior
+in the browser can be unpredictable and is specific to a particular environment.
 
 ##### hot
 
