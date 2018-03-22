@@ -200,8 +200,8 @@ We welcome your contributions! Please have a read of [CONTRIBUTING.md](CONTRIBUT
 [deps]: https://david-dm.org/webpack-contrib/webpack-hot-client.svg
 [deps-url]: https://david-dm.org/webpack-contrib/webpack-hot-client
 
-[tests]: http://img.shields.io/travis/webpack-contrib/webpack-hot-client.svg
-[tests-url]: https://travis-ci.org/webpack-contrib/webpack-hot-client
+[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/webpack-hot-client.svg
+[tests-url]: https://circleci.com/gh/webpack-contrib/webpack-hot-client/tree/master
 
 [cover]: https://codecov.io/gh/webpack-contrib/webpack-hot-client/branch/master/graph/badge.svg
 [cover-url]: https://codecov.io/gh/webpack-contrib/webpack-hot-client
