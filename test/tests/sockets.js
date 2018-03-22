@@ -6,7 +6,6 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const MemoryFileSystem = require('memory-fs');
-const touch = require('touch');
 const webpack = require('webpack');
 const WebSocket = require('ws');
 const webpackPackage = require('webpack/package.json');
@@ -90,53 +89,6 @@ describe('Sockets', function d() {
       done();
     });
   });
-
-  // webpack@3 was very predictable here. webpack@4 is now very unpredictable,
-  // so these aren't good tests for that version. keeping in place for v3.
-  if (webpackVersion < 4) {
-    it('sockets should receive messages', (done) => {
-      const valid = [
-        'compile',
-        'hash',
-        'invalid',
-        'ok'
-      ];
-      const received = [].concat(valid);
-      const socket = new WebSocket('ws://localhost:8081');
-
-      valid.push('warnings');
-
-      socket.on('message', (data) => {
-        const message = parse(data);
-
-        // travis running on trusty doesn't recognize touching a file as
-        // invalidating it, so it means the same thing here.
-        if (message.type === 'no-change') {
-          message.type = 'invalid';
-        }
-
-        if (valid.includes(message.type)) {
-          if (message.type === 'hash') {
-            assert(message.data);
-          }
-
-          const index = received.indexOf(message.type);
-          if (index >= 0) {
-            received.splice(index, 1);
-          }
-        } else {
-          throw new Error(`Unknown Message Type: ${message.type}`);
-        }
-
-        if (!received.length) {
-          socket.close();
-          done();
-        }
-      });
-
-      touch(entryPath);
-    }).timeout(10000);
-  }
 
   it('sockets should receive warnings on change', (done) => {
     // eslint-disable-next-line
