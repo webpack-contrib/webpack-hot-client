@@ -23,6 +23,7 @@
   "files": [
     "client/",
     "index.js",
+    "lib/HotClientError.js",
     "lib/util.js",
     "LICENSE",
     "README.md"
