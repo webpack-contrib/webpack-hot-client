@@ -3,7 +3,7 @@
 const weblog = require('webpack-log');
 const WebSocket = require('ws');
 const HotClientError = require('./lib/HotClientError');
-const { modifyCompiler, payload, sendStats, validateEntry } = require('./lib/util');
+const { modifyCompiler, payload, sendStats, validateCompiler } = require('./lib/util');
 
 const defaults = {
   host: 'localhost',
@@ -46,7 +46,7 @@ module.exports = (compiler, opts) => {
     log.warn('`options.host.client` does not match `options.host.server`. This can cause unpredictable behavior in the browser.');
   }
 
-  validateEntry(compiler);
+  validateCompiler(compiler);
 
   const { host, port, server } = options;
   const wssOptions = options.server ? { server } : { host: host.server, port };

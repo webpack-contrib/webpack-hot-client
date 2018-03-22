@@ -90,6 +90,29 @@ describe('Webpack Hot Client', () => {
     }, 2000);
   }).timeout(4000);
 
+  it('should allow function entry that returns array', (done) => {
+    const config = require('../fixtures/webpack.config-function.js');
+    const compiler = webpack(config);
+    const options = { hot: true, logLevel: 'info' };
+    const { close } = client(compiler, options);
+
+    setTimeout(() => {
+      compiler.run(() => { close(done); });
+    }, 2000);
+  }).timeout(4000);
+
+  it('should reject function entry that returns string', (done) => {
+    const config = require('../fixtures/webpack.config-function-invalid.js');
+    const compiler = webpack(config);
+    const options = { hot: true, logLevel: 'info' };
+    const { close } = client(compiler, options);
+
+    setTimeout(() => {
+      assert.throws(() => { compiler.run(); }, TypeError, /must be an Array/);
+      close(done);
+    }, 2000);
+  }).timeout(4000);
+
   it('should not allow setting host object missing server', () => {
     const config = require('../fixtures/webpack.config-array.js');
     const compiler = webpack(config);

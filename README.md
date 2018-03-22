@@ -36,7 +36,16 @@ To begin, you'll need to install `webpack-hot-client`:
 $ npm install webpack-hot-client --save-dev
 ```
 
-_Reminder: You don't have to modify your config at all!_
+## Gotchas
+
+In order to use `webpack-hot-client`, your `webpack` config should include an
+`entry` option that is set to an `Array` of `String`, or an `Object` who's keys
+are set to an `Array` of `String`. You may also use a `Function`, but that
+function should return a value in one of the two valid formats.
+
+This is primarily due to restrictions in
+`webpack` itself and the way that it processes options and entries. For users of
+webpack v4+ that go the zero-config route, you must specify an `entry` option.
 
 ### Express
 
