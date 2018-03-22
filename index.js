@@ -2,6 +2,7 @@
 
 const weblog = require('webpack-log');
 const WebSocket = require('ws');
+const HotClientError = require('./lib/HotClientError');
 const { modifyCompiler, payload, sendStats, validateCompiler } = require('./lib/util');
 
 const defaults = {
@@ -29,10 +30,27 @@ module.exports = (compiler, opts) => {
     timestamp: options.logTime
   });
 
+  if (typeof options.host === 'string') {
+    options.host = {
+      server: options.host,
+      client: options.host
+    };
+  } else if (!options.host.server) {
+    throw new HotClientError('`options.server` must be defined when setting host to an Object');
+  } else if (!options.host.client) {
+    throw new HotClientError('`options.client` must be defined when setting host to an Object');
+  }
+
+  /* istanbul ignore if */
+  if (options.host.client !== options.host.server) {
+    log.warn('`options.host.client` does not match `options.host.server`. This can cause unpredictable behavior in the browser.');
+  }
+
   validateCompiler(compiler);
 
   const { host, port, server } = options;
-  const wss = new WebSocket.Server(options.server ? { server } : { host, port });
+  const wssOptions = options.server ? { server } : { host: host.server, port };
+  const wss = new WebSocket.Server(wssOptions);
   let stats;
 
   options.log = log;
@@ -58,7 +76,7 @@ module.exports = (compiler, opts) => {
       port: wss._server.address().port // eslint-disable-line no-underscore-dangle
     };
   } else {
-    options.webSocket = { host, port };
+    options.webSocket = { host: host.client, port };
   }
 
   modifyCompiler(compiler, options);
@@ -89,7 +107,6 @@ module.exports = (compiler, opts) => {
     broadcast(payload('invalid'));
   };
 
-
   if (compiler.hooks) {
     // as of webpack@4 MultiCompiler no longer exports the compile hook
     const compilers = compiler.compilers || [compiler];
@@ -105,15 +122,14 @@ module.exports = (compiler, opts) => {
     compiler.plugin('done', done);
   }
 
-
   wss.on('error', (err) => {
     log.error('WebSocket Server Error', err);
   });
 
   wss.on('listening', () => {
     // eslint-disable-next-line no-shadow
-    const { host, port } = options.webSocket;
-    log.info(`WebSocket Server Listening at ${host}:${port}`);
+    const { host, port } = options;
+    log.info(`WebSocket Server Listening at ${host.server}:${port}`);
   });
 
   wss.on('connection', (socket) => {
@@ -144,7 +160,7 @@ module.exports = (compiler, opts) => {
         log.error(err);
       }
     },
-
+    options: Object.freeze(Object.assign({}, options)),
     wss
   };
 };
