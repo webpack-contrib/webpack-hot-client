@@ -29,6 +29,15 @@ module.exports = (compiler, opts) => {
     level: options.logLevel,
     timestamp: options.logTime
   });
+  const envTarget = process.env.WHC_TARGET;
+
+  // issue #36. some alternative compiler targets still run in a server, but we
+  // don't want to be in the business of supporting them all.
+  if (!envTarget) {
+    process.env.WHC_TARGET = 'web';
+  } else if (envTarget !== 'web') {
+    log.warn(`WHC_TARGET changed to '${envTarget}'. Changing this value is allowed but is unsupported.`);
+  }
 
   if (typeof options.host === 'string') {
     options.host = {
@@ -95,6 +104,7 @@ module.exports = (compiler, opts) => {
 
     const jsonStats = stats.toJson(options.stats);
 
+    /* istanbul ignore if */
     if (!jsonStats) {
       options.log.error('compiler done: `stats` is undefined');
     }
@@ -107,22 +117,17 @@ module.exports = (compiler, opts) => {
     broadcast(payload('invalid'));
   };
 
-  if (compiler.hooks) {
-    // as of webpack@4 MultiCompiler no longer exports the compile hook
-    const compilers = compiler.compilers || [compiler];
-    for (const comp of compilers) {
-      comp.hooks.compile.tap('WebpackHotClient', compile);
-    }
-    compiler.hooks.invalid.tap('WebpackHotClient', invalid);
-    compiler.hooks.done.tap('WebpackHotClient', done);
-  } else {
-    log.warn('Deprecation Warning: Webpack v3 is now unsupported. Compatible code for webpack@3 will be removed in the next major version.');
-    compiler.plugin('compile', compile);
-    compiler.plugin('invalid', invalid);
-    compiler.plugin('done', done);
+
+  // as of webpack@4 MultiCompiler no longer exports the compile hook
+  const compilers = compiler.compilers || [compiler];
+  for (const comp of compilers) {
+    comp.hooks.compile.tap('WebpackHotClient', compile);
   }
+  compiler.hooks.invalid.tap('WebpackHotClient', invalid);
+  compiler.hooks.done.tap('WebpackHotClient', done);
 
   wss.on('error', (err) => {
+    /* istanbul ignore next */
     log.error('WebSocket Server Error', err);
   });
 
@@ -136,6 +141,7 @@ module.exports = (compiler, opts) => {
     log.info('WebSocket Client Connected');
 
     socket.on('error', (err) => {
+      /* istanbul ignore if */
       if (err.errno !== 'ECONNRESET') {
         log.warn('client socket error', JSON.stringify(err));
       }
@@ -144,6 +150,7 @@ module.exports = (compiler, opts) => {
     if (stats) {
       const jsonStats = stats.toJson(options.stats);
 
+      /* istanbul ignore if */
       if (!jsonStats) {
         options.log.error('Client Connection: `stats` is undefined');
       }
@@ -157,6 +164,7 @@ module.exports = (compiler, opts) => {
       try {
         wss.close(callback);
       } catch (err) {
+        /* istanbul ignore next */
         log.error(err);
       }
     },

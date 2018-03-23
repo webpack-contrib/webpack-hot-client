@@ -9,6 +9,10 @@ const webpack = require('webpack');
 const client = require('../../index');
 
 describe('Webpack Hot Client', () => {
+  beforeEach(() => {
+    process.env.WHC_TARGET = '';
+  });
+
   it('should exist', () => {
     assert(client);
   });
@@ -29,13 +33,50 @@ describe('Webpack Hot Client', () => {
     assert.throws(() => { client(compiler, options); });
   });
 
-  it('should allow object with string array entry', (done) => {
+  it('should allow string array entry', (done) => {
     const config = require('../fixtures/webpack.config-array.js');
     const compiler = webpack(config);
     const options = { hot: true, logLevel: 'info' };
     const { close } = client(compiler, options);
 
     setTimeout(() => { close(done); }, 2000);
+  }).timeout(4000);
+
+  it('should allow object with string array entry', (done) => {
+    const config = require('../fixtures/webpack.config-object.js');
+    const compiler = webpack(config);
+    const options = { hot: true, logLevel: 'info' };
+    const { close } = client(compiler, options);
+
+    setTimeout(() => { close(done); }, 2000);
+  }).timeout(4000);
+
+  it('should set WHC_TARGET to web', (done) => {
+    const config = require('../fixtures/webpack.config-array.js');
+    const compiler = webpack(config);
+    const options = { hot: true, logLevel: 'info' };
+    const { close } = client(compiler, options);
+
+    setTimeout(() => {
+      assert.equal(process.env.WHC_TARGET, 'web');
+      close(done);
+    }, 2000);
+  }).timeout(4000);
+
+  it('should allow setting WHC_TARGET', (done) => {
+    process.env.WHC_TARGET = 'electron-renderer';
+
+    const config = require('../fixtures/webpack.config-array.js');
+    config.target = 'electron-renderer';
+
+    const compiler = webpack(config);
+    const options = { hot: true, logLevel: 'info' };
+    const { close } = client(compiler, options);
+
+    setTimeout(() => {
+      assert.equal(process.env.WHC_TARGET, 'electron-renderer');
+      close(done);
+    }, 2000);
   }).timeout(4000);
 
   it('should allow setting host', (done) => {
