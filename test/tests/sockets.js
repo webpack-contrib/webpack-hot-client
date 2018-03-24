@@ -90,6 +90,31 @@ describe('Sockets', function d() {
     });
   });
 
+  it('should broadcast to child sockets', (done) => {
+    const socket = new WebSocket('ws://localhost:8081');
+    const socket2 = new WebSocket('ws://localhost:8081');
+
+    assert(socket);
+
+    socket.on('open', () => {
+      socket2.on('open', () => {
+        socket.on('message', (data) => {
+          const message = JSON.parse(data);
+
+          assert(message, 'test');
+          socket.close();
+          socket2.close();
+          done();
+        });
+
+        socket2.send(JSON.stringify({
+          type: 'broadcast',
+          data: 'test'
+        }));
+      });
+    });
+  });
+
   it('sockets should receive warnings on change', (done) => {
     // eslint-disable-next-line
     const warningCode = '\nconsole.log(require)';
