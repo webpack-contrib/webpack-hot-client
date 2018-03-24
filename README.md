@@ -183,6 +183,20 @@ Default: `{ context: process.cwd() }`
 An object specifying the webpack [stats][stats] configuration. This does not
 typically need to be modified.
 
+## Webpack Build Targets
+
+By default, `webpack-hot-client` is meant to, and expects to function on the
+[`'web'` build target](https://webpack.js.org/configuration/target). However,
+you can manipulate this by setting the `WHC_TARGET` environment variable. eg.
+
+```console
+$ export WHC_TARGET=electon-renderer; webpack-serve ...
+```
+
+Or by setting `process.env.WHC_TARGET` before executing the API.
+
+_Note: Changing this value is allowed but is **unsupported**._
+
 ## Communicating with Client WebSockets
 
 In some rare situations, you may have the need to communicate with the attached
