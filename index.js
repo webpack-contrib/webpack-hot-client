@@ -1,5 +1,6 @@
 'use strict';
 
+const stringify = require('json-stringify-safe');
 const weblog = require('webpack-log');
 const WebSocket = require('ws');
 const HotClientError = require('./lib/HotClientError');
@@ -144,6 +145,18 @@ module.exports = (compiler, opts) => {
       /* istanbul ignore if */
       if (err.errno !== 'ECONNRESET') {
         log.warn('client socket error', JSON.stringify(err));
+      }
+    });
+
+    socket.on('message', (data) => {
+      const message = JSON.parse(data);
+
+      if (message.type === 'broadcast') {
+        for (const client of wss.clients) {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(stringify(message.data));
+          }
+        }
       }
     });
 
