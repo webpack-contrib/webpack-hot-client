@@ -183,8 +183,8 @@ to the running server, for example:
 const server = koa.listen(port, () => {
   koa.use(webpackHotClient(compiler, {
     server, // <-- use the reference above, returned from `koa.listen()`
-  })),
-})
+  }));
+});
 ```
 
 ##### stats
