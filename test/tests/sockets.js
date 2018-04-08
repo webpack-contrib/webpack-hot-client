@@ -93,6 +93,7 @@ describe('Sockets', function d() {
   it('should broadcast to child sockets', (done) => {
     const socket = new WebSocket('ws://localhost:8081');
     const socket2 = new WebSocket('ws://localhost:8081');
+    let isDone = false;
 
     assert(socket);
 
@@ -101,10 +102,14 @@ describe('Sockets', function d() {
         socket.on('message', (data) => {
           const message = JSON.parse(data);
 
-          assert(message, 'test');
-          socket.close();
-          socket2.close();
-          done();
+          if (!isDone) {
+            assert(message, 'test');
+            socket.close();
+            socket2.close();
+
+            isDone = true;
+            done();
+          }
         });
 
         socket2.send(JSON.stringify({
