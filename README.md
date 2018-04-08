@@ -172,8 +172,21 @@ it makes this module fairly useless._
 Type: `Object`  
 Default: `null`
 
-If a server instance (eg. Express or Koa) is provided, the `WebSocket` server
-will attempt to attach to the server instance instead of using a separate port.
+If a server instance is provided (e.g. what's returned when calling `.listen()` on
+an Express/Koa instance), the `WebSocket` server will attempt to attach to the
+existing server instead of using a separate port.
+
+This often requires creating the server first and _then_ attaching the middleware
+to the running server, for example:
+
+```js
+// Store a reference to the returned `http.Server`
+const server = koa.listen(port, () => {
+  koa.use(webpackHotClient(compiler, {
+    server, // <-- use the reference above, returned from `koa.listen()`
+  }));
+});
+```
 
 ##### stats
 
