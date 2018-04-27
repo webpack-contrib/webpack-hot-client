@@ -47,6 +47,11 @@ This is primarily due to restrictions in
 `webpack` itself and the way that it processes options and entries. For users of
 webpack v4+ that go the zero-config route, you must specify an `entry` option.
 
+It's also worth noting that `webpack-hot-client` adds `HotModuleReplacementPlugin`
+and the necessary entries to your `webpack` config for you at runtime. Including
+the plugin in your config manually while using this module may produce unexpected
+or wonky results.
+
 ### Express
 
 For setting up the module for use with an `Express` server, try the following:
