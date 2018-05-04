@@ -5,6 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const ansiRegex = require('ansi-regex');
 const MemoryFileSystem = require('memory-fs');
 const webpack = require('webpack');
 const WebSocket = require('ws');
@@ -131,6 +132,10 @@ describe('Sockets', () => {
         assert(message.data);
         assert(message.data.length);
 
+        for (const warning of message.data) {
+          assert(!ansiRegex().test(warning));
+        }
+
         socket.close();
         done();
       }
@@ -149,6 +154,10 @@ describe('Sockets', () => {
       if (message.type === 'errors') {
         assert(message.data);
         assert(message.data.length);
+
+        for (const error of message.data) {
+          assert(!ansiRegex().test(error));
+        }
 
         socket.close();
         done();
