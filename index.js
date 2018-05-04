@@ -4,7 +4,7 @@ const stringify = require('json-stringify-safe');
 const weblog = require('webpack-log');
 const WebSocket = require('ws');
 const HotClientError = require('./lib/HotClientError');
-const { modifyCompiler, payload, sendStats, validateCompiler } = require('./lib/util');
+const { modifyCompiler, payload, sendData, validateCompiler } = require('./lib/util');
 
 const defaults = {
   host: 'localhost',
@@ -14,6 +14,10 @@ const defaults = {
   logTime: false,
   port: 8081,
   reload: true,
+  send: {
+    errors: true,
+    warnings: true
+  },
   server: null,
   stats: {
     context: process.cwd()
@@ -110,14 +114,13 @@ module.exports = (compiler, opts) => {
       options.log.error('compiler done: `stats` is undefined');
     }
 
-    sendStats(broadcast, jsonStats);
+    sendData(broadcast, jsonStats, options);
   };
 
   const invalid = () => {
     log.info('webpack: Bundle Invalidated');
     broadcast(payload('invalid'));
   };
-
 
   // as of webpack@4 MultiCompiler no longer exports the compile hook
   const compilers = compiler.compilers || [compiler];
@@ -168,7 +171,7 @@ module.exports = (compiler, opts) => {
         options.log.error('Client Connection: `stats` is undefined');
       }
 
-      sendStats(broadcast, jsonStats);
+      sendData(broadcast, jsonStats, options);
     }
   });
 

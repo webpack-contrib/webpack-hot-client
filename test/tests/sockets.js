@@ -12,33 +12,32 @@ const webpackPackage = require('webpack/package.json');
 const hotClient = require('../../index');
 const config = require('../fixtures/webpack.config.js');
 
-describe('Sockets', function d() {
-  const entryPath = path.join(__dirname, '../fixtures/app.js');
-  const cleanPath = path.join(__dirname, '../fixtures/app-clean.js');
-  const clean = fs.readFileSync(cleanPath, 'utf-8');
-  const webpackVersion = parseInt(webpackPackage.version, 10);
+const entryPath = path.join(__dirname, '../fixtures/app.js');
+const cleanPath = path.join(__dirname, '../fixtures/app-clean.js');
+const clean = fs.readFileSync(cleanPath, 'utf-8');
+const webpackVersion = parseInt(webpackPackage.version, 10);
+const logLevel = 'silent';
 
-  if (webpackVersion > 3) {
-    config.mode = 'development';
+if (webpackVersion > 3) {
+  config.mode = 'development';
+}
+
+function parse(...args) {
+  try {
+    return JSON.parse(...args);
+  } catch (e) {
+    console.log(e);
   }
+}
 
-  this.timeout(30000);
-
+describe('Sockets', () => {
   let compiler;
   let client;
   let watchers;
 
-  function parse(...args) {
-    try {
-      return JSON.parse(...args);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   before((done) => {
     compiler = webpack(config);
-    client = hotClient(compiler, { hot: true, logLevel: 'silent' });
+    client = hotClient(compiler, { hot: true, logLevel });
 
     const isMemoryFs = !compiler.compilers && compiler.outputFileSystem instanceof MemoryFileSystem;
 
@@ -155,6 +154,93 @@ describe('Sockets', function d() {
         done();
       }
     });
+
+    fs.writeFileSync(entryPath, clean + errorCode, 'utf-8');
+  }).timeout(10000);
+});
+
+describe('Sockets: send option', () => {
+  let compiler;
+  let client;
+  let watchers;
+
+  before((done) => {
+    compiler = webpack(config);
+    client = hotClient(compiler, {
+      hot: true,
+      logLevel,
+      send: { errors: false, warnings: false }
+    });
+
+    const isMemoryFs = !compiler.compilers && compiler.outputFileSystem instanceof MemoryFileSystem;
+
+    if (!isMemoryFs) {
+      compiler.outputFileSystem = new MemoryFileSystem();
+    }
+
+    watchers = compiler.watch({}, (err) => {
+      if (err) {
+        console.error(err.stack || err);
+        if (err.details) {
+          console.error(err.details);
+        }
+      }
+    });
+
+    setTimeout(done, 1000);
+  });
+
+  afterEach(() => {
+    fs.writeFileSync(entryPath, clean, 'utf-8');
+  });
+
+  after(function after(done) {
+    this.timeout(5000);
+    setTimeout(() => {
+      watchers.close(() => {
+        client.close(done);
+      });
+    }, 4000);
+  });
+
+  it('sockets should not receive warnings', (done) => {
+    const warningCode = '\nconsole.log(require)';
+    const socket = new WebSocket('ws://localhost:8081');
+    let received = false;
+
+    socket.on('message', (data) => {
+      const message = parse(data);
+
+      if (message.type === 'warnings') {
+        received = true;
+      }
+    });
+
+    setTimeout(() => {
+      assert(!received);
+      done();
+    }, 1000);
+
+    fs.writeFileSync(entryPath, clean + warningCode, 'utf-8');
+  }).timeout(10000);
+
+  it('sockets should not receive errors', (done) => {
+    const errorCode = '\nif(!window) { require("test"); }';
+    const socket = new WebSocket('ws://localhost:8081');
+    let received = false;
+
+    socket.on('message', (data) => {
+      const message = parse(data);
+
+      if (message.type === 'errors') {
+        received = true;
+      }
+    });
+
+    setTimeout(() => {
+      assert(!received);
+      done();
+    }, 1000);
 
     fs.writeFileSync(entryPath, clean + errorCode, 'utf-8');
   }).timeout(10000);

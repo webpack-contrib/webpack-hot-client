@@ -8,6 +8,8 @@ const assert = require('assert');
 const webpack = require('webpack');
 const client = require('../../index');
 
+const logLevel = 'silent';
+
 describe('Webpack Hot Client', () => {
   beforeEach(() => {
     process.env.WHC_TARGET = '';
@@ -20,7 +22,7 @@ describe('Webpack Hot Client', () => {
   it('should reject string entry', () => {
     const config = require('../fixtures/webpack.config-invalid.js');
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
 
     assert.throws(() => { client(compiler, options); });
   });
@@ -28,7 +30,7 @@ describe('Webpack Hot Client', () => {
   it('should reject object with string entry', () => {
     const config = require('../fixtures/webpack.config-invalid-object.js');
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
 
     assert.throws(() => { client(compiler, options); });
   });
@@ -36,7 +38,7 @@ describe('Webpack Hot Client', () => {
   it('should allow string array entry', (done) => {
     const config = require('../fixtures/webpack.config-array.js');
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
     const { close } = client(compiler, options);
 
     setTimeout(() => { close(done); }, 2000);
@@ -45,7 +47,7 @@ describe('Webpack Hot Client', () => {
   it('should allow object with string array entry', (done) => {
     const config = require('../fixtures/webpack.config-object.js');
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
     const { close } = client(compiler, options);
 
     setTimeout(() => { close(done); }, 2000);
@@ -54,7 +56,7 @@ describe('Webpack Hot Client', () => {
   it('should set WHC_TARGET to web', (done) => {
     const config = require('../fixtures/webpack.config-array.js');
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
     const { close } = client(compiler, options);
 
     setTimeout(() => {
@@ -70,7 +72,7 @@ describe('Webpack Hot Client', () => {
     config.target = 'electron-renderer';
 
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
     const { close } = client(compiler, options);
 
     setTimeout(() => {
@@ -82,7 +84,7 @@ describe('Webpack Hot Client', () => {
   it('should allow setting host', (done) => {
     const config = require('../fixtures/webpack.config-array.js');
     const compiler = webpack(config);
-    const options = { host: '0.0.0.0', hot: true, logLevel: 'info' };
+    const options = { host: '0.0.0.0', hot: true, logLevel };
     const { close, wss } = client(compiler, options);
 
     setTimeout(() => {
@@ -97,7 +99,7 @@ describe('Webpack Hot Client', () => {
     const options = {
       host: { client: '127.0.0.1', server: '127.0.0.1' },
       hot: true,
-      logLevel: 'info'
+      logLevel
     };
     const { close, options: opts, wss } = client(compiler, options);
 
@@ -117,7 +119,7 @@ describe('Webpack Hot Client', () => {
     const options = {
       host: { client: '127.0.0.1', server: '0.0.0.0' },
       hot: true,
-      logLevel: 'info'
+      logLevel
     };
     const { close, options: opts, wss } = client(compiler, options);
 
@@ -134,7 +136,7 @@ describe('Webpack Hot Client', () => {
   it('should allow function entry that returns array', (done) => {
     const config = require('../fixtures/webpack.config-function.js');
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
     const { close } = client(compiler, options);
 
     setTimeout(() => {
@@ -145,7 +147,7 @@ describe('Webpack Hot Client', () => {
   it('should reject function entry that returns string', (done) => {
     const config = require('../fixtures/webpack.config-function-invalid.js');
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
     const { close } = client(compiler, options);
 
     setTimeout(() => {
@@ -176,7 +178,7 @@ describe('Webpack Hot Client', () => {
     server.listen(1337, '127.0.0.1', () => {
       const config = require('../fixtures/webpack.config.js');
       const compiler = webpack(config);
-      const options = { hot: true, logLevel: 'info', server };
+      const options = { hot: true, logLevel, server };
       const { close } = client(compiler, options);
 
       setTimeout(() => {
@@ -188,7 +190,7 @@ describe('Webpack Hot Client', () => {
   it('should function with MultiCompiler config', (done) => {
     const config = require('../fixtures/multi/webpack.config.js');
     const compiler = webpack(config);
-    const options = { hot: true, logLevel: 'info' };
+    const options = { hot: true, logLevel };
     const { close } = client(compiler, options);
 
     setTimeout(() => { close(done); }, 2000);
