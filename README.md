@@ -102,6 +102,14 @@ Returns an `Object` containing:
 
 Type: `Object`
 
+##### autoConfigure
+
+Type: `Boolean`  
+Default: `true`
+
+If true, automatically configures the `entry` for the webpack compiler, and adds
+the `HotModuleReplacementPlugin` to the compiler.
+
 ##### host
 
 Type: `String|Object`  
