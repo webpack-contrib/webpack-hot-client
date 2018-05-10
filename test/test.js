@@ -16,5 +16,10 @@ if (parseInt(process.version.substring(1), 10) < 8) {
   });
 }
 
+require('loud-rejection/register');
+
+global.expect = require('expect');
+
 require('./tests/init');
+require('./tests/options');
 require('./tests/sockets');

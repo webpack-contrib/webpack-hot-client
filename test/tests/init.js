@@ -3,8 +3,6 @@
 /* eslint global-require: off */
 /* global window */
 
-const http = require('http');
-const assert = require('assert');
 const webpack = require('webpack');
 const client = require('../../index');
 
@@ -16,7 +14,7 @@ describe('Webpack Hot Client', () => {
   });
 
   it('should exist', () => {
-    assert(client);
+    expect(client).toBeDefined();
   });
 
   it('should reject string entry', () => {
@@ -24,7 +22,7 @@ describe('Webpack Hot Client', () => {
     const compiler = webpack(config);
     const options = { hot: true, logLevel };
 
-    assert.throws(() => { client(compiler, options); });
+    expect(() => { client(compiler, options); }).toThrow();
   });
 
   it('should reject object with string entry', () => {
@@ -32,7 +30,7 @@ describe('Webpack Hot Client', () => {
     const compiler = webpack(config);
     const options = { hot: true, logLevel };
 
-    assert.throws(() => { client(compiler, options); });
+    expect(() => { client(compiler, options); }).toThrow();
   });
 
   it('should allow string array entry', (done) => {
@@ -60,7 +58,7 @@ describe('Webpack Hot Client', () => {
     const { close } = client(compiler, options);
 
     setTimeout(() => {
-      assert.equal(process.env.WHC_TARGET, 'web');
+      expect(process.env.WHC_TARGET).toBe('web');
       close(done);
     }, 2000);
   }).timeout(4000);
@@ -76,59 +74,7 @@ describe('Webpack Hot Client', () => {
     const { close } = client(compiler, options);
 
     setTimeout(() => {
-      assert.equal(process.env.WHC_TARGET, 'electron-renderer');
-      close(done);
-    }, 2000);
-  }).timeout(4000);
-
-  it('should allow setting host', (done) => {
-    const config = require('../fixtures/webpack.config-array.js');
-    const compiler = webpack(config);
-    const options = { host: '0.0.0.0', hot: true, logLevel };
-    const { close, wss } = client(compiler, options);
-
-    setTimeout(() => {
-      assert.equal(wss._server.address().address, options.host); // eslint-disable-line no-underscore-dangle
-      close(done);
-    }, 2000);
-  }).timeout(4000);
-
-  it('should allow setting host object', (done) => {
-    const config = require('../fixtures/webpack.config-array.js');
-    const compiler = webpack(config);
-    const options = {
-      host: { client: '127.0.0.1', server: '127.0.0.1' },
-      hot: true,
-      logLevel
-    };
-    const { close, options: opts, wss } = client(compiler, options);
-
-    assert.equal(opts.host.client, options.host.client);
-    assert.equal(opts.webSocket.host, options.host.client);
-    assert.equal(opts.host.server, options.host.server);
-
-    setTimeout(() => {
-      assert.equal(wss._server.address().address, options.host.server); // eslint-disable-line no-underscore-dangle
-      close(done);
-    }, 2000);
-  }).timeout(4000);
-
-  it('should allow setting host object with different client', (done) => {
-    const config = require('../fixtures/webpack.config-array.js');
-    const compiler = webpack(config);
-    const options = {
-      host: { client: '127.0.0.1', server: '0.0.0.0' },
-      hot: true,
-      logLevel
-    };
-    const { close, options: opts, wss } = client(compiler, options);
-
-    assert.equal(opts.host.client, options.host.client);
-    assert.equal(opts.webSocket.host, options.host.client);
-    assert.equal(opts.host.server, options.host.server);
-
-    setTimeout(() => {
-      assert.equal(wss._server.address().address, options.host.server); // eslint-disable-line no-underscore-dangle
+      expect(process.env.WHC_TARGET).toBe('electron-renderer');
       close(done);
     }, 2000);
   }).timeout(4000);
@@ -151,41 +97,10 @@ describe('Webpack Hot Client', () => {
     const { close } = client(compiler, options);
 
     setTimeout(() => {
-      assert.throws(() => { compiler.run(); }, TypeError, /must be an Array/);
+      expect(() => { compiler.run(); }).toThrowError(/must be an Array/);
       close(done);
     }, 2000);
   }).timeout(4000);
-
-  it('should not allow setting host object missing server', () => {
-    const config = require('../fixtures/webpack.config-array.js');
-    const compiler = webpack(config);
-    const options = { host: { client: 'localhost' } };
-
-    assert.throws(() => { client(compiler, options); });
-  });
-
-  it('should not allow setting host object missing client', () => {
-    const config = require('../fixtures/webpack.config-array.js');
-    const compiler = webpack(config);
-    const options = { host: { server: 'localhost' } };
-
-    assert.throws(() => { client(compiler, options); });
-  });
-
-  it('should allow passing koa server instance', (done) => {
-    const server = http.createServer();
-
-    server.listen(1337, '127.0.0.1', () => {
-      const config = require('../fixtures/webpack.config.js');
-      const compiler = webpack(config);
-      const options = { hot: true, logLevel, server };
-      const { close } = client(compiler, options);
-
-      setTimeout(() => {
-        server.close(() => close(done));
-      }, 1000);
-    });
-  });
 
   it('should function with MultiCompiler config', (done) => {
     const config = require('../fixtures/multi/webpack.config.js');

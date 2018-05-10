@@ -7,6 +7,7 @@ const HotClientError = require('./lib/HotClientError');
 const { modifyCompiler, payload, sendData, validateCompiler } = require('./lib/util');
 
 const defaults = {
+  autoConfigure: true,
   host: 'localhost',
   hot: true,
   https: false,
@@ -60,7 +61,9 @@ module.exports = (compiler, opts) => {
     log.warn('`options.host.client` does not match `options.host.server`. This can cause unpredictable behavior in the browser.');
   }
 
-  validateCompiler(compiler);
+  if (options.autoConfigure) {
+    validateCompiler(compiler);
+  }
 
   const { host, port, server } = options;
   const wssOptions = options.server ? { server } : { host: host.server, port };
@@ -93,7 +96,9 @@ module.exports = (compiler, opts) => {
     options.webSocket = { host: host.client, port };
   }
 
-  modifyCompiler(compiler, options);
+  if (options.autoConfigure) {
+    modifyCompiler(compiler, options);
+  }
 
   const compile = () => {
     stats = null;
@@ -163,7 +168,9 @@ module.exports = (compiler, opts) => {
       }
     });
 
-    if (stats) {
+    // only send stats to newly connected clients if no previous clients have
+    // connected
+    if (stats && !wss.clients.length) {
       const jsonStats = stats.toJson(options.stats);
 
       /* istanbul ignore if */
