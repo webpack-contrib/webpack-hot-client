@@ -129,10 +129,11 @@ describe('Sockets', () => {
       const message = parse(data);
 
       if (message.type === 'warnings') {
-        assert(message.data);
-        assert(message.data.length);
+        const { warnings } = message.data;
+        assert(warnings);
+        assert(warnings.length);
 
-        for (const warning of message.data) {
+        for (const warning of warnings) {
           assert(!ansiRegex().test(warning));
         }
 
@@ -152,10 +153,11 @@ describe('Sockets', () => {
       const message = parse(data);
 
       if (message.type === 'errors') {
-        assert(message.data);
-        assert(message.data.length);
+        const { errors } = message.data;
+        assert(errors);
+        assert(errors.length);
 
-        for (const error of message.data) {
+        for (const error of errors) {
           assert(!ansiRegex().test(error));
         }
 
