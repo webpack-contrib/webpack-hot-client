@@ -95,10 +95,11 @@ module.exports = (compiler, opts) => {
 
   modifyCompiler(compiler, options);
 
-  const compile = () => {
+  const compile = (comp) => {
+    const compilerName = comp.name || '<unnamed compiler>';
     stats = null;
     log.info('webpack: Compiling...');
-    broadcast(payload('compile'));
+    broadcast(payload('compile', { compilerName }));
   };
 
   const done = (result) => {
@@ -117,17 +118,29 @@ module.exports = (compiler, opts) => {
     sendData(broadcast, jsonStats, options);
   };
 
-  const invalid = () => {
+  const invalid = (filePath, comp) => {
+    const context = comp.context || comp.options.context || process.cwd();
+    const fileName = (filePath || '<unknown>')
+      .replace(context, '')
+      .substring(1);
     log.info('webpack: Bundle Invalidated');
-    broadcast(payload('invalid'));
+    broadcast(payload('invalid', { fileName }));
   };
 
   // as of webpack@4 MultiCompiler no longer exports the compile hook
   const compilers = compiler.compilers || [compiler];
   for (const comp of compilers) {
-    comp.hooks.compile.tap('WebpackHotClient', compile);
+    comp.hooks.compile.tap('WebpackHotClient', () => {
+      compile(comp);
+    });
+
+    // we need the compiler object reference here, otherwise we'd let the
+    // MultiHook do it's thing in a MultiCompiler situation.
+    comp.hooks.invalid.tap('WebpackHotClient', (filePath) => {
+      invalid(filePath, comp);
+    });
   }
-  compiler.hooks.invalid.tap('WebpackHotClient', invalid);
+
   compiler.hooks.done.tap('WebpackHotClient', done);
 
   wss.on('error', (err) => {
