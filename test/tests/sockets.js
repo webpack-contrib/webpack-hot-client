@@ -128,10 +128,11 @@ describe('Sockets', () => {
       const message = parse(data);
 
       if (message.type === 'warnings') {
-        expect(message.data).toBeDefined();
-        expect(message.data.length).toBeGreaterThan(0);
+        const { warnings } = message.data;
+        expect(warnings).toBeDefined();
+        expect(warnings.length).toBeGreaterThan(0);
 
-        for (const warning of message.data) {
+        for (const warning of warnings) {
           expect(ansiRegex().test(warning)).toBe(false);
         }
 
@@ -151,10 +152,11 @@ describe('Sockets', () => {
       const message = parse(data);
 
       if (message.type === 'errors') {
-        expect(message.data).toBeDefined();
-        expect(message.data.length).toBeGreaterThan(0);
+        const { errors } = message.data;
+        expect(errors).toBeDefined();
+        expect(errors.length).toBeGreaterThan(0);
 
-        for (const error of message.data) {
+        for (const error of errors) {
           expect(ansiRegex().test(error)).toBe(false);
         }
 
