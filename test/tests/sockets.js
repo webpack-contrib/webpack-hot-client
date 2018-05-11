@@ -4,7 +4,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const assert = require('assert');
 const ansiRegex = require('ansi-regex');
 const MemoryFileSystem = require('memory-fs');
 const webpack = require('webpack');
@@ -74,17 +73,17 @@ describe('Sockets', () => {
   it('should setup and return wss', () => {
     const { wss } = client;
 
-    assert(wss);
-    assert(wss.broadcast);
+    expect(wss).toBeDefined();
+    expect(wss.broadcast).toBeDefined();
   });
 
   it('should allow a child socket', (done) => {
     const socket = new WebSocket('ws://localhost:8081');
 
-    assert(socket);
+    expect(socket).toBeDefined();
 
     socket.on('open', () => {
-      assert(true);
+      expect(true);
       socket.close();
       done();
     });
@@ -95,7 +94,7 @@ describe('Sockets', () => {
     const socket2 = new WebSocket('ws://localhost:8081');
     let isDone = false;
 
-    assert(socket);
+    expect(socket).toBeDefined();
 
     socket.on('open', () => {
       socket2.on('open', () => {
@@ -103,7 +102,7 @@ describe('Sockets', () => {
           const message = JSON.parse(data);
 
           if (!isDone) {
-            assert(message, 'test');
+            expect(message).toBe('test');
             socket.close();
             socket2.close();
 
@@ -130,11 +129,11 @@ describe('Sockets', () => {
 
       if (message.type === 'warnings') {
         const { warnings } = message.data;
-        assert(warnings);
-        assert(warnings.length);
+        expect(warnings).toBeDefined();
+        expect(warnings.length).toBeGreaterThan(0);
 
         for (const warning of warnings) {
-          assert(!ansiRegex().test(warning));
+          expect(ansiRegex().test(warning)).toBe(false);
         }
 
         socket.close();
@@ -154,11 +153,11 @@ describe('Sockets', () => {
 
       if (message.type === 'errors') {
         const { errors } = message.data;
-        assert(errors);
-        assert(errors.length);
+        expect(errors).toBeDefined();
+        expect(errors.length).toBeGreaterThan(0);
 
         for (const error of errors) {
-          assert(!ansiRegex().test(error));
+          expect(ansiRegex().test(error)).toBe(false);
         }
 
         socket.close();
@@ -228,7 +227,7 @@ describe('Sockets: send option', () => {
     });
 
     setTimeout(() => {
-      assert(!received);
+      expect(received).toBe(false);
       done();
     }, 1000);
 
@@ -249,7 +248,7 @@ describe('Sockets: send option', () => {
     });
 
     setTimeout(() => {
-      assert(!received);
+      expect(received).toBe(false);
       done();
     }, 1000);
 
