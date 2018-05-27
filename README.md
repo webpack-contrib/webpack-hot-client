@@ -102,6 +102,15 @@ Returns an `Object` containing:
 
 Type: `Object`
 
+##### allEntries
+
+Type: `Boolean`  
+Default: `false`
+
+If true and `autoConfigure` is true, will automatically configures each `entry`
+key for the webpack compiler. Typically used when working with or manipulating
+different chunks in the same compiler configuration.
+
 ##### autoConfigure
 
 Type: `Boolean`  
