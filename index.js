@@ -96,9 +96,7 @@ module.exports = (compiler, opts) => {
     options.webSocket = { host: host.client, port };
   }
 
-  if (options.autoConfigure) {
-    modifyCompiler(compiler, options);
-  }
+  modifyCompiler(compiler, options);
 
   const compile = (comp) => {
     const compilerName = comp.name || '<unnamed compiler>';
