@@ -7,6 +7,7 @@ const HotClientError = require('./lib/HotClientError');
 const { modifyCompiler, payload, sendData, validateCompiler } = require('./lib/util');
 
 const defaults = {
+  allEntries: false,
   autoConfigure: true,
   host: 'localhost',
   hot: true,

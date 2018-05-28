@@ -2,18 +2,37 @@
 
 /* eslint global-require: off */
 
+const sinon = require('sinon');
 const webpack = require('webpack');
 const client = require('../../index');
 
 const logLevel = 'silent';
 
 describe('Options', () => {
+  it('allEntries: true', (done) => {
+    const config = require('../fixtures/webpack.config-allentries.js');
+    const compiler = webpack(config);
+    const options = { allEntries: true, hot: true, logLevel };
+    const spy = sinon.spy(compiler.hooks.entryOption, 'call');
+
+    const { close } = client(compiler, options);
+    const { lastArg } = spy.lastCall;
+
+    expect(lastArg.main[0]).toMatch(/^webpack-hot-client\/client\?/);
+    expect(lastArg.server[0]).toMatch(/^webpack-hot-client\/client\?/);
+
+    setTimeout(() => { close(done); }, 2000);
+  }).timeout(4000);
+
   it('autoConfigure: false', (done) => {
     const config = require('../fixtures/webpack.config-invalid.js');
     const compiler = webpack(config);
     const options = { autoConfigure: false, hot: true, logLevel };
+    const spy = sinon.spy(compiler.hooks.entryOption, 'call');
 
     const { close } = client(compiler, options);
+
+    expect(spy.callCount).toBe(0);
 
     setTimeout(() => { close(done); }, 2000);
   }).timeout(4000);
