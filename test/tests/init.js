@@ -5,6 +5,7 @@
 
 const webpack = require('webpack');
 const client = require('../../index');
+const HotClientError = require('../../lib/HotClientError');
 
 const logLevel = 'silent';
 
@@ -37,7 +38,7 @@ describe('Webpack Hot Client', () => {
     const config = require('../fixtures/webpack.config-invalid-plugin.js');
     const compiler = webpack(config);
 
-    expect(() => { client(compiler, {}); }).toThrow();
+    expect(() => { client(compiler, {}); }).toThrow(HotClientError);
   });
 
   it('should allow string array entry', (done) => {
