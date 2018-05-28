@@ -33,6 +33,13 @@ describe('Webpack Hot Client', () => {
     expect(() => { client(compiler, options); }).toThrow();
   });
 
+  it('should reject config containing HotModuleReplacementPlugin', () => {
+    const config = require('../fixtures/webpack.config-invalid-plugin.js');
+    const compiler = webpack(config);
+
+    expect(() => { client(compiler, {}); }).toThrow();
+  });
+
   it('should allow string array entry', (done) => {
     const config = require('../fixtures/webpack.config-array.js');
     const compiler = webpack(config);
