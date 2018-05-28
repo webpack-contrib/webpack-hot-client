@@ -92,7 +92,6 @@ describe('Sockets', () => {
   it('should broadcast to child sockets', (done) => {
     const socket = new WebSocket('ws://localhost:8081');
     const socket2 = new WebSocket('ws://localhost:8081');
-    let isDone = false;
 
     expect(socket).toBeDefined();
 
@@ -101,12 +100,10 @@ describe('Sockets', () => {
         socket.on('message', (data) => {
           const message = JSON.parse(data);
 
-          if (!isDone) {
-            expect(message).toBe('test');
+          if (message === 'test') {
+            expect(true);
             socket.close();
             socket2.close();
-
-            isDone = true;
             done();
           }
         });
