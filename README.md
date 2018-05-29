@@ -23,7 +23,7 @@ in projects that already use server frameworks such as `Express` or `Koa`.
 `webpack-hot-client` accomplishes this by creating a `WebSocket` server, providing
 the necessary client (browser) scripts that communicate via `WebSocket`s, and
 automagically adding the necessary webpack plugins and config entries. All of
-that allows for a seamless integration of Hot Module Support.
+that allows for a seamless integration of Hot Module Replacement Support.
 
 Curious about the differences between this module and `webpack-hot-middleware`?
 [Read more here](https://github.com/webpack-contrib/webpack-hot-client/issues/18).
@@ -136,7 +136,7 @@ option in this way unless _you know what you're doing._ Using a mismatched
 `client` and `server` host will be **unsupported by the project** as the behavior
 in the browser can be unpredictable and is specific to a particular environment.
 
-##### hot
+##### hmr
 
 Type: `Boolean`  
 Default: `true`
@@ -184,9 +184,9 @@ If true, instructs the browser to physically refresh the entire page if / when
 webpack indicates that a hot patch cannot be applied and a full refresh is needed.  
 
 This option also instructs the browser whether or not to refresh the entire page
-when `hot: false` is used.
+when `hmr: false` is used.
 
-_Note: If both `hot` and `reload` are false, and these are permanent settings,
+_Note: If both `hmr` and `reload` are false, and these are permanent settings,
 it makes this module fairly useless._
 
 ##### server

@@ -37,7 +37,7 @@ describe('Sockets', () => {
 
   before((done) => {
     compiler = webpack(config);
-    client = hotClient(compiler, { hot: true, logLevel });
+    client = hotClient(compiler, { logLevel });
 
     const isMemoryFs = !compiler.compilers && compiler.outputFileSystem instanceof MemoryFileSystem;
 
@@ -174,7 +174,6 @@ describe('Sockets: send option', () => {
   before((done) => {
     compiler = webpack(config);
     client = hotClient(compiler, {
-      hot: true,
       logLevel,
       send: { errors: false, warnings: false }
     });

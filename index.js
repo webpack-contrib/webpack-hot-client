@@ -10,7 +10,7 @@ const defaults = {
   allEntries: false,
   autoConfigure: true,
   host: 'localhost',
-  hot: true,
+  hmr: true,
   https: false,
   logLevel: 'info',
   logTime: false,
@@ -37,6 +37,13 @@ module.exports = (compiler, opts) => {
     timestamp: options.logTime
   });
   const envTarget = process.env.WHC_TARGET;
+
+  // TODO: remove `hot` as a valid option in 4.0.0
+  /* istanbul ignore if */
+  if (typeof options.hot !== 'undefined') {
+    options.hmr = options.hot;
+    process.emitWarning('webpack-hot-client: The `hot` option is deprecated and will be removed in v4.0.0. Please use the `hmr` option.');
+  }
 
   // issue #36. some alternative compiler targets still run in a server, but we
   // don't want to be in the business of supporting them all.
@@ -162,7 +169,7 @@ module.exports = (compiler, opts) => {
     log.info('WebSocket Client Connected');
 
     socket.on('error', (err) => {
-      /* istanbul ignore if */
+      /* istanbul ignore next */
       if (err.errno !== 'ECONNRESET') {
         log.warn('client socket error', JSON.stringify(err));
       }
