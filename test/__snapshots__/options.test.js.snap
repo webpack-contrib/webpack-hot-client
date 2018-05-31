@@ -1,0 +1,218 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`options altered options 1`] = `
+Object {
+  "allEntries": true,
+  "autoConfigure": false,
+  "hmr": false,
+  "host": Object {
+    "client": "localhost",
+    "server": "localhost",
+  },
+  "https": true,
+  "log": LogLevel {
+    "currentLevel": 2,
+    "debug": [Function],
+    "error": [Function],
+    "info": [Function],
+    "log": [Function],
+    "methodFactory": PrefixFactory {
+      "options": Object {
+        "level": [Function],
+        "name": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+        "time": [Function],
+      },
+      Symbol(a log instance): [Circular],
+      Symbol(valid log levels): Object {
+        "DEBUG": 1,
+        "ERROR": 4,
+        "INFO": 2,
+        "SILENT": 5,
+        "TRACE": 0,
+        "WARN": 3,
+      },
+    },
+    "name": "hot",
+    "options": Object {
+      "factory": null,
+      "level": "info",
+      "name": "hot",
+      "prefix": Object {
+        "level": [Function],
+        "template": "[{{time}}] {{level}} [90m｢{{name}}｣[39m: ",
+      },
+      "timestamp": false,
+      "unique": true,
+    },
+    "trace": [Function],
+    "type": "LogLevel",
+    "warn": [Function],
+  },
+  "logLevel": "trace",
+  "logTime": true,
+  "port": 0,
+  "reload": false,
+  "send": Object {
+    "errors": false,
+    "warnings": false,
+  },
+  "server": Object {
+    "address": [Function],
+  },
+  "stats": Object {
+    "context": "/",
+  },
+  "validTargets": Array [
+    "web",
+    "batman",
+  ],
+  "webSocket": Object {
+    "host": undefined,
+    "port": undefined,
+  },
+}
+`;
+
+exports[`options defaults 1`] = `
+Object {
+  "allEntries": false,
+  "autoConfigure": true,
+  "hmr": true,
+  "host": Object {
+    "client": "localhost",
+    "server": "localhost",
+  },
+  "https": false,
+  "log": LogLevel {
+    "currentLevel": 2,
+    "debug": [Function],
+    "error": [Function],
+    "info": [Function],
+    "log": [Function],
+    "methodFactory": PrefixFactory {
+      "options": Object {
+        "level": [Function],
+        "name": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+        "time": [Function],
+      },
+      Symbol(a log instance): [Circular],
+      Symbol(valid log levels): Object {
+        "DEBUG": 1,
+        "ERROR": 4,
+        "INFO": 2,
+        "SILENT": 5,
+        "TRACE": 0,
+        "WARN": 3,
+      },
+    },
+    "name": "hot",
+    "options": Object {
+      "factory": null,
+      "level": "info",
+      "name": "hot",
+      "prefix": Object {
+        "level": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+      },
+      "timestamp": false,
+      "unique": true,
+    },
+    "trace": [Function],
+    "type": "LogLevel",
+    "warn": [Function],
+  },
+  "logLevel": "info",
+  "logTime": false,
+  "port": 8081,
+  "reload": true,
+  "send": Object {
+    "errors": true,
+    "warnings": true,
+  },
+  "server": null,
+  "stats": Object {
+    "context": StringMatching /webpack-hot-client\\$/,
+  },
+  "validTargets": Array [
+    "web",
+  ],
+  "webSocket": Object {
+    "host": "localhost",
+    "port": 8081,
+  },
+}
+`;
+
+exports[`options deprecated hot property 1`] = `
+Object {
+  "allEntries": false,
+  "autoConfigure": true,
+  "hmr": false,
+  "host": Object {
+    "client": "localhost",
+    "server": "localhost",
+  },
+  "hot": false,
+  "https": false,
+  "log": LogLevel {
+    "currentLevel": 2,
+    "debug": [Function],
+    "error": [Function],
+    "info": [Function],
+    "log": [Function],
+    "methodFactory": PrefixFactory {
+      "options": Object {
+        "level": [Function],
+        "name": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+        "time": [Function],
+      },
+      Symbol(a log instance): [Circular],
+      Symbol(valid log levels): Object {
+        "DEBUG": 1,
+        "ERROR": 4,
+        "INFO": 2,
+        "SILENT": 5,
+        "TRACE": 0,
+        "WARN": 3,
+      },
+    },
+    "name": "hot",
+    "options": Object {
+      "factory": null,
+      "level": "info",
+      "name": "hot",
+      "prefix": Object {
+        "level": [Function],
+        "template": "[{{time}}] {{level}} [90m｢{{name}}｣[39m: ",
+      },
+      "timestamp": false,
+      "unique": true,
+    },
+    "trace": [Function],
+    "type": "LogLevel",
+    "warn": [Function],
+  },
+  "logLevel": "info",
+  "logTime": false,
+  "port": 8081,
+  "reload": true,
+  "send": Object {
+    "errors": true,
+    "warnings": true,
+  },
+  "server": null,
+  "stats": Object {
+    "context": StringMatching /webpack-hot-client\\$/,
+  },
+  "validTargets": Array [
+    "web",
+  ],
+  "webSocket": Object {
+    "host": "localhost",
+    "port": 8081,
+  },
+}
+`;
