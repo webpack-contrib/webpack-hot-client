@@ -131,7 +131,7 @@ Object {
   },
   "server": null,
   "stats": Object {
-    "context": StringMatching /webpack-hot-client\\$/,
+    "context": StringMatching /\\(webpack-hot-client\\|project\\)\\$/,
   },
   "validTargets": Array [
     "web",
@@ -203,7 +203,7 @@ Object {
   },
   "server": null,
   "stats": Object {
-    "context": StringMatching /webpack-hot-client\\$/,
+    "context": StringMatching /\\(webpack-hot-client\\|project\\)\\$/,
   },
   "validTargets": Array [
     "web",
