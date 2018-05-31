@@ -76,4 +76,11 @@ describe('options', () => {
     const t = () => getOptions({ server });
     expect(t).toThrow();
   });
+
+  test('WHC_TARGET', () => {
+    process.env.WHC_TARGET = 'node';
+    const options = getOptions({});
+    expect(options.validTargets).toEqual(['web', 'node']);
+    process.env.WHC_TARGET = '';
+  });
 });

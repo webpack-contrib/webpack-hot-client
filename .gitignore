@@ -19,5 +19,7 @@ Thumbs.db
 .vscode
 *.sublime-project
 *.sublime-workspace
+*hot-update*.*
 output*.js
 output.js.map
+test/output

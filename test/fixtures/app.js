@@ -9,3 +9,5 @@ if (module.hot) {
     }
   });
 }
+
+console.log('dirty');

@@ -1,8 +1,5 @@
 const path = require('path');
 
-const TimeFixPlugin = require('time-fix-plugin');
-const webpack = require('webpack');
-
 module.exports = {
   resolve: {
     alias: {
@@ -15,7 +12,6 @@ module.exports = {
   mode: 'development',
   output: {
     filename: 'output.js',
-    path: path.resolve(__dirname),
+    path: path.resolve(__dirname, 'output'),
   },
-  plugins: [new webpack.NamedModulesPlugin(), new TimeFixPlugin()],
 };
