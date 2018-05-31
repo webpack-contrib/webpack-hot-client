@@ -1,3 +1,5 @@
+const { createServer } = require('http');
+
 const getOptions = require('../lib/options');
 
 describe('options', () => {
@@ -28,11 +30,8 @@ describe('options', () => {
         errors: false,
         warnings: false,
       },
-      server: {
-        address: () => {
-          return {};
-        },
-      },
+      // this property is tested later
+      // server: null,
       stats: {
         context: '/',
       },
@@ -64,5 +63,17 @@ describe('options', () => {
         context: expect.stringMatching(/webpack-hot-client$/),
       },
     });
+  });
+
+  test('reject non-http.Server server', () => {
+    const server = {};
+    const t = () => getOptions({ server });
+    expect(t).toThrow();
+  });
+
+  test('reject non-running server', () => {
+    const server = createServer();
+    const t = () => getOptions({ server });
+    expect(t).toThrow();
   });
 });

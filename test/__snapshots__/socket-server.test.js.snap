@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`socket server broadcast 1`] = `"{\\"type\\":\\"broadcast\\",\\"data\\":{\\"received\\":true}}"`;
+
+exports[`socket server errors 1`] = `
+Object {
+  "data": Object {
+    "errors": Array [
+      "test error",
+    ],
+  },
+  "type": "errors",
+}
+`;
+
+exports[`socket server hash-ok 1`] = `
+Object {
+  "data": Object {
+    "hash": "000000",
+  },
+  "type": "ok",
+}
+`;
+
+exports[`socket server hash-ok 2`] = `
+Object {
+  "data": Object {
+    "warnings": Array [
+      "test warning",
+    ],
+  },
+  "type": "warnings",
+}
+`;
+
+exports[`socket server no-change 1`] = `"{\\"type\\":\\"no-change\\"}"`;
+
+exports[`socket server payload 1`] = `"{\\"type\\":\\"test\\",\\"data\\":{\\"batman\\":\\"superman \\"}}"`;
+
+exports[`socket server send via stats 1`] = `
+Object {
+  "data": Object {
+    "hash": "111111",
+  },
+  "type": "ok",
+}
+`;
+
+exports[`socket server socket broadcast 1`] = `"{\\"received\\":true}"`;
