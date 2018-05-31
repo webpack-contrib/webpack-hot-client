@@ -8,20 +8,9 @@
   "homepage": "https://github.com/webpack-contrib/webpack-hot-client",
   "bugs": "https://github.com/webpack-contrib/webpack-hot-client/issues",
   "bin": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "engines": {
-    "node": ">= 6.9.0 <7.0.0 || >= 8.9.0"
-  },
-  "old-scripts": {
-    "beautify": "npm run lint -- --fix",
-    "ci": "npm run lint && npm run test",
-    "cover": "nyc report --reporter=text-lcov > coverage.lcov && codecov --token=$WHC_CODECOV_TOKEN",
-
-    "lint": "eslint index.js lib test",
-    "mocha": "mocha test/test.js --full-trace --exit",
-
-    "test": "npm run compile:client && nyc npm run mocha",
-    "defaults": "webpack-defaults"
+    "node": ">= 6.9.0 < 7.0.0 || >= 8.9.0"
   },
   "scripts": {
     "build:client": "babel lib/client --out-dir client",
@@ -45,9 +34,7 @@
   },
   "files": [
     "client/",
-    "index.js",
-    "lib/HotClientError.js",
-    "lib/util.js",
+    "lib/",
     "LICENSE",
     "README.md"
   ],

@@ -19,3 +19,5 @@ Thumbs.db
 .vscode
 *.sublime-project
 *.sublime-workspace
+output*.js
+output.js.map
