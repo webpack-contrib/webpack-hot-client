@@ -56,15 +56,6 @@ describe('options', () => {
     expect(t).toThrow();
   });
 
-  test('deprecated hot property', () => {
-    const options = getOptions({ hot: false });
-    expect(options).toMatchSnapshot({
-      stats: {
-        context: expect.stringMatching(/(webpack-hot-client|project)$/),
-      },
-    });
-  });
-
   test('reject non-http.Server server', () => {
     const server = {};
     const t = () => getOptions({ server });
@@ -75,12 +66,5 @@ describe('options', () => {
     const server = createServer();
     const t = () => getOptions({ server });
     expect(t).toThrow();
-  });
-
-  test('WHC_TARGET', () => {
-    process.env.WHC_TARGET = 'node';
-    const options = getOptions({});
-    expect(options.validTargets).toEqual(['web', 'node']);
-    process.env.WHC_TARGET = '';
   });
 });
