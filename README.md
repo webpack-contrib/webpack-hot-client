@@ -8,8 +8,8 @@
 [![node][node]][node-url]
 [![deps][deps]][deps-url]
 [![tests][tests]][tests-url]
-[![coverage][cover]][cover-url]
 [![chat][chat]][chat-url]
+[![size][size]][size-url]
 
 # webpack-hot-client
 
@@ -27,6 +27,10 @@ that allows for a seamless integration of Hot Module Replacement Support.
 
 Curious about the differences between this module and `webpack-hot-middleware`?
 [Read more here](https://github.com/webpack-contrib/webpack-hot-client/issues/18).
+
+## Requirements
+
+This module requires a minimum of Node v6.9.0 and Webpack v4.0.0.
 
 ## Getting Started
 
@@ -50,7 +54,8 @@ webpack v4+ that go the zero-config route, you must specify an `entry` option.
 It's also worth noting that `webpack-hot-client` adds `HotModuleReplacementPlugin`
 and the necessary entries to your `webpack` config for you at runtime. Including
 the plugin in your config manually while using this module may produce unexpected
-or wonky results.
+or wonky results. If you have a need to configure entries and plugins for HMR
+manually, use the `autoConfigure` option.
 
 ### Express
 
@@ -136,12 +141,16 @@ option in this way unless _you know what you're doing._ Using a mismatched
 `client` and `server` host will be **unsupported by the project** as the behavior
 in the browser can be unpredictable and is specific to a particular environment.
 
+The value of `host.client` can also be set to a wildcard character for
+[Remote Machine Testing](./docs/REMOTE.md).
+
 ##### hmr
 
 Type: `Boolean`  
 Default: `true`
 
-If true, instructs the client script to attempt hot patching of modules.
+If true, instructs the client script to attempt Hot Module Replacement patching
+of modules.
 
 ##### https
 
@@ -181,7 +190,7 @@ Type: `Boolean`
 Default: `true`
 
 If true, instructs the browser to physically refresh the entire page if / when
-webpack indicates that a hot patch cannot be applied and a full refresh is needed.  
+webpack indicates that a hot patch cannot be applied and a full refresh is needed.
 
 This option also instructs the browser whether or not to refresh the entire page
 when `hmr: false` is used.
@@ -205,48 +214,32 @@ Default: `{ context: process.cwd() }`
 An object specifying the webpack [stats][stats] configuration. This does not
 typically need to be modified.
 
-## Webpack Build Targets
+##### validTargets
+
+Type: `Array[String]`
+Default: `['web']`
 
 By default, `webpack-hot-client` is meant to, and expects to function on the
 [`'web'` build target](https://webpack.js.org/configuration/target). However,
-you can manipulate this by setting the `WHC_TARGET` environment variable. eg.
+you can manipulate this by adding targets to this property. eg.
 
-```console
-$ export WHC_TARGET=electon-renderer; webpack-serve ...
 ```
-
-Or by setting `process.env.WHC_TARGET` before executing the API.
-
-_Note: Changing this value is allowed but is **unsupported**._
+  // will be merged with the default 'web' target
+  validTargets: ['batmobile']
+```
 
 ## Communicating with Client WebSockets
 
-In some rare situations, you may have the need to communicate with the attached
-`WebSockets` in the browser. To accomplish this, open a new `WebSocket` to the
-server, and send a `broadcast` message. eg.
+Please see the [WebSockets](./docs/WEBSOCKETS.md) documentation.
 
-```js
-const stringify = require('json-stringify-safe');
-const { WebSocket } = require('ws');
+## Remote Machine Testing
 
-const socket = new WebSocket('ws://localhost:8081'); // this should match the server settings
-const data = {
-  type: 'broadcast',
-  data: { // the message you want to broadcast
-    type: '<something fun>', // the message type you want to broadcast
-    data: { ... } // the message data you want to broadcast
-  }
-};
-
-socket.send(stringify(data));
-```
-
-_Note: The `data` property of the message should contain the enveloped message
-you wish to broadcast to all other client `WebSockets`._
+Please see the [Remote Machine Testing](./docs/REMOTE.md) documentation.
 
 ## Contributing
 
-We welcome your contributions! Please have a read of [CONTRIBUTING.md](CONTRIBUTING.md) for more information on how to get involved.
+We welcome your contributions! Please have a read of
+[CONTRIBUTING](./.github/CONTRIBUTING.md) for more information on how to get involved.
 
 ## License
 
@@ -262,17 +255,13 @@ We welcome your contributions! Please have a read of [CONTRIBUTING.md](CONTRIBUT
 [deps-url]: https://david-dm.org/webpack-contrib/webpack-hot-client
 
 [tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/webpack-hot-client.svg
-[tests-url]: https://circleci.com/gh/webpack-contrib/webpack-hot-client/tree/master
+[tests-url]: https://circleci.com/gh/webpack-contrib/webpack-hot-client
 
 [cover]: https://codecov.io/gh/webpack-contrib/webpack-hot-client/branch/master/graph/badge.svg
 [cover-url]: https://codecov.io/gh/webpack-contrib/webpack-hot-client
 
-[chat]: https://badges.gitter.im/webpack/webpack.svg
+[chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
 
-[koa-webpack]: https://github.com/shellscape/koa-webpack
-[dev-middleware]: https://github.com/webpack/webpack-dev-middleware
-[dev-server]: https://github.com/webpack/webpack-dev-server
-[hmr-docs]: https://webpack.js.org/concepts/hot-module-replacement/
-[stats]: https://webpack.js.org/configuration/stats/#stats
-[levels]: https://github.com/webpack-contrib/webpack-log#level
+[size]: https://packagephobia.now.sh/badge?p=webpack-hot-client
+[size-url]: https://packagephobia.now.sh/result?p=webpack-hot-client

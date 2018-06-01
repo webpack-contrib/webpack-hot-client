@@ -4,3 +4,7 @@ example/node_modules/*
 coverage/*
 /client
 output.js
+/node_modules
+/dist
+/test-old
+*.snap

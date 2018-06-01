@@ -1,18 +1,32 @@
-'use strict';
+const { resolve } = require('path');
 
-module.exports = [{
-  context: __dirname,
-  entry: ['./client.js'],
-  output: {
-    filename: 'client.js',
-    path: '/client',
-    publicPath: '/static/'
-  }
-}, {
-  context: __dirname,
-  entry: ['./server.js'],
-  output: {
-    filename: 'server.js',
-    path: '/server'
-  }
-}];
+module.exports = [
+  {
+    resolve: {
+      alias: {
+        'webpack-hot-client/client': resolve(__dirname, '../../../lib/client'),
+      },
+    },
+    context: __dirname,
+    entry: [resolve(__dirname, './client.js')],
+    mode: 'development',
+    output: {
+      filename: './output.client.js',
+      path: resolve(__dirname),
+    },
+  },
+  {
+    resolve: {
+      alias: {
+        'webpack-hot-client/client': resolve(__dirname, '../../../lib/client'),
+      },
+    },
+    context: __dirname,
+    entry: [resolve(__dirname, './server.js')],
+    mode: 'development',
+    output: {
+      filename: './output.server.js',
+      path: resolve(__dirname),
+    },
+  },
+];

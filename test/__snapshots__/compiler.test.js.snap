@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compiler addEntry: array 1`] = `
+Array [
+  "webpack-hot-client/client?test",
+  "index.js",
+]
+`;
+
+exports[`compiler addEntry: array 2`] = `
+Array [
+  "webpack-hot-client/client?test",
+  "index.js",
+]
+`;
+
+exports[`compiler addEntry: array 3`] = `
+Array [
+  "webpack-hot-client/client?test",
+  "index.js",
+]
+`;
+
+exports[`compiler addEntry: object 1`] = `
+Object {
+  "a": Array [
+    "webpack-hot-client/client?test",
+    "index-a.js",
+  ],
+  "b": Array [
+    "index-b.js",
+  ],
+}
+`;
+
+exports[`compiler addEntry: object, allEntries: true 1`] = `
+Object {
+  "a": Array [
+    "webpack-hot-client/client?test",
+    "index-a.js",
+  ],
+  "b": Array [
+    "webpack-hot-client/client?test",
+    "index-b.js",
+  ],
+}
+`;
