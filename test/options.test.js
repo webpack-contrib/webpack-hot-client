@@ -36,8 +36,12 @@ describe('options', () => {
         context: '/',
       },
       validTargets: ['batman'],
+      // we pass this to force the log instance to be unique, to assert log
+      // option differences
+      test: true,
     };
     const options = getOptions(altered);
+    // console.log(JSON.stringify(options, null, 2));
     expect(options).toMatchSnapshot();
   });
 

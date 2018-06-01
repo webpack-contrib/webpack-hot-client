@@ -64,6 +64,9 @@
       "additionalProperties": true,
       "type": "object"
     },
+    "test": {
+      "type": "boolean"
+    },
     "validTargets": {
       "type": "array",
       "items": {

@@ -11,7 +11,7 @@ Object {
   },
   "https": true,
   "log": LogLevel {
-    "currentLevel": 2,
+    "currentLevel": 0,
     "debug": [Function],
     "error": [Function],
     "info": [Function],
@@ -20,7 +20,7 @@ Object {
       "options": Object {
         "level": [Function],
         "name": [Function],
-        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+        "template": "[{{time}}] {{level}} [90m｢{{name}}｣[39m: ",
         "time": [Function],
       },
       Symbol(a log instance): [Circular],
@@ -36,13 +36,13 @@ Object {
     "name": "hot",
     "options": Object {
       "factory": null,
-      "level": "info",
+      "level": "trace",
       "name": "hot",
       "prefix": Object {
         "level": [Function],
         "template": "[{{time}}] {{level}} [90m｢{{name}}｣[39m: ",
       },
-      "timestamp": false,
+      "timestamp": true,
       "unique": true,
     },
     "trace": [Function],
@@ -61,6 +61,7 @@ Object {
   "stats": Object {
     "context": "/",
   },
+  "test": true,
   "validTargets": Array [
     "web",
     "batman",
@@ -133,6 +134,7 @@ Object {
   "stats": Object {
     "context": StringMatching /\\(webpack-hot-client\\|project\\)\\$/,
   },
+  "test": false,
   "validTargets": Array [
     "web",
   ],
