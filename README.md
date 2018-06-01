@@ -54,7 +54,8 @@ webpack v4+ that go the zero-config route, you must specify an `entry` option.
 It's also worth noting that `webpack-hot-client` adds `HotModuleReplacementPlugin`
 and the necessary entries to your `webpack` config for you at runtime. Including
 the plugin in your config manually while using this module may produce unexpected
-or wonky results.
+or wonky results. If you have a need to configure entries and plugins for HMR
+manually, use the `autoConfigure` option.
 
 ### Express
 
@@ -225,33 +226,16 @@ you can manipulate this by adding targets to this property. eg.
 
 ## Communicating with Client WebSockets
 
-In some rare situations, you may have the need to communicate with the attached
-`WebSockets` in the browser. To accomplish this, open a new `WebSocket` to the
-server, and send a `broadcast` message. eg.
+Please see the [WebSockets](./docs/WEBSOCKETS.md) documentation.
 
-```js
-const stringify = require('json-stringify-safe');
-const { WebSocket } = require('ws');
+## Remote Machine Testing
 
-const socket = new WebSocket('ws://localhost:8081'); // this should match the server settings
-const data = {
-  type: 'broadcast',
-  data: { // the message you want to broadcast
-    type: '<something fun>', // the message type you want to broadcast
-    data: { ... } // the message data you want to broadcast
-  }
-};
-
-socket.send(stringify(data));
-```
-
-_Note: The `data` property of the message should contain the enveloped message
-you wish to broadcast to all other client `WebSockets`._
+Please see the [Remote Machine Testing](./docs/REMOTE.md) documentation.
 
 ## Contributing
 
 We welcome your contributions! Please have a read of
-[CONTRIBUTING](./.github/CONTRIBUTING) for more information on how to get involved.
+[CONTRIBUTING](./.github/CONTRIBUTING.md) for more information on how to get involved.
 
 ## License
 
