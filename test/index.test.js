@@ -22,6 +22,10 @@ describe('api', () => {
       socket.on('message', (raw) => {
         const data = JSON.parse(raw);
 
+        if (data.type === 'errors') {
+          console.log(data); // eslint-disable-line no-console
+        }
+
         expect(validTypes).toContain(data.type);
 
         if (data.type === 'hash') {
