@@ -149,7 +149,8 @@ The value of `host.client` can also be set to a wildcard character for
 Type: `Boolean`  
 Default: `true`
 
-If true, instructs the client script to attempt hot patching of modules.
+If true, instructs the client script to attempt Hot Module Replacement patching
+of modules.
 
 ##### https
 
