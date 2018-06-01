@@ -26,7 +26,7 @@
     "security": "nsp check",
     "test": "npm run build:client && jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --collectCoverageFrom='lib/*.js' --coverage",
+    "test:coverage": "npm run build:client && jest --collectCoverageFrom='lib/*.js' --coverage",
     "ci:lint": "npm run lint && npm run security",
     "ci:test": "npm run test -- --runInBand",
     "ci:coverage": "npm run test:coverage -- --runInBand",
