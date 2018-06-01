@@ -141,6 +141,9 @@ option in this way unless _you know what you're doing._ Using a mismatched
 `client` and `server` host will be **unsupported by the project** as the behavior
 in the browser can be unpredictable and is specific to a particular environment.
 
+The value of `host.client` can also be set to a wildcard character for
+[Remote Machine Testing](./docs/REMOTE.md).
+
 ##### hmr
 
 Type: `Boolean`  
