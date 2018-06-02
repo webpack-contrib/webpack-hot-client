@@ -39,6 +39,7 @@
     "lib/index.js",
     "lib/options.js",
     "lib/socket-server.js",
+    "schemas/",
     "LICENSE",
     "README.md"
   ],
