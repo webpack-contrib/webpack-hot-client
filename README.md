@@ -265,3 +265,7 @@ We welcome your contributions! Please have a read of
 
 [size]: https://packagephobia.now.sh/badge?p=webpack-hot-client
 [size-url]: https://packagephobia.now.sh/result?p=webpack-hot-client
+
+[dev-middleware]: https://github.com/webpack/webpack-dev-middleware
+[dev-server]: https://github.com/webpack/webpack-dev-server
+[koa-webpack]: https://github.com/shellscape/koa-webpack
