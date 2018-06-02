@@ -42,27 +42,40 @@ $ npm install webpack-hot-client --save-dev
 
 ## Gotchas
 
+### Entries
+
 In order to use `webpack-hot-client`, your `webpack` config should include an
 `entry` option that is set to an `Array` of `String`, or an `Object` who's keys
 are set to an `Array` of `String`. You may also use a `Function`, but that
 function should return a value in one of the two valid formats.
 
-This is primarily due to restrictions in
-`webpack` itself and the way that it processes options and entries. For users of
-webpack v4+ that go the zero-config route, you must specify an `entry` option.
+This is primarily due to restrictions in `webpack` itself and the way that it
+processes options and entries. For users of webpack v4+ that go the zero-config
+route, you must specify an `entry` option.
 
-It's also worth noting that `webpack-hot-client` adds `HotModuleReplacementPlugin`
+### Automagical Configuration
+
+As a convenience `webpack-hot-client` adds `HotModuleReplacementPlugin`
 and the necessary entries to your `webpack` config for you at runtime. Including
 the plugin in your config manually while using this module may produce unexpected
 or wonky results. If you have a need to configure entries and plugins for HMR
 manually, use the `autoConfigure` option.
+
+### Best Practices
+
+When using this module manually, along with the default `port` option valie of
+`0`, starting compilation (or passing a compiler to `webpack-dev-middleware`)
+should be done _after_ the socket server has finished listening and allocating
+a port. This ensures that the build will contain the allocated port. (See the
+Express example below.) This condition does not apply if providing a static
+`port` option to the API.
 
 ### Express
 
 For setting up the module for use with an `Express` server, try the following:
 
 ```js
-const client = require('webpack-hot-client');
+const hotClient = require('webpack-hot-client');
 const middleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const config = require('./webpack.config');
@@ -72,9 +85,12 @@ const { publicPath } = config.output;
 const options = { ... }; // webpack-hot-client options
 
 // we recommend calling the client _before_ adding the dev middleware
-client(compiler, options);
+const client = hotClient(compiler, options);
+const { server } = client;
 
-app.use(middleware(compiler, { publicPath }));
+server.on('listening', () => {
+  app.use(middleware(compiler, { publicPath }));
+});
 ```
 
 ### Koa
@@ -179,10 +195,11 @@ If true, instructs the internal logger to prepend log output with a timestamp.
 ##### port
 
 Type: `Number`  
-Default: `8081`
+Default: `0`
 
-The port the `WebSocket` server should listen on. It's recommended that a
-[`server`](#server) instance is passed to assure there aren't any port conflicts.
+The port the `WebSocket` server should listen on. By default, the socket server
+will allocate a port. If a different port is chosen, the consumer of the module
+must ensure that the port is free before hand.
 
 ##### reload
 

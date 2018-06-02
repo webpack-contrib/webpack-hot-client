@@ -34,7 +34,11 @@
   },
   "files": [
     "client/",
-    "lib/",
+    "lib/compiler.js",
+    "lib/HotClientError.js",
+    "lib/index.js",
+    "lib/options.js",
+    "lib/socket-server.js",
     "LICENSE",
     "README.md"
   ],
