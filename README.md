@@ -285,4 +285,7 @@ We welcome your contributions! Please have a read of
 
 [dev-middleware]: https://github.com/webpack/webpack-dev-middleware
 [dev-server]: https://github.com/webpack/webpack-dev-server
+[hmr-docs]: https://webpack.js.org/concepts/hot-module-replacement/
 [koa-webpack]: https://github.com/shellscape/koa-webpack
+[levels]: https://github.com/webpack-contrib/webpack-log#level
+[stats]: https://webpack.js.org/configuration/stats/#stats
