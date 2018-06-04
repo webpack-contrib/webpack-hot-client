@@ -4,7 +4,7 @@ const getOptions = require('../lib/options');
 
 describe('options', () => {
   test('defaults', () => {
-    const options = getOptions({});
+    const options = getOptions();
     expect(options).toMatchSnapshot({
       stats: {
         context: expect.stringMatching(/(webpack-hot-client|project)$/),
