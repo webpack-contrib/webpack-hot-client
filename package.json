@@ -91,6 +91,7 @@
     "standard-version": "^4.4.0",
     "time-fix-plugin": "^2.0.0",
     "touch": "^3.1.0",
+    "webpack-defaults": "github:webpack-contrib/webpack-defaults",
     "webpack": "^4.0.1"
   },
   "keywords": [
