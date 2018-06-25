@@ -60,6 +60,16 @@ describe('options', () => {
     expect(t).toThrow();
   });
 
+  test('throws if port.client is missing', () => {
+    const t = () => getOptions({ port: { server: 8081 } });
+    expect(t).toThrow();
+  });
+
+  test('throws if port.server is missing', () => {
+    const t = () => getOptions({ port: { client: 8081 } });
+    expect(t).toThrow();
+  });
+
   test('reject non-http.Server server', () => {
     const server = {};
     const t = () => getOptions({ server });
