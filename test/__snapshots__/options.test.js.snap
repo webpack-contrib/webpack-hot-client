@@ -51,7 +51,10 @@ Object {
   },
   "logLevel": "trace",
   "logTime": true,
-  "port": 0,
+  "port": Object {
+    "client": 0,
+    "server": 0,
+  },
   "reload": false,
   "send": Object {
     "errors": false,
@@ -124,7 +127,10 @@ Object {
   },
   "logLevel": "info",
   "logTime": false,
-  "port": 0,
+  "port": Object {
+    "client": 0,
+    "server": 0,
+  },
   "reload": true,
   "send": Object {
     "errors": true,
