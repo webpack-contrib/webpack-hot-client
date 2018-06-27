@@ -174,8 +174,12 @@ Type: `Boolean`
 Default: `false`
 
 If true, instructs the client script to use `wss://` as the `WebSocket` protocol.
-If you're using a server setup with `HTTPS`, you must set this to `true` or the
-sockets cannot communicate and this module won't function properly.
+
+When using the `server` option and passing an instance of `https.Server`, this
+flag must also be true. Otherwise, the sockets cannot communicate and this
+module won't function properly. The module will examine the `server` instance
+passed and if `server` _is an instance of `https.Server`, and `https` is not
+already set_, will set `https` to `true`.
 
 ##### logLevel
 
