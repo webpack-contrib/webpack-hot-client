@@ -1,4 +1,9 @@
+const { readFileSync: read } = require('fs');
+const { resolve } = require('path');
 const { createServer } = require('http');
+const https = require('https');
+
+const killable = require('killable');
 
 const getOptions = require('../lib/options');
 
@@ -43,6 +48,44 @@ describe('options', () => {
     const options = getOptions(altered);
     // console.log(JSON.stringify(options, null, 2));
     expect(options).toMatchSnapshot();
+  });
+
+  test('https.Server', (done) => {
+    const passphrase = 'sample';
+    const pfx = read(resolve(__dirname, './fixtures/test-cert.pfx'));
+    const server = https.createServer({ passphrase, pfx });
+
+    killable(server);
+    server.listen(0, () => {
+      const options = getOptions({ server });
+      expect(options).toMatchSnapshot({
+        server: expect.any(https.Server),
+        webSocket: {
+          host: '::',
+          port: expect.any(Number),
+        },
+      });
+      server.kill(done);
+    });
+  });
+
+  test('https: false, https.Server', (done) => {
+    const passphrase = 'sample';
+    const pfx = read(resolve(__dirname, './fixtures/test-cert.pfx'));
+    const server = https.createServer({ passphrase, pfx });
+
+    killable(server);
+    server.listen(0, () => {
+      const options = getOptions({ server, https: false });
+      expect(options).toMatchSnapshot({
+        server: expect.any(https.Server),
+        webSocket: {
+          host: '::',
+          port: expect.any(Number),
+        },
+      });
+      server.kill(done);
+    });
   });
 
   test('throws on invalid options', () => {

@@ -82,7 +82,7 @@ Object {
     "client": "localhost",
     "server": "localhost",
   },
-  "https": false,
+  "https": undefined,
   "log": LogLevel {
     "currentLevel": 2,
     "debug": [Function],
@@ -141,6 +141,150 @@ Object {
   "webSocket": Object {
     "host": "localhost",
     "port": 0,
+  },
+}
+`;
+
+exports[`options https.Server 1`] = `
+Object {
+  "allEntries": false,
+  "autoConfigure": true,
+  "hmr": true,
+  "host": Object {
+    "client": "localhost",
+    "server": "localhost",
+  },
+  "https": true,
+  "log": LogLevel {
+    "currentLevel": 2,
+    "debug": [Function],
+    "error": [Function],
+    "info": [Function],
+    "log": [Function],
+    "methodFactory": PrefixFactory {
+      "options": Object {
+        "level": [Function],
+        "name": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+        "time": [Function],
+      },
+      Symbol(a log instance): [Circular],
+      Symbol(valid log levels): Object {
+        "DEBUG": 1,
+        "ERROR": 4,
+        "INFO": 2,
+        "SILENT": 5,
+        "TRACE": 0,
+        "WARN": 3,
+      },
+    },
+    "name": "hot",
+    "options": Object {
+      "factory": null,
+      "level": "info",
+      "name": "hot",
+      "prefix": Object {
+        "level": [Function],
+        "template": "[{{time}}] {{level}} [90m｢{{name}}｣[39m: ",
+      },
+      "timestamp": false,
+      "unique": true,
+    },
+    "trace": [Function],
+    "type": "LogLevel",
+    "warn": [Function],
+  },
+  "logLevel": "info",
+  "logTime": false,
+  "port": 0,
+  "reload": true,
+  "send": Object {
+    "errors": true,
+    "warnings": true,
+  },
+  "server": Any<Server>,
+  "stats": Object {
+    "context": "/Users/powella/code/webpack-hot-client",
+  },
+  "test": false,
+  "validTargets": Array [
+    "web",
+  ],
+  "webSocket": Object {
+    "host": "::",
+    "port": Any<Number>,
+  },
+}
+`;
+
+exports[`options https: false, https.Server 1`] = `
+Object {
+  "allEntries": false,
+  "autoConfigure": true,
+  "hmr": true,
+  "host": Object {
+    "client": "localhost",
+    "server": "localhost",
+  },
+  "https": false,
+  "log": LogLevel {
+    "currentLevel": 2,
+    "debug": [Function],
+    "error": [Function],
+    "info": [Function],
+    "log": [Function],
+    "methodFactory": PrefixFactory {
+      "options": Object {
+        "level": [Function],
+        "name": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+        "time": [Function],
+      },
+      Symbol(a log instance): [Circular],
+      Symbol(valid log levels): Object {
+        "DEBUG": 1,
+        "ERROR": 4,
+        "INFO": 2,
+        "SILENT": 5,
+        "TRACE": 0,
+        "WARN": 3,
+      },
+    },
+    "name": "hot",
+    "options": Object {
+      "factory": null,
+      "level": "info",
+      "name": "hot",
+      "prefix": Object {
+        "level": [Function],
+        "template": "[{{time}}] {{level}} [90m｢{{name}}｣[39m: ",
+      },
+      "timestamp": false,
+      "unique": true,
+    },
+    "trace": [Function],
+    "type": "LogLevel",
+    "warn": [Function],
+  },
+  "logLevel": "info",
+  "logTime": false,
+  "port": 0,
+  "reload": true,
+  "send": Object {
+    "errors": true,
+    "warnings": true,
+  },
+  "server": Any<Server>,
+  "stats": Object {
+    "context": "/Users/powella/code/webpack-hot-client",
+  },
+  "test": false,
+  "validTargets": Array [
+    "web",
+  ],
+  "webSocket": Object {
+    "host": "::",
+    "port": Any<Number>,
   },
 }
 `;
