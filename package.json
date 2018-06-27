@@ -79,6 +79,7 @@
     "expect": "^22.4.3",
     "husky": "^0.14.3",
     "jest": "^23.0.1",
+    "jest-serializer-path": "^0.1.15",
     "killable": "^1.0.0",
     "lint-staged": "^7.1.2",
     "loud-rejection": "^1.6.0",
@@ -98,6 +99,9 @@
     "webpack"
   ],
   "jest": {
+    "snapshotSerializers": [
+      "jest-serializer-path"
+    ],
     "testEnvironment": "node"
   },
   "pre-commit": "lint-staged",

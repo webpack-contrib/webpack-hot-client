@@ -204,7 +204,7 @@ Object {
   },
   "server": Any<Server>,
   "stats": Object {
-    "context": "/Users/powella/code/webpack-hot-client",
+    "context": "<PROJECT_ROOT>",
   },
   "test": false,
   "validTargets": Array [
@@ -276,7 +276,7 @@ Object {
   },
   "server": Any<Server>,
   "stats": Object {
-    "context": "/Users/powella/code/webpack-hot-client",
+    "context": "<PROJECT_ROOT>",
   },
   "test": false,
   "validTargets": Array [
