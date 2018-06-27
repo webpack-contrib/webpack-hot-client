@@ -9,3 +9,11 @@ if (module.hot) {
     }
   });
 }
+
+console.log('dirty');
+console.log('dirty');
+console.log('dirty');
+console.log('dirty');
+console.log('dirty');
+
+console.log('dirty');
