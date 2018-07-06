@@ -1,6 +1,5 @@
 const { readFileSync: read } = require('fs');
 const { resolve } = require('path');
-const { createServer } = require('http');
 const https = require('https');
 
 const killable = require('killable');
@@ -100,18 +99,6 @@ describe('options', () => {
 
   test('throws if host.server is missing', () => {
     const t = () => getOptions({ host: { client: 'localhost' } });
-    expect(t).toThrow();
-  });
-
-  test('reject non-http.Server server', () => {
-    const server = {};
-    const t = () => getOptions({ server });
-    expect(t).toThrow();
-  });
-
-  test('reject non-running server', () => {
-    const server = createServer();
-    const t = () => getOptions({ server });
     expect(t).toThrow();
   });
 });
