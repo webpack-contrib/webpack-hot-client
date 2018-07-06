@@ -182,6 +182,10 @@ module won't function properly. The module will examine the `server` instance
 passed and if `server` _is an instance of `https.Server`, and `https` is not
 already set_, will set `https` to `true`.
 
+_Note: When using a self-signed certificate on Firefox, you must add a "Server
+Exception" for `localhost:{port}` where `{port}` is either the `port` or the
+`port.server` option for secure `WebSocket` to work correctly._
+
 ##### logLevel
 
 Type: `String`  
