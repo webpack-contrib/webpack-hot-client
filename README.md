@@ -147,7 +147,8 @@ Default: `'localhost'`
 
 Sets the host that the `WebSocket` server will listen on. If this doesn't match
 the host of the server the module is used with, the module may not function
-properly. If the `server` option is defined, this option is ignored.
+properly. If the `server` option is defined, and the server has been instructed
+to listen, this option is ignored.
 
 If using the module in a specialized environment, you may choose to specify an
 `object` to define `client` and `server` host separately. The `object` value
@@ -181,6 +182,10 @@ module won't function properly. The module will examine the `server` instance
 passed and if `server` _is an instance of `https.Server`, and `https` is not
 already set_, will set `https` to `true`.
 
+_Note: When using a self-signed certificate on Firefox, you must add a "Server
+Exception" for `localhost:{port}` where `{port}` is either the `port` or the
+`port.server` option for secure `WebSocket` to work correctly._
+
 ##### logLevel
 
 Type: `String`  
@@ -198,12 +203,21 @@ If true, instructs the internal logger to prepend log output with a timestamp.
 
 ##### port
 
-Type: `Number`  
+Type: `Number|Object`  
 Default: `0`
 
 The port the `WebSocket` server should listen on. By default, the socket server
 will allocate a port. If a different port is chosen, the consumer of the module
-must ensure that the port is free before hand.
+must ensure that the port is free before hand. If the `server` option is defined,
+and the server has been instructed to listen, this option is ignored.
+
+If using the module in a specialized environment, you may choose to specify an
+`object` to define `client` and `server` port separately. The `object` value
+should match `{ client: <Number>, server: <Number> }`. Be aware that the `client`
+port will be used _in the browser_ by `WebSockets`. You should not use this
+option in this way unless _you know what you're doing._ Using a mismatched
+`client` and `server` port will be **unsupported by the project** as the behavior
+in the browser can be unpredictable and is specific to a particular environment.
 
 ##### reload
 
