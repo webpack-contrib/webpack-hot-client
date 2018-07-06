@@ -41,7 +41,22 @@
       "type": "boolean"
     },
     "port": {
-      "type": "integer"
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "properties": {
+            "client": {
+              "type": "integer"
+            },
+            "server": {
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        }
+      ]
     },
     "reload": {
       "type": "boolean"
