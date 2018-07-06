@@ -1,6 +1,9 @@
 {
   "name": "webpack-hot-client",
-  "version": "4.0.4",
+  "version": "4.1.0-beta.1",
+  "publishConfig": {
+    "tag": "beta"
+  },
   "description": "A client for enabling, and interacting with, webpack Hot Module Replacement",
   "license": "MIT",
   "repository": "webpack-contrib/webpack-hot-client",
