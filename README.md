@@ -108,6 +108,9 @@ Because this module leverages _native_ `WebSockets`, the browser support for thi
 module is limited to only those browsers which support native `WebSocket`. That
 typically means the last two major versions of a particular browser.
 
+Please visit [caniuse.com](https://caniuse.com/#feat=websockets) for a full
+compatibility table.
+
 _Note: We won't be accepting requests for changes to this facet of the module._
 
 ## API
