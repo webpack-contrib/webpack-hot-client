@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`api mismatched client/server options sanity check 1`] = `
+Object {
+  "host": "0.0.0.0",
+  "port": 7000,
+}
+`;
+
+exports[`api mismatched client/server options sanity check 2`] = `
+Object {
+  "allEntries": false,
+  "autoConfigure": true,
+  "hmr": true,
+  "host": Object {
+    "client": "localhost",
+    "server": "0.0.0.0",
+  },
+  "https": undefined,
+  "log": LogLevel {
+    "currentLevel": 5,
+    "debug": [Function],
+    "error": [Function],
+    "info": [Function],
+    "log": [Function],
+    "methodFactory": PrefixFactory {
+      "options": Object {
+        "level": [Function],
+        "name": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+        "time": [Function],
+      },
+      Symbol(a log instance): [Circular],
+      Symbol(valid log levels): Object {
+        "DEBUG": 1,
+        "ERROR": 4,
+        "INFO": 2,
+        "SILENT": 5,
+        "TRACE": 0,
+        "WARN": 3,
+      },
+    },
+    "name": "hot",
+    "options": Object {
+      "factory": null,
+      "level": "silent",
+      "name": "hot",
+      "prefix": Object {
+        "level": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+      },
+      "timestamp": false,
+      "unique": true,
+    },
+    "trace": [Function],
+    "type": "LogLevel",
+    "warn": [Function],
+  },
+  "logLevel": "silent",
+  "logTime": false,
+  "port": Object {
+    "client": 6000,
+    "server": 7000,
+  },
+  "reload": true,
+  "send": Object {
+    "errors": true,
+    "warnings": true,
+  },
+  "server": null,
+  "stats": Object {
+    "context": "<PROJECT_ROOT>",
+  },
+  "test": false,
+  "validTargets": Array [
+    "web",
+  ],
+  "webSocket": Object {
+    "host": "localhost",
+    "port": 6000,
+  },
+}
+`;
+
+exports[`api options sanity check 1`] = `
+Object {
+  "host": "127.0.0.1",
+  "port": Any<Number>,
+}
+`;
+
+exports[`api options sanity check 2`] = `
+Object {
+  "allEntries": false,
+  "autoConfigure": true,
+  "hmr": true,
+  "host": Object {
+    "client": "localhost",
+    "server": "localhost",
+  },
+  "https": undefined,
+  "log": LogLevel {
+    "currentLevel": 5,
+    "debug": [Function],
+    "error": [Function],
+    "info": [Function],
+    "log": [Function],
+    "methodFactory": PrefixFactory {
+      "options": Object {
+        "level": [Function],
+        "name": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+        "time": [Function],
+      },
+      Symbol(a log instance): [Circular],
+      Symbol(valid log levels): Object {
+        "DEBUG": 1,
+        "ERROR": 4,
+        "INFO": 2,
+        "SILENT": 5,
+        "TRACE": 0,
+        "WARN": 3,
+      },
+    },
+    "name": "hot",
+    "options": Object {
+      "factory": null,
+      "level": "silent",
+      "name": "hot",
+      "prefix": Object {
+        "level": [Function],
+        "template": "{{level}} [90m｢{{name}}｣[39m: ",
+      },
+      "timestamp": false,
+      "unique": true,
+    },
+    "trace": [Function],
+    "type": "LogLevel",
+    "warn": [Function],
+  },
+  "logLevel": "silent",
+  "logTime": false,
+  "port": Object {
+    "client": 0,
+    "server": 0,
+  },
+  "reload": true,
+  "send": Object {
+    "errors": true,
+    "warnings": true,
+  },
+  "server": null,
+  "stats": Object {
+    "context": "<PROJECT_ROOT>",
+  },
+  "test": false,
+  "validTargets": Array [
+    "web",
+  ],
+  "webSocket": Object {
+    "port": Any<Number>,
+  },
+}
+`;

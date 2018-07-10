@@ -300,3 +300,7 @@ Object {
   },
 }
 `;
+
+exports[`options throws if port.client is missing 1`] = `"webpack-hot-client: \`port.client\` must be defined when setting host to an Object"`;
+
+exports[`options throws if port.server is missing 1`] = `"webpack-hot-client: \`port.server\` must be defined when setting host to an Object"`;

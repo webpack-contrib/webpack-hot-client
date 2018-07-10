@@ -113,4 +113,49 @@ describe('api', () => {
       });
     });
   });
+
+  test('options sanity check', (done) => {
+    const config = require('./fixtures/webpack.config-object.js');
+    const compiler = webpack(config);
+    const { options: opts, server } = client(compiler, options);
+
+    server.on('listening', () => {
+      const { host, port } = server;
+      expect({ host, port }).toMatchSnapshot({
+        port: expect.any(Number),
+      });
+      // this assign is necessary as Jest cannot manipulate a frozen object
+      expect(Object.assign({}, opts)).toMatchSnapshot({
+        webSocket: {
+          port: expect.any(Number),
+        },
+      });
+
+      setTimeout(() => server.close(done), 500);
+    });
+  });
+
+  test('mismatched client/server options sanity check', (done) => {
+    const config = require('./fixtures/webpack.config-object.js');
+    const compiler = webpack(config);
+    const clientOptions = Object.assign({}, options, {
+      host: {
+        client: 'localhost',
+        server: '0.0.0.0',
+      },
+      port: {
+        client: 6000,
+        server: 7000,
+      },
+    });
+    const { options: opts, server } = client(compiler, clientOptions);
+
+    server.on('listening', () => {
+      const { host, port } = server;
+      expect({ host, port }).toMatchSnapshot();
+      expect(opts).toMatchSnapshot();
+
+      setTimeout(() => server.close(done), 500);
+    });
+  });
 });
