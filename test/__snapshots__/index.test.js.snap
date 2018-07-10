@@ -85,7 +85,7 @@ Object {
 exports[`api options sanity check 1`] = `
 Object {
   "host": "127.0.0.1",
-  "port": 56130,
+  "port": Any<Number>,
 }
 `;
 
@@ -158,8 +158,7 @@ Object {
     "web",
   ],
   "webSocket": Object {
-    "host": "localhost",
-    "port": 56130,
+    "port": Any<Number>,
   },
 }
 `;

@@ -121,8 +121,15 @@ describe('api', () => {
 
     server.on('listening', () => {
       const { host, port } = server;
-      expect({ host, port }).toMatchSnapshot();
-      expect(opts).toMatchSnapshot();
+      expect({ host, port }).toMatchSnapshot({
+        port: expect.any(Number),
+      });
+      // this assign is necessary as Jest cannot manipulate a frozen object
+      expect(Object.assign({}, opts)).toMatchSnapshot({
+        webSocket: {
+          port: expect.any(Number),
+        },
+      });
 
       setTimeout(() => server.close(done), 500);
     });
