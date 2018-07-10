@@ -87,7 +87,7 @@ describe('options', () => {
     });
   });
 
-  test('throws on invalid options', () => {
+  test('throws on invalid host option', () => {
     const t = () => getOptions({ host: true });
     expect(t).toThrow();
   });
@@ -100,5 +100,15 @@ describe('options', () => {
   test('throws if host.server is missing', () => {
     const t = () => getOptions({ host: { client: 'localhost' } });
     expect(t).toThrow();
+  });
+
+  test('throws if port.client is missing', () => {
+    const t = () => getOptions({ port: { server: 0 } });
+    expect(t).toThrowErrorMatchingSnapshot();
+  });
+
+  test('throws if port.server is missing', () => {
+    const t = () => getOptions({ port: { client: 9000 } });
+    expect(t).toThrowErrorMatchingSnapshot();
   });
 });
