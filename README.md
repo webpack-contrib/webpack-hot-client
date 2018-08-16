@@ -63,7 +63,7 @@ manually, use the `autoConfigure` option.
 
 ### Best Practices
 
-When using this module manually, along with the default `port` option valie of
+When using this module manually, along with the default `port` option value of
 `0`, starting compilation (or passing a compiler to `webpack-dev-middleware`)
 should be done _after_ the socket server has finished listening and allocating
 a port. This ensures that the build will contain the allocated port. (See the
