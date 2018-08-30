@@ -68,6 +68,7 @@ Object {
   "validTargets": Array [
     "web",
     "batman",
+    [Function],
   ],
   "webSocket": Object {
     "host": "localhost",

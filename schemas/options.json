@@ -85,7 +85,10 @@
     "validTargets": {
       "type": "array",
       "items": {
-        "type": "string"
+        "anyOf": [
+          { "type": "string" },
+          { "instanceof": "Function" }
+        ]
       }
     }
   },

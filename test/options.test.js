@@ -39,7 +39,7 @@ describe('options', () => {
       stats: {
         context: '/',
       },
-      validTargets: ['batman'],
+      validTargets: ['batman', function dummyTarget() {}],
       // we pass this to force the log instance to be unique, to assert log
       // option differences
       test: true,
