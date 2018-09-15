@@ -91,13 +91,12 @@ describe('socket server', () => {
   });
 
   test('send via stats', (done) => {
-    const stats = {
-      context: process.cwd(),
-      toJson: () => {
-        return { hash: '111111', warnings: [] };
-      },
+    const lastJsonStats = {
+      hash: '111111',
+      warnings: [],
     };
-    const opts = getOptions({ logLevel: 'silent', stats });
+    const opts = getOptions({ logLevel: 'silent' });
+    opts.lastJsonStats = lastJsonStats;
     const server = getServer(opts);
     const { close } = server;
 
