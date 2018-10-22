@@ -2,8 +2,13 @@
   "presets": [
     ["@babel/preset-env", {
       "targets": {
-        "browsers": ["last 2 versions"]
+        "node": "current"
       }
+    }]
+  ],
+  "plugins": [
+    ["replace-identifiers", {
+      "window": "(typeof self !== 'undefined' ? self : this)"
     }]
   ]
 }
