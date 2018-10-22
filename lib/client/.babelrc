@@ -5,5 +5,10 @@
         "browsers": ["last 2 versions"]
       }
     }]
+  ],
+  "plugins": [
+    ["replace-identifiers", {
+      "window": "(typeof self !== 'undefined' ? self : this)"
+    }]
   ]
 }

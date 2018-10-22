@@ -68,6 +68,7 @@
     "@webpack-contrib/eslint-config-webpack": "^2.0.4",
     "ansi-regex": "^3.0.0",
     "babel-jest": "^23.0.1",
+    "babel-plugin-replace-identifiers": "^0.1.1",
     "codecov": "^3.0.0",
     "conventional-github-releaser": "^3.0.0",
     "cross-env": "^5.1.6",
