@@ -2,21 +2,21 @@
 
 exports[`compiler addEntry: array 1`] = `
 Array [
-  "webpack-hot-client/client?test",
+  "webpack-hmr-client/client?test",
   "index.js",
 ]
 `;
 
 exports[`compiler addEntry: array 2`] = `
 Array [
-  "webpack-hot-client/client?test",
+  "webpack-hmr-client/client?test",
   "index.js",
 ]
 `;
 
 exports[`compiler addEntry: array 3`] = `
 Array [
-  "webpack-hot-client/client?test",
+  "webpack-hmr-client/client?test",
   "index.js",
 ]
 `;
@@ -24,7 +24,7 @@ Array [
 exports[`compiler addEntry: object 1`] = `
 Object {
   "a": Array [
-    "webpack-hot-client/client?test",
+    "webpack-hmr-client/client?test",
     "index-a.js",
   ],
   "b": Array [
@@ -36,11 +36,11 @@ Object {
 exports[`compiler addEntry: object, allEntries: true 1`] = `
 Object {
   "a": Array [
-    "webpack-hot-client/client?test",
+    "webpack-hmr-client/client?test",
     "index-a.js",
   ],
   "b": Array [
-    "webpack-hot-client/client?test",
+    "webpack-hmr-client/client?test",
     "index-b.js",
   ],
 }

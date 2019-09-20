@@ -1,12 +1,12 @@
 {
-  "name": "webpack-hot-client",
+  "name": "webpack-hmr-client",
   "version": "4.1.1",
   "description": "A client for enabling, and interacting with, webpack Hot Module Replacement",
   "license": "MIT",
-  "repository": "webpack-contrib/webpack-hot-client",
+  "repository": "webpack-contrib/webpack-hmr-client",
   "author": "Andrew Powell <andrew@shellscape.org>",
-  "homepage": "https://github.com/webpack-contrib/webpack-hot-client",
-  "bugs": "https://github.com/webpack-contrib/webpack-hot-client/issues",
+  "homepage": "https://github.com/webpack-contrib/webpack-hmr-client",
+  "bugs": "https://github.com/webpack-contrib/webpack-hmr-client/issues",
   "bin": "",
   "main": "lib/index.js",
   "engines": {

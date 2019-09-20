@@ -4,7 +4,7 @@ module.exports = [
   {
     resolve: {
       alias: {
-        'webpack-hot-client/client': resolve(__dirname, '../../../lib/client'),
+        'webpack-hmr-client/client': resolve(__dirname, '../../../lib/client'),
       },
     },
     context: __dirname,
@@ -18,7 +18,7 @@ module.exports = [
   {
     resolve: {
       alias: {
-        'webpack-hot-client/client': resolve(__dirname, '../../../lib/client'),
+        'webpack-hmr-client/client': resolve(__dirname, '../../../lib/client'),
       },
     },
     context: __dirname,

@@ -19,7 +19,7 @@ about: Suggest an idea for this project
 * Node Version:
 * NPM Version:
 * webpack Version:
-* webpack-hot-client Version:
+* webpack-hmr-client Version:
 
 
 ### Feature Proposal

@@ -11,7 +11,7 @@ describe('options', () => {
     const options = getOptions();
     expect(options).toMatchSnapshot({
       stats: {
-        context: expect.stringMatching(/(webpack-hot-client|project)$/),
+        context: expect.stringMatching(/(webpack-hmr-client|project)$/),
       },
     });
   });

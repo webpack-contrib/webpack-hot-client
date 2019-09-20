@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = {
   resolve: {
     alias: {
-      'webpack-hot-client/client': path.resolve(__dirname, '../../client'),
+      'webpack-hmr-client/client': path.resolve(__dirname, '../../client'),
     },
   },
   context: __dirname,

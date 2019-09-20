@@ -11,7 +11,7 @@
 [![chat][chat]][chat-url]
 [![size][size]][size-url]
 
-# webpack-hot-client
+# webpack-hmr-client
 
 A client for enabling, and interacting with, webpack [Hot Module Replacement][hmr-docs].
 
@@ -20,13 +20,13 @@ and allows for adding Hot Module Replacement to an existing server, without a
 dependency upon [`webpack-dev-server`][dev-server]. This comes in handy for testing
 in projects that already use server frameworks such as `Express` or `Koa`.
 
-`webpack-hot-client` accomplishes this by creating a `WebSocket` server, providing
+`webpack-hmr-client` accomplishes this by creating a `WebSocket` server, providing
 the necessary client (browser) scripts that communicate via `WebSocket`s, and
 automagically adding the necessary webpack plugins and config entries. All of
 that allows for a seamless integration of Hot Module Replacement Support.
 
 Curious about the differences between this module and `webpack-hot-middleware`?
-[Read more here](https://github.com/webpack-contrib/webpack-hot-client/issues/18).
+[Read more here](https://github.com/webpack-contrib/webpack-hmr-client/issues/18).
 
 ## Requirements
 
@@ -34,17 +34,17 @@ This module requires a minimum of Node v6.9.0 and Webpack v4.0.0.
 
 ## Getting Started
 
-To begin, you'll need to install `webpack-hot-client`:
+To begin, you'll need to install `webpack-hmr-client`:
 
 ```console
-$ npm install webpack-hot-client --save-dev
+$ npm install webpack-hmr-client --save-dev
 ```
 
 ## Gotchas
 
 ### Entries
 
-In order to use `webpack-hot-client`, your `webpack` config should include an
+In order to use `webpack-hmr-client`, your `webpack` config should include an
 `entry` option that is set to an `Array` of `String`, or an `Object` who's keys
 are set to an `Array` of `String`. You may also use a `Function`, but that
 function should return a value in one of the two valid formats.
@@ -55,7 +55,7 @@ route, you must specify an `entry` option.
 
 ### Automagical Configuration
 
-As a convenience `webpack-hot-client` adds `HotModuleReplacementPlugin`
+As a convenience `webpack-hmr-client` adds `HotModuleReplacementPlugin`
 and the necessary entries to your `webpack` config for you at runtime. Including
 the plugin in your config manually while using this module may produce unexpected
 or wonky results. If you have a need to configure entries and plugins for HMR
@@ -75,14 +75,14 @@ Express example below.) This condition does not apply if providing a static
 For setting up the module for use with an `Express` server, try the following:
 
 ```js
-const hotClient = require('webpack-hot-client');
+const hotClient = require('webpack-hmr-client');
 const middleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const config = require('./webpack.config');
 
 const compiler = webpack(config);
 const { publicPath } = config.output;
-const options = { ... }; // webpack-hot-client options
+const options = { ... }; // webpack-hmr-client options
 
 // we recommend calling the client _before_ adding the dev middleware
 const client = hotClient(compiler, options);
@@ -257,7 +257,7 @@ typically need to be modified.
 Type: `Array[String]`
 Default: `['web']`
 
-By default, `webpack-hot-client` is meant to, and expects to function on the
+By default, `webpack-hmr-client` is meant to, and expects to function on the
 [`'web'` build target](https://webpack.js.org/configuration/target). However,
 you can manipulate this by adding targets to this property. eg.
 
@@ -283,26 +283,26 @@ We welcome your contributions! Please have a read of
 
 #### [MIT](./LICENSE)
 
-[npm]: https://img.shields.io/npm/v/webpack-hot-client.svg
-[npm-url]: https://npmjs.com/package/webpack-hot-client
+[npm]: https://img.shields.io/npm/v/webpack-hmr-client.svg
+[npm-url]: https://npmjs.com/package/webpack-hmr-client
 
-[node]: https://img.shields.io/node/v/webpack-hot-client.svg
+[node]: https://img.shields.io/node/v/webpack-hmr-client.svg
 [node-url]: https://nodejs.org
 
-[deps]: https://david-dm.org/webpack-contrib/webpack-hot-client.svg
-[deps-url]: https://david-dm.org/webpack-contrib/webpack-hot-client
+[deps]: https://david-dm.org/webpack-contrib/webpack-hmr-client.svg
+[deps-url]: https://david-dm.org/webpack-contrib/webpack-hmr-client
 
-[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/webpack-hot-client.svg
-[tests-url]: https://circleci.com/gh/webpack-contrib/webpack-hot-client
+[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/webpack-hmr-client.svg
+[tests-url]: https://circleci.com/gh/webpack-contrib/webpack-hmr-client
 
-[cover]: https://codecov.io/gh/webpack-contrib/webpack-hot-client/branch/master/graph/badge.svg
-[cover-url]: https://codecov.io/gh/webpack-contrib/webpack-hot-client
+[cover]: https://codecov.io/gh/webpack-contrib/webpack-hmr-client/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack-contrib/webpack-hmr-client
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack
 
-[size]: https://packagephobia.now.sh/badge?p=webpack-hot-client
-[size-url]: https://packagephobia.now.sh/result?p=webpack-hot-client
+[size]: https://packagephobia.now.sh/badge?p=webpack-hmr-client
+[size-url]: https://packagephobia.now.sh/result?p=webpack-hmr-client
 
 [dev-middleware]: https://github.com/webpack/webpack-dev-middleware
 [dev-server]: https://github.com/webpack/webpack-dev-server

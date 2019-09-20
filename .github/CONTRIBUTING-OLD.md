@@ -50,7 +50,7 @@ module. Thankfully, Github provides a means to do this. Add a dependency to the
 `package.json` for such a project as follows:
 
 ```json
-"webpack-hot-client": "webpack-contrib/webpack-hot-client#{id}/head"
+"webpack-hmr-client": "webpack-contrib/webpack-hmr-client#{id}/head"
 ```
 
 Where `{id}` is the # ID of your Pull Request.

@@ -2,7 +2,7 @@
 
 If you're working in an environment where you have the need to run the server on
 one machine (or VM) and need to test your app on another, you'll need to properly
-configure both `webpack-hot-client` and the remote machine. The most stable and
+configure both `webpack-hmr-client` and the remote machine. The most stable and
 least error-prone method will involve setting options statically:
 
 ## Client Host and HOSTS
