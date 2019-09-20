@@ -1,6 +1,6 @@
 {
   "name": "webpack-hmr-client",
-  "version": "4.1.1",
+  "version": "1.0.0",
   "description": "A client for enabling, and interacting with, webpack Hot Module Replacement",
   "license": "MIT",
   "repository": "webpack-contrib/webpack-hmr-client",
