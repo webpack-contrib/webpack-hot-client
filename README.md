@@ -26,7 +26,7 @@ automagically adding the necessary webpack plugins and config entries. All of
 that allows for a seamless integration of Hot Module Replacement Support.
 
 Curious about the differences between this module and `webpack-hot-middleware`?
-[Read more here](https://github.com/webpack-contrib/webpack-hmr-client/issues/18).
+[Read more here](https://github.com/hedgepigdaniel/webpack-hmr-client/issues/18).
 
 ## Requirements
 
@@ -289,14 +289,14 @@ We welcome your contributions! Please have a read of
 [node]: https://img.shields.io/node/v/webpack-hmr-client.svg
 [node-url]: https://nodejs.org
 
-[deps]: https://david-dm.org/webpack-contrib/webpack-hmr-client.svg
-[deps-url]: https://david-dm.org/webpack-contrib/webpack-hmr-client
+[deps]: https://david-dm.org/hedgepigdaniel/webpack-hmr-client.svg
+[deps-url]: https://david-dm.org/hedgepigdaniel/webpack-hmr-client
 
-[tests]: 	https://img.shields.io/circleci/project/github/webpack-contrib/webpack-hmr-client.svg
-[tests-url]: https://circleci.com/gh/webpack-contrib/webpack-hmr-client
+[tests]: 	https://img.shields.io/circleci/project/github/hedgepigdaniel/webpack-hmr-client.svg
+[tests-url]: https://circleci.com/gh/hedgepigdaniel/webpack-hmr-client
 
-[cover]: https://codecov.io/gh/webpack-contrib/webpack-hmr-client/branch/master/graph/badge.svg
-[cover-url]: https://codecov.io/gh/webpack-contrib/webpack-hmr-client
+[cover]: https://codecov.io/gh/hedgepigdaniel/webpack-hmr-client/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/hedgepigdaniel/webpack-hmr-client
 
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
 [chat-url]: https://gitter.im/webpack/webpack

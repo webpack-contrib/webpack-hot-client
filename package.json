@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "A client for enabling, and interacting with, webpack Hot Module Replacement",
   "license": "MIT",
-  "repository": "webpack-contrib/webpack-hmr-client",
+  "repository": "hedgepigdaniel/webpack-hmr-client",
   "author": "Andrew Powell <andrew@shellscape.org>",
-  "homepage": "https://github.com/webpack-contrib/webpack-hmr-client",
-  "bugs": "https://github.com/webpack-contrib/webpack-hmr-client/issues",
+  "homepage": "https://github.com/hedgepigdaniel/webpack-hmr-client",
+  "bugs": "https://github.com/hedgepigdaniel/webpack-hmr-client/issues",
   "bin": "",
   "main": "lib/index.js",
   "engines": {
