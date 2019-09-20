@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/hedgepigdaniel/webpack-hmr-client/compare/v1.1.0...v1.1.1) (2019-09-20)
+
+
+### Bug Fixes
+
+* allow host/port to be unset when the server option is used ([8f03950](https://github.com/hedgepigdaniel/webpack-hmr-client/commit/8f03950))
+* use the host.client option even when the server option is used ([2791d8d](https://github.com/hedgepigdaniel/webpack-hmr-client/commit/2791d8d))
+* **client:** allow multiple client connections ([27d392c](https://github.com/hedgepigdaniel/webpack-hmr-client/commit/27d392c))
+* **socket-server:** send stats to new connections ([77ebb02](https://github.com/hedgepigdaniel/webpack-hmr-client/commit/77ebb02))
+
+
+
 <a name="1.1.0"></a>
 # 1.1.0 (2019-09-20)
 
